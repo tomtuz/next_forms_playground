@@ -1,23 +1,25 @@
+// Native
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+
+// CN UI
 import { Input } from '@/cn/ui/input'
 import { Textarea } from '@/cn/ui/textarea'
+
+// UI
 import { BaseEditInput } from '@/components/field/BaseEditInput'
 import { SimpleSelectorInput } from '@/components/field/SimpleSelectorInput'
+
+// Types
 import type { FormField, FieldType } from '@/types'
 
-interface FormFieldProps {
-  field: FormField
-  onInputChange: (id: string, label: Partial<FormField>) => void
-}
-
-type DataProp = {
+type PlaceholderProps = {
   [key in FieldType]?: React.FC<{
     disabled?: boolean
   }>
 }
 
-const answerPlaceholders: DataProp = {
+const AnswerPlaceholders: PlaceholderProps = {
   text: ({ disabled }) => (
     <Input
       type="text"
@@ -42,8 +44,15 @@ const FieldAnswerComponent: React.FC<{
   type: FieldType
   disabled?: boolean
 }> = ({ type, disabled }) => {
-  const Component = answerPlaceholders[type]
+  const Component = AnswerPlaceholders[type]
   return Component?.({ disabled })
+}
+
+// MAIN
+
+interface FormFieldProps {
+  field: FormField
+  onInputChange: (id: string, label: Partial<FormField>) => void
 }
 
 export function FormFieldInput({ field, onInputChange }: FormFieldProps) {

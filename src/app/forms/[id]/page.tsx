@@ -1,8 +1,9 @@
 'use client'
 
+// ROUTE TO PREVIEW FORM BEFORE SAVING
 import { IFrame } from '@/components/layouts/IFrame'
-import { FormEditor } from '@/views/FormEditor'
 import { useParams } from 'next/navigation'
+import { FormEditor } from '@/components/forms/editor/FormEditor'
 
 export default function EditForm() {
   const params = useParams()

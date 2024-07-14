@@ -7,8 +7,10 @@ import { Input } from '@/cn/ui/input'
 import { Textarea } from '@/cn/ui/textarea'
 
 // UI
-import { BaseEditInput } from '@/components/field/BaseEditInput'
-import { SimpleSelectorInput } from '@/components/field/SimpleSelectorInput'
+import { BaseEditInput } from '@/components/forms/fields/BaseEditInput'
+import { SimpleSelectorInput } from '@/components/forms/fields/SimpleSelectorInput'
+import { CheckboxInput } from '@/components/forms/fields/CheckboxInput'
+import { FileUploadInput } from '@/components/forms/fields/FileUploadInput'
 
 // Types
 import type { FormField, FieldType } from '@/types'
@@ -19,6 +21,7 @@ type PlaceholderProps = {
   }>
 }
 
+// 'text' | 'number' | 'textarea' | 'checkbox' | 'file' | 'select';
 const AnswerPlaceholders: PlaceholderProps = {
   text: ({ disabled }) => (
     <Input
@@ -37,6 +40,8 @@ const AnswerPlaceholders: PlaceholderProps = {
   textarea: ({ disabled }) => (
     <Textarea placeholder="Answer will be here..." disabled={disabled} />
   ),
+  checkbox: ({ disabled }) => <CheckboxInput disabled={disabled} />,
+  file: ({ disabled }) => <FileUploadInput disabled={disabled} />,
   select: ({ disabled }) => <SimpleSelectorInput disabled={disabled} />
 }
 

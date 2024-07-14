@@ -7,7 +7,6 @@ import React, {
   useEffect,
   useCallback
 } from 'react'
-import { v4 as uuidv4 } from 'uuid'
 import { Form } from '@/types'
 
 interface FormContextType {
@@ -40,14 +39,11 @@ export function FormProvider({
     [forms]
   )
 
-  const addForm = useCallback((form: Form) => {
-    const newForm = { ...form, id: form.id || uuidv4() }
-    setForms((prevForms) => {
-      const updatedForms = [...prevForms, newForm]
-      console.log('Forms after adding:', updatedForms)
-      return updatedForms
-    })
-    return newForm.id
+  const addForm = useCallback((formData: Form) => {
+    console.log('saving form:')
+    console.log(formData)
+    setForms((prevForms) => [...prevForms, formData])
+    return formData.id
   }, [])
 
   const updateForm = useCallback((updatedForm: Form) => {

@@ -4,8 +4,8 @@
 import React from 'react'
 
 // UI
-import { FormFieldInput } from '@/components/field/FormFieldInput'
-import { FormHeader } from '@/components/field/FormHeader'
+import { FormFieldInput } from '@/components/forms/editor/FormFieldInput'
+import { FormHeader } from '@/components/forms/editor/FormHeader'
 
 // CN UI
 import { Button } from '@/cn/ui/button'
@@ -38,18 +38,43 @@ export function FormEditor({ formId }: { formId?: string }) {
     addField(type)
   }
 
+  // validation should be reworked and replaced with i.e. zod
+  const checkFormData = () => {
+    const HeaderValid = formData.header && formData.header.title
+    const FieldsValid = formData.fields && formData.fields.length > 0
+    return {
+      IsValid: HeaderValid && FieldsValid,
+      headerStatus: HeaderValid,
+      fieldStatus: FieldsValid
+    }
+  }
+
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    const { IsValid, headerStatus, fieldStatus } = checkFormData()
+    if (!IsValid) {
+      console.log('formData: ', formData)
+      if (!headerStatus) {
+        toast({ title: 'Error', description: 'Form fields are not valid' })
+      }
+
+      if (!fieldStatus) {
+        toast({ title: 'Error', description: 'Header title cannot be empty' })
+      }
+
+      toast({ title: 'Error', description: 'Form is not valid' })
+      return
+    }
 
     if (formId) {
       updateForm(formData)
     } else {
       addForm(formData)
-      router.push(`/form/list`)
+      router.push(`/forms/list`)
 
-      // OR redirect to edit page form/[id]
+      // OR redirect to edit page forms/[id]
       // const newFormId = addForm(formData)
-      // router.push(`/form/${newFormId}`)
+      // router.push(`/forms/${newFormId}`)
     }
     toast({ title: 'Success', description: 'Form saved successfully' })
   }
@@ -107,11 +132,13 @@ function AddFieldButtons({
 }) {
   return (
     <div className="flex justify-between">
-      {['text', 'number', 'textarea', 'select'].map((type) => (
-        <Button key={type} onClick={(e) => onAdd(e, type as FieldType)}>
-          Add {type}
-        </Button>
-      ))}
+      {['text', 'number', 'textarea', 'checkbox', 'file', 'select'].map(
+        (type) => (
+          <Button key={type} onClick={(e) => onAdd(e, type as FieldType)}>
+            Add {type}
+          </Button>
+        )
+      )}
     </div>
   )
 }

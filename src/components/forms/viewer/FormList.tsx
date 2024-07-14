@@ -19,13 +19,13 @@ export function FormList() {
       <ul>
         {forms.map((form) => (
           <li key={form.id}>
-            <Link href={`/form/${form.id}`}>
+            <Link href={`/forms/${form.id}`}>
               <p>{form.header.title || 'Untitled Form'}</p>
             </Link>
           </li>
         ))}
       </ul>
-      <Link href="/form/new">
+      <Link href="/forms/new">
         <p>Create New Form</p>
       </Link>
     </div>

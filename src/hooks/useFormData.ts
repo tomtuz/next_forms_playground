@@ -7,33 +7,24 @@ import { v4 as uuidv4 } from 'uuid';
 import { useFormContext } from '@/contexts/FormContext'
 import { Form, FormField, FieldType } from '@/types';
 
-const initialFormData: Form = {
-  id: uuidv4(),
-  header: {
-    title: '',
-    description: '',
-  },
-  fields: []
-  // ^ id: string; type: FieldType; title: string; fieldData: string | number | boolean | File | null;
-};
-
 export function useFormData(formId?: string) {
   const { getForm } = useFormContext()
 
   // initial state
   const [formData, setFormData] = useState<Form>(() => {
-    console.log("setting formId: ", formId)
-    console.log("getForm Exists?: ", getForm)
-
-    // get localStorage form data
     if (getForm && formId) {
       const formContextData = getForm(formId)
-
-      console.log("formContextData", formContextData)
-      return formContextData || initialFormData
+      return formContextData || {
+        id: uuidv4(),
+        header: { title: '', description: '' },
+        fields: []
+      }
     }
-
-    return initialFormData
+    return {
+      id: uuidv4(),
+      header: { title: '', description: '' },
+      fields: []
+    }
   })
 
   useEffect(() => {
@@ -43,14 +34,26 @@ export function useFormData(formId?: string) {
   }, [getForm, formId]);
 
   // Mutations
+  // const addField = useCallback((type: FieldType) => {
+  //   // 1. set header -> title, description
+  //   // 2. set fields (multiple) -> data <FieldType>
+  //   setFormData((prevData) => ({
+  //     ...prevData,
+  //     fields: [
+  //       ...prevData.fields, // when editing
+  //       { id: uuidv4(), type, label: "", value: null }
+  //     ]
+  //   }));
+  // }, []);
+
   const addField = useCallback((type: FieldType) => {
-    // 1. set header -> title, description
-    // 2. set fields (multiple) -> data <FieldType>
+    const newId = uuidv4(); // Generate the ID outside the state update function
+    console.log("adding with id: ", newId)
     setFormData((prevData) => ({
       ...prevData,
       fields: [
-        ...prevData.fields, // when editing
-        { id: uuidv4(), type, label: "", value: null }
+        ...prevData.fields,
+        { id: newId, type, label: "", value: null }
       ]
     }));
   }, []);

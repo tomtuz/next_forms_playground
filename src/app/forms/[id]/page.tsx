@@ -12,8 +12,8 @@ export default function EditForm() {
   console.log('loaded EditForm by id: ', id)
 
   return (
-    <IFrame>
-      <FormEditor formId={id as string} />
-    </IFrame>
+    // <IFrame>
+    <FormEditor formId={id as string} />
+    // </IFrame>
   )
 }

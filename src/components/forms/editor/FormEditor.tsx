@@ -1,7 +1,7 @@
 'use client'
 
 // Native
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 // UI
 import { FormFieldInput } from '@/components/forms/editor/FormFieldInput'
@@ -10,6 +10,7 @@ import { FormHeader } from '@/components/forms/editor/FormHeader'
 // CN UI
 import { Button } from '@/cn/ui/button'
 import { Separator } from '@/cn/ui/separator'
+import { ScrollArea } from '@/cn/ui/scroll-area'
 import { useToast } from '@/cn/ui/use-toast'
 
 // Hooks
@@ -24,13 +25,21 @@ import { useRouter } from 'next/navigation'
 // Types
 import type { FieldType } from '@/types'
 
+// utils
+import { checkFormData } from '@/lib/validation'
+
 export function FormEditor({ formId }: { formId?: string }) {
   const router = useRouter()
 
   // Hooks
   const { addForm, updateForm } = useFormContext() // context hooks
-  const { formData, addField, handleFieldChange, handleHeaderChange } =
-    useFormData(formId)
+  const {
+    formData,
+    addField,
+    removeField,
+    handleFieldChange,
+    handleHeaderChange
+  } = useFormData(formId)
   const { toast } = useToast() // notifications
 
   const addFieldHandler = (e: React.MouseEvent, type: FieldType) => {
@@ -38,20 +47,9 @@ export function FormEditor({ formId }: { formId?: string }) {
     addField(type)
   }
 
-  // validation should be reworked and replaced with i.e. zod
-  const checkFormData = () => {
-    const HeaderValid = formData.header && formData.header.title
-    const FieldsValid = formData.fields && formData.fields.length > 0
-    return {
-      IsValid: HeaderValid && FieldsValid,
-      headerStatus: HeaderValid,
-      fieldStatus: FieldsValid
-    }
-  }
-
   const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
-    const { IsValid, headerStatus, fieldStatus } = checkFormData()
+    const { IsValid, headerStatus, fieldStatus } = checkFormData(formData)
     if (!IsValid) {
       console.log('formData: ', formData)
       if (!headerStatus) {
@@ -68,6 +66,8 @@ export function FormEditor({ formId }: { formId?: string }) {
 
     if (formId) {
       updateForm(formData)
+      // optional
+      router.push(`/forms/list`)
     } else {
       addForm(formData)
       router.push(`/forms/list`)
@@ -79,7 +79,22 @@ export function FormEditor({ formId }: { formId?: string }) {
     toast({ title: 'Success', description: 'Form saved successfully' })
   }
 
+  // const lastElRef = useRef(null)
+  // useEffect(() => {
+  //   const lastFieldIdx = formData.fields.length
+  //   handleScrollToFirstCat(formData.fields[lastFieldIdx])
+  // }, [formData.fields])
+
+  // function handleScrollToFirstCat(el: any) {
+  //   el.scrollIntoView({
+  //     behavior: 'smooth',
+  //     block: 'nearest',
+  //     inline: 'center'
+  //   })
+  // }
+
   return (
+    // <ScrollArea>
     <form className="grid w-full items-start gap-6 rounded-lg border">
       <FormHeader
         title={formData.header.title}
@@ -102,6 +117,7 @@ export function FormEditor({ formId }: { formId?: string }) {
           key={field.id}
           field={field}
           onInputChange={handleFieldChange}
+          onDelete={removeField}
         />
       ))}
 
@@ -111,6 +127,7 @@ export function FormEditor({ formId }: { formId?: string }) {
         <Button onClick={handleSave}>Save form</Button>
       </div>
     </form>
+    // </ScrollArea>
   )
 }
 
@@ -131,7 +148,7 @@ function AddFieldButtons({
   onAdd: (e: React.MouseEvent, type: FieldType) => void
 }) {
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between p-6">
       {['text', 'number', 'textarea', 'checkbox', 'file', 'select'].map(
         (type) => (
           <Button key={type} onClick={(e) => onAdd(e, type as FieldType)}>

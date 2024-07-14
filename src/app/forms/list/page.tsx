@@ -1,10 +1,10 @@
-import { FormList } from '@/components/forms/viewer/FormList'
+import { FormListTable } from '@/components/forms/viewer/FormListTable'
 import { IFrame } from '@/components/layouts/IFrame'
 
 export default function FormPage() {
   return (
-    <IFrame>
-      <FormList />
-    </IFrame>
+    // <IFrame>
+    <FormListTable />
+    // </IFrame>
   )
 }

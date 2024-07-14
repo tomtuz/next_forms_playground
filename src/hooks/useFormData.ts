@@ -58,6 +58,13 @@ export function useFormData(formId?: string) {
     }));
   }, []);
 
+  const removeField = useCallback((fieldId: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      fields: prevData.fields.filter((field) => field.id !== fieldId),
+    }));
+  }, []);
+
   // Events
   const handleFieldChange = useCallback((id: string, updates: Partial<FormField>) => {
     console.log("handleFieldChange")
@@ -67,7 +74,7 @@ export function useFormData(formId?: string) {
     setFormData((prevData) => ({
       ...prevData,
       fields: prevData.fields.map((field) =>
-        field.id === id && updates?.label ? { ...field, title: updates?.label } : field
+        field.id === id && updates?.label ? { ...field, label: updates?.label } : field
       )
     }))
   }, [])
@@ -86,6 +93,7 @@ export function useFormData(formId?: string) {
     formData,
     setFormData,
     addField,
+    removeField,
     handleFieldChange,
     handleHeaderChange
   };

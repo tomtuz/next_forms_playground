@@ -1,16 +1,18 @@
 // Native
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
+import { v4 as uuidv4 } from 'uuid'
 
 // CN UI
 import { Input } from '@/cn/ui/input'
 import { Textarea } from '@/cn/ui/textarea'
 
 // UI
-import { BaseEditInput } from '@/components/forms/fields/BaseEditInput'
 import { SimpleSelectorInput } from '@/components/forms/fields/SimpleSelectorInput'
 import { CheckboxInput } from '@/components/forms/fields/CheckboxInput'
 import { FileUploadInput } from '@/components/forms/fields/FileUploadInput'
+import { FieldWrap } from '@/components/forms/fields/FieldWrap'
+import { FobButton } from '@/components/forms/shared/FobButton'
 
 // Types
 import type { FormField, FieldType } from '@/types'
@@ -58,9 +60,14 @@ const FieldAnswerComponent: React.FC<{
 interface FormFieldProps {
   field: FormField
   onInputChange: (id: string, label: Partial<FormField>) => void
+  onDelete: (id: string) => void
 }
 
-export function FormFieldInput({ field, onInputChange }: FormFieldProps) {
+export function FormFieldInput({
+  field,
+  onInputChange,
+  onDelete
+}: FormFieldProps) {
   const [localTitle, setLocalTitle] = useState(field.label)
 
   useEffect(() => {
@@ -83,8 +90,15 @@ export function FormFieldInput({ field, onInputChange }: FormFieldProps) {
     [debouncedOnInputChange, field.id]
   )
 
+  const handleFieldDelete = useCallback(() => {
+    onDelete(field.id)
+  }, [field.id])
+
+  // > FormField
+  //   > FormTypePicker
+  //   > FormTypeRender (disabled/active)
   return (
-    <BaseEditInput>
+    <FieldWrap className="hover:bg-slate-100 relative transition duration-150 ease-in-out">
       <Input
         id={field.id}
         type="text"
@@ -93,6 +107,7 @@ export function FormFieldInput({ field, onInputChange }: FormFieldProps) {
         onChange={handleTitleChange}
       />
       <FieldAnswerComponent type={field.type} disabled />
-    </BaseEditInput>
+      <FobButton onClickDelete={handleFieldDelete} />
+    </FieldWrap>
   )
 }

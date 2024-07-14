@@ -14,9 +14,11 @@ interface FormContextType {
   addForm: (form: Form) => string
   updateForm: (form: Form) => void
   getForm: (id: string) => Form | undefined
+  deleteAllForms: () => void
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined)
+const LS_FORM_DATA = 'LS_FORM_DATA'
 
 export function FormProvider({
   children
@@ -24,15 +26,10 @@ export function FormProvider({
   const [forms, setForms] = useState<Form[]>([])
 
   useEffect(() => {
-    const storedForms = localStorage.getItem('forms')
-    if (storedForms) {
-      setForms(JSON.parse(storedForms))
-    }
+    const storedForms = localStorage.getItem(LS_FORM_DATA)
+    if (!storedForms) return
+    setForms(JSON.parse(storedForms))
   }, [])
-
-  useEffect(() => {
-    localStorage.setItem('forms', JSON.stringify(forms))
-  }, [forms])
 
   const getForm = useCallback(
     (id: string) => forms.find((form) => form.id === id),
@@ -42,7 +39,12 @@ export function FormProvider({
   const addForm = useCallback((formData: Form) => {
     console.log('saving form:')
     console.log(formData)
-    setForms((prevForms) => [...prevForms, formData])
+    setForms((prevForms) => {
+      const updatedForms = [...prevForms, formData]
+      localStorage.setItem(LS_FORM_DATA, JSON.stringify(updatedForms))
+      return updatedForms
+    })
+
     return formData.id
   }, [])
 
@@ -56,14 +58,23 @@ export function FormProvider({
     })
   }, [])
 
+  const deleteAllForms = useCallback(() => {
+    console.log('deleting all Forms')
+    setForms(() => {
+      localStorage.setItem(LS_FORM_DATA, JSON.stringify([]))
+      return []
+    })
+  }, [])
+
   const formContext = React.useMemo(
     () => ({
       forms,
       addForm,
       updateForm,
-      getForm
+      getForm,
+      deleteAllForms
     }),
-    [forms, addForm, updateForm, getForm]
+    [forms, addForm, updateForm, getForm, deleteAllForms]
   )
 
   return (
@@ -73,7 +84,7 @@ export function FormProvider({
 
 export const useFormContext = () => {
   const context = useContext(FormContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useFormContext must be used within a FormProvider')
   }
   return context

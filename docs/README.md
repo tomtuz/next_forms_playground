@@ -18,9 +18,15 @@ Builder page allows to create forms out of different types of inputs.
   > FormField
   > FormField
 
+________________
+> FormField
+  > FormTypePicker
+  > FormTypeRender (disabled/active)
 
   FormField types:
     <'text' | 'number' | 'textarea' | 'checkbox' | 'file' | 'select'>
+
+
 
 ```
 

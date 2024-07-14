@@ -3,6 +3,7 @@ import { Inter as FontSans } from 'next/font/google'
 import { Toaster } from '@/cn/ui/toaster'
 import { cn } from '@/lib/utils'
 import { FormProvider } from '@/contexts/FormContext'
+import { ScrollArea } from '@/cn/ui/scroll-area'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -22,6 +23,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
+        {/* <FormProvider>
+          <ScrollArea>{children}</ScrollArea>
+        </FormProvider> */}
         <FormProvider>{children}</FormProvider>
         <Toaster />
       </body>

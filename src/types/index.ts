@@ -1,6 +1,6 @@
 export type FieldType = 'text' | 'number' | 'textarea' | 'checkbox' | 'file' | 'select';
 
-interface FormHeader {
+export interface FormHeader {
   title: string;
   description: string;
 }

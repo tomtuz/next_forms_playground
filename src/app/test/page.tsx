@@ -1,7 +1,7 @@
 import React, { Profiler } from 'react'
-import { TestEditor } from '@/components/forms/editor/TestEditor'
-import { TestEditorTwo } from '@/components/forms/editor/TestEditorTwo'
-import { TestEditorForm } from '@/components/forms/editor/TestEditorForm'
+import { TestFormReact } from '@/components/forms/editor/TestFormReact'
+import { TestFormRefs } from '@/components/forms/editor/TestFormRefs'
+import { TestFormDataApi } from '@/components/forms/editor/TestFormDataApi'
 
 export default function TestForm() {
   return (
@@ -12,9 +12,9 @@ export default function TestForm() {
       <Profiler id="MyComponent" onRender={callback}>
         <TestEditorTwo />
       </Profiler> */}
-      <TestEditor />
-      <TestEditorTwo />
-      <TestEditorForm />
+      <TestFormRefs />
+      <TestFormDataApi />
+      <TestFormReact />
     </div>
   )
 }

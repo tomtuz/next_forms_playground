@@ -10,12 +10,14 @@ type Form = {
   inputValue: string
 }
 
-export function TestEditorForm() {
+export function TestFormDataApi() {
   const [formIds, setFormIds] = useState<string[]>([])
+
+  const createInitialForms = () => Array.from({ length: 2 }, () => uuidv4())
 
   useEffect(() => {
     // Add initial forms
-    setFormIds([uuidv4(), uuidv4()])
+    setFormIds(createInitialForms())
   }, [])
 
   const handleAddForm = useCallback(
@@ -40,10 +42,15 @@ export function TestEditorForm() {
     [formIds]
   )
 
+  // For large input lists consider using React.memo for <StateInputComp />
+  // const MemoizedStateInputComp = React.memo(StateInputComp);
+  // {formIds.map((id) => (
+  //   <MemoizedStateInputComp key={id} id={id} />
+  // ))}
   return (
-    <form onSubmit={handleSubmit} className="outline-gray-100 outline">
-      <h1>TestPage</h1>
-      <div className="bg-pink-200 flex flex-col gap-2 p-2 outline outline-1">
+    <form onSubmit={handleSubmit} className="outline outline-gray-100">
+      <h1>TestFormDataAPI</h1>
+      <div className="flex flex-col gap-2 bg-pink-200 p-2 outline outline-1">
         {formIds.map((id) => (
           <StateInputComp key={id} id={id} />
         ))}

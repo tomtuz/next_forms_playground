@@ -2,8 +2,7 @@
 
 import { Button } from '@/cn/ui/button'
 import Link from 'next/link'
-import React, { useCallback, useRef, useState } from 'react'
-
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 type InputRefCallback = (instance: HTMLInputElement | null) => void
@@ -30,6 +29,12 @@ function useFormState() {
     return id
   }, [])
 
+  // const getForms = useCallback(() => Object.values(formsRef.current), [])
+  const getForms = useCallback(
+    (ids: string[]) => ids.map((id) => formsRef.current[id]).filter(Boolean),
+    []
+  )
+
   const updateForms = useCallback((formData: { [key: string]: string }) => {
     Object.entries(formData).forEach(([id, value]) => {
       if (formsRef.current[id]) {
@@ -38,45 +43,68 @@ function useFormState() {
     })
   }, [])
 
-  const getForms = useCallback(() => Object.values(formsRef.current), [])
-
   return { addForm, updateForms, getForms }
 }
 
-function useRenderCount() {
-  const count = useRef(-2)
-  count.current += 1
-  return count.current
-}
-
-export function TestEditorTwo() {
+export function TestFormRefs() {
+  const [formIds, setFormIds] = useState<string[]>([])
   const { addForm, updateForms, getForms } = useFormState()
-  const [, forceUpdate] = useState({})
   const inputRefs = useRef<{ [key: string]: HTMLInputElement }>({})
-  const renderCount = useRenderCount()
-  console.log('RenderTwo count:', renderCount)
 
-  const handleAddForm = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    addForm()
-    forceUpdate({})
-  }
+  useEffect(() => {
+    // Add initial forms
+    setFormIds([addForm(), addForm()])
+  }, [addForm])
 
-  const doAction = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    const formData: { [key: string]: string } = {}
-    Object.entries(inputRefs.current).forEach(([id, inputElement]) => {
-      formData[id] = inputElement.value
-    })
-    updateForms(formData)
-    console.log('formData: ', getForms())
-  }
+  const handleAddForm = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+      setFormIds((prev) => [...prev, addForm()])
+    },
+    [addForm]
+  )
+
+  // validation state
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+
+  const validateForm = useCallback(
+    () => true,
+    // const newErrors: { [key: string]: string } = {}
+    // Object.entries(inputRefs.current).forEach(([id, inputElement]) => {
+    //   if (!inputElement.value.trim()) {
+    //     newErrors[id] = 'This field is required'
+    //   }
+    // })
+    // setErrors(newErrors)
+    // return Object.keys(newErrors).length === 0
+    []
+  )
+
+  const doAction = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault()
+
+      if (validateForm()) {
+        const formData: { [key: string]: string } = {}
+        Object.entries(inputRefs.current).forEach(([id, inputElement]) => {
+          formData[id] = inputElement.value
+        })
+        updateForms(formData)
+        console.log('formData: ', getForms(formIds))
+      } else {
+        console.log('errors: ', errors)
+      }
+    },
+    [getForms, formIds, updateForms]
+  )
+
+  const forms = useMemo(() => getForms(formIds), [getForms, formIds])
 
   return (
-    <form className="outline-gray-100 outline">
-      <h1>TestPageTwo</h1>
-      <div className="bg-pink-200 flex flex-col gap-2 p-2 outline outline-1">
-        {getForms().map((form) => (
+    <form className="outline outline-gray-100">
+      <h1>TestFormRefs</h1>
+      <div className="flex flex-col gap-2 bg-pink-200 p-2 outline outline-1">
+        {forms.map((form) => (
           <StateInputComp
             key={form.id}
             initialValue={form.inputValue}

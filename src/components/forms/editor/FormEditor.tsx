@@ -1,7 +1,7 @@
 'use client'
 
 // Native
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 
 // UI
 import { FormFieldInput } from '@/components/forms/editor/FormFieldInput'
@@ -10,7 +10,6 @@ import { FormHeader } from '@/components/forms/editor/FormHeader'
 // CN UI
 import { Button } from '@/cn/ui/button'
 import { Separator } from '@/cn/ui/separator'
-import { ScrollArea } from '@/cn/ui/scroll-area'
 import { useToast } from '@/cn/ui/use-toast'
 
 // Hooks
@@ -79,22 +78,7 @@ export function FormEditor({ formId }: { formId?: string }) {
     toast({ title: 'Success', description: 'Form saved successfully' })
   }
 
-  // const lastElRef = useRef(null)
-  // useEffect(() => {
-  //   const lastFieldIdx = formData.fields.length
-  //   handleScrollToFirstCat(formData.fields[lastFieldIdx])
-  // }, [formData.fields])
-
-  // function handleScrollToFirstCat(el: any) {
-  //   el.scrollIntoView({
-  //     behavior: 'smooth',
-  //     block: 'nearest',
-  //     inline: 'center'
-  //   })
-  // }
-
   return (
-    // <ScrollArea>
     <form className="grid w-full items-start gap-6 rounded-lg border">
       <FormHeader
         title={formData.header.title}
@@ -127,7 +111,6 @@ export function FormEditor({ formId }: { formId?: string }) {
         <Button onClick={handleSave}>Save form</Button>
       </div>
     </form>
-    // </ScrollArea>
   )
 }
 

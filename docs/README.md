@@ -73,3 +73,25 @@ import { useToast } from '@/cn/ui/use-toast'
 - Eslint:
   - Extended default rules to support Airbnb syntax linting rules
   - Specified ESlint to auto fix lint errors and add missing imports
+
+# Input rendering
+
+When rendering multiple inputs that depened on controlled states you end up redrawing all of the inputs elements if they are held in one variable.
+Using predefined placeholders would solve this, but we don't have a freedom to do this with custom forms.
+In essence, we have to either:
+
+- store each input ref values and retrieve all of their data on form submit.
+- use the official FormData API to retrieve the form data on form submit.
+
+Using these approaches allows us to fetch data lazily, prevent composite redraws, and reduce complexity.
+Differences:
+
+- Storing ref values would help to focus and reference elements, but introduce code complexity as we have to track and manage ref values.
+- Using FormData API would not allow to focus or reference values and therefore would require additional implementation for active input validation (if as in most cases validation cannot be done lazily).
+  To have active validation in this case we could employ inbuilt validation options, if we are not concerned about input comlexity.
+
+https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
+
+In theory we could employ list virtualization (react-window)
+Or use very advanced solution like:
+https://formilyjs.org/guide/quick-start

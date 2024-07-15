@@ -1,7 +1,6 @@
 // Native
 import React, { useState, useEffect, useCallback } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import { v4 as uuidv4 } from 'uuid'
 
 // CN UI
 import { Input } from '@/cn/ui/input'

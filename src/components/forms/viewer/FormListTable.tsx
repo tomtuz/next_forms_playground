@@ -32,6 +32,9 @@ export function FormListTable() {
       <TableCaption>
         <Link href="/forms/new">New</Link>
       </TableCaption>
+      <TableCaption>
+        <Link href="/test">TestPage</Link>
+      </TableCaption>
 
       <TableHeader>
         <TableRow>

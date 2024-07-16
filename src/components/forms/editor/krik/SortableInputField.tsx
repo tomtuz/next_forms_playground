@@ -20,6 +20,7 @@ interface SortableInputFieldProps {
   setLastUsedType: (type: FieldType) => void
   isSelected: boolean
   onSelect: (index: number) => void
+  onRemove: () => void
 }
 
 export function SortableInputField({
@@ -29,7 +30,8 @@ export function SortableInputField({
   remove,
   setLastUsedType,
   isSelected,
-  onSelect
+  onSelect,
+  onRemove
 }: SortableInputFieldProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   const { attributes, listeners, setNodeRef, transform, transition } =

@@ -10,7 +10,9 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragEndEvent
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent
 } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -66,8 +68,102 @@ function useFormEditor() {
   }
 }
 
-// Separate component for DnD context
 function SortableQuestionList({
+  control,
+  fields,
+  move,
+  remove,
+  setSelectedQuestionIndex,
+  selectedQuestionIndex,
+  setLastUsedType,
+  handleSelect
+}: {
+  control: Control<Form>
+  fields: any[]
+  move: (from: number, to: number) => void
+  remove: (index?: number | number[]) => void
+  setSelectedQuestionIndex: (index: number) => void
+  selectedQuestionIndex: number | null
+  setLastUsedType: (type: FieldType) => void
+  handleSelect: (index: number) => void
+}) {
+  const [activeId, setActiveId] = useState<string | null>(null)
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates
+    })
+  )
+
+  const handleDragStart = (event: DragStartEvent) => {
+    setActiveId(event.active.id as string)
+  }
+
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event
+      if (active.id !== over?.id) {
+        const oldIndex = fields.findIndex((field) => field.id === active.id)
+        const newIndex = fields.findIndex((field) => field.id === over?.id)
+        move(oldIndex, newIndex)
+        setSelectedQuestionIndex(newIndex)
+      }
+      setActiveId(null)
+    },
+    [fields, move, setSelectedQuestionIndex]
+  )
+
+  // const handleDragEnd = (event: DragEndEvent) => {
+  //   // ... existing drag end logic
+  //   setActiveId(null)
+  // }
+
+  return (
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={fields.map((field) => field.id)}
+        strategy={verticalListSortingStrategy}
+      >
+        {fields.map((field, index) => (
+          <SortableInputField
+            key={field.id}
+            id={field.id}
+            index={index}
+            control={control}
+            remove={remove}
+            setLastUsedType={setLastUsedType}
+            isSelected={index === selectedQuestionIndex}
+            onSelect={handleSelect}
+            onRemove={() => remove(index)}
+          />
+        ))}
+      </SortableContext>
+      <DragOverlay>
+        {activeId ? (
+          <SortableInputField
+            id={activeId}
+            index={fields.findIndex((f) => f.id === activeId)}
+            control={control}
+            remove={remove}
+            setLastUsedType={setLastUsedType}
+            isSelected={false}
+            onSelect={() => {}}
+            onRemove={() => {}}
+          />
+        ) : null}
+      </DragOverlay>
+    </DndContext>
+  )
+}
+
+// Separate component for DnD context
+function SortableQuestionList2({
   control,
   fields,
   move,
@@ -126,6 +222,7 @@ function SortableQuestionList({
             setLastUsedType={setLastUsedType}
             isSelected={index === selectedQuestionIndex}
             onSelect={handleSelect}
+            onRemove={() => remove(index)}
           />
         ))}
       </SortableContext>

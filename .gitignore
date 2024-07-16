@@ -44,3 +44,6 @@ next-env.d.ts
 # External imports for templating
 src/components/other
 src/app/other
+
+# Personal documentation
+docs/.self

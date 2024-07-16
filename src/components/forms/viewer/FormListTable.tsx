@@ -19,13 +19,13 @@ import { LS_FORM_DATA } from '@/constants'
 
 export function FormListTable() {
   const { forms } = useFormContext()
-  const { setValueForce } = useLocalStorage<Array<any>>(LS_FORM_DATA, [])
+  const { setStorageValue } = useLocalStorage()
 
   return (
     <Table>
       <TableCaption>A list of your forms</TableCaption>
       <TableCaption>
-        <Button type="button" onClick={() => setValueForce([])}>
+        <Button type="button" onClick={() => setStorageValue(LS_FORM_DATA, [])}>
           DeleteAll (LocalStorage)
         </Button>
       </TableCaption>

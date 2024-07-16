@@ -1,5 +1,6 @@
 import React, { Profiler } from 'react'
 import { TestFormReact } from '@/components/forms/editor/test/TestFormReact'
+import { TestFormReactDev } from '@/components/forms/editor/test/TestFormReactDev'
 import { TestFormRefs } from '@/components/forms/editor/test/TestFormRefs'
 import { TestFormDataApi } from '@/components/forms/editor/test/TestFormDataApi'
 
@@ -30,6 +31,7 @@ export default function TestForm() {
       <TestFormRefs />
       <TestFormDataApi />
       <TestFormReact />
+      <TestFormReactDev />
     </div>
   )
 }

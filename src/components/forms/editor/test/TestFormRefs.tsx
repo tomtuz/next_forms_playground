@@ -119,10 +119,6 @@ export function TestFormRefs() {
         <Button onClick={doAction}>Save</Button>
         <Button onClick={handleAddForm}>Add</Button>
       </div>
-      <div className="flex items-center justify-between">
-        <Link href="/forms/list">List</Link>
-        <Link href="/forms/new">New</Link>
-      </div>
     </form>
   )
 }

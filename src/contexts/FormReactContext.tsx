@@ -8,6 +8,7 @@ import React, {
   useCallback
 } from 'react'
 import { Form } from '@/types'
+import { LS_FORM_DATA } from '@/constants'
 
 interface FormContextType {
   forms: Form[]
@@ -19,7 +20,6 @@ interface FormContextType {
 }
 
 const FormContext = createContext<FormContextType | undefined>(undefined)
-const LS_FORM_DATA = 'LS_FORM_DATA'
 
 export function FormReactProvider({
   children

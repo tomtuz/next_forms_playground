@@ -1,10 +1,11 @@
 'use client'
 
-import { Button } from '@/cn/ui/button'
 import Link from 'next/link'
 import React, { useCallback } from 'react'
 import { useFieldArray, useForm, Controller } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
+import { Button } from '@/cn/ui/button'
+import { DevTool } from '@hookform/devtools'
 
 type FormField = {
   id: string
@@ -55,10 +56,6 @@ export function TestFormReact() {
         <Button type="button" onClick={handleAddForm}>
           Add
         </Button>
-      </div>
-      <div className="flex items-center justify-between">
-        <Link href="/forms/list">List</Link>
-        <Link href="/forms/new">New</Link>
       </div>
     </form>
   )

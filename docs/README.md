@@ -1,33 +1,32 @@
-## Builder page
+## FormBuilder
 
-Builder page allows to create forms out of different types of inputs.
+FormBuilder allows to create forms out of different types of inputs.
 
 **Challenges**:
 
 - Dynamic rendering of different types of input components
 - Standardization and reuse of components with different structures
-- Synchronization, updating and saving data from multiple dynamic components
+- Synchronization of data from multiple dynamic components
+- Performance overheads / excessive redraw issues
 
 **Structure:**
 
 ```
+Basic structure of forms can be expressed as:
+
 > Form
-  > FormHeader
+  > Header
   -------------
-  > FormField
-  > FormField
-  > FormField
+  > Question
+    > Title
+    > AnswerTypeSelector
+    > AnswerInput
+  ...
 
-________________
-> FormField
-  > FormTypePicker
-  > FormTypeRender (disabled/active)
-
-  FormField types:
+  Answer types:
     <'text' | 'number' | 'textarea' | 'checkbox' | 'file' | 'select'>
 
-
-
+  * Answer fields are disabled during editing (except for multi-option answers, to configure choices)
 ```
 
 **Workflow**:
@@ -76,32 +75,52 @@ import { useToast } from '@/cn/ui/use-toast'
 
 # Input rendering
 
-When rendering multiple inputs that depened on controlled states you end up redrawing all of the inputs elements if they are held in one variable.
-Using predefined placeholders would solve this, but we don't have a freedom to do this with custom forms.
-In essence, we have to either:
+Rendering multiple controlled inputs is a performance heavy task.
 
-- store each input ref values and retrieve all of their data on form submit.
-- use the official FormData API to retrieve the form data on form submit.
+There are heavy and complex solutions built to solve this exact issue.
+To appreaciate the scope of input handling I greatly recommend reading the entire page of:
+https://formilyjs.org/guide
 
-Using these approaches allows us to fetch data lazily, prevent composite redraws, and reduce complexity.
-Differences:
+- When **not tracking** input states, we can have 0 redraws.
+- When **tracking** input states, we can have hundreds of redraws while typing in a single input field.
 
-- Storing ref values would help to focus and reference elements, but introduce code complexity as we have to track and manage ref values.
-- Using FormData API would not allow to focus or reference values and therefore would require additional implementation for active input validation (if as in most cases validation cannot be done lazily).
-  To have active validation in this case we could employ inbuilt validation options, if we are not concerned about input comlexity.
+Rendering multiple controlled inputs is usually done by rendering an array of input elements.
+The input state can be retrieved by passing state update hooks as props (which in itself doesn't cause a redraw)
+However, since we are storing all the data in a single variable representing a 'form'
+
+When rendering multiple inputs that depened on controlled states, by default you end up redrawing all of the inputs elements if they are held in one variable.
+
+## Lazy form management
+
+If form use cases do not require immediate form validation or reactive state changes with side effects we should consider lazy form management options. Using lazy management allows us to fetch data lazily, prevent composite redraws, and in some cases greatly reduces code complexity.
+
+Lazy management approaches:
+
+- store each input **ref** values and retrieve all of their data on form submit.
+- use the official **FormData API** to retrieve the form data on form submit.
+
+Refs vs FormData:
+
+- Storing `ref` values would allows us to focus and reference elements easily, but introduces code complexity as we have to track and manage ref values and there are many pitfalls, when dealing with refs. It would be possible to implement active validation using refs.
+- Using FormData API would not allow us to focus or reference values. For input validation, you might have to revert to browser inbuilt validation API.
 
 https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
 
-In theory we could employ list virtualization (react-window)
-Or use very advanced solution like:
-https://formilyjs.org/guide/quick-start
+## List virtualization
+
+In theory, if we have a big list of inputs, we could try to optimize the rendering of it with the use of window virtualization.
+I.e. 'react-window' package.
+Virtualization works by only rendering the elements that are visible in the viewport and ignoring the values that are not.
 
 # Drag and drop (DND) functionality
 
 We have two options:
 
-- robust and performant react-beautiful-dnd
-- modern and easy to use dnd-kit
+- robust and performant `react-beautiful-dnd`
+- modern and easy to use `dnd-kit`
 
-Most developers support dnd-kit for its ease of use and out of the box appearance, which is great for small projects.
-Whre react-beautiful-dnd relies on the performance and customization, for this it reason it is more complex to implement and is more fit for enterprise grade solutions.
+Comparison:
+
+- `dnd-kit`: ease of use and out of the box appearance, which is great for small projects.
+- `react-beautiful-dnd`: aims for performance and low level customization, for this reason, development experience might have a steeper learning curve, requiring more manual customization, thus being more fit for enterprise grade solutions.
+- `react-beautiful-dnd`: industry standard for a long time, but currently Atlassian focuses on other priorities and the development could be considered to be in a stale state.

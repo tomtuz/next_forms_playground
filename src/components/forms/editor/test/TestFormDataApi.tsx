@@ -61,10 +61,6 @@ export function TestFormDataApi() {
           Add
         </Button>
       </div>
-      <div className="flex items-center justify-between">
-        <Link href="/forms/list">List</Link>
-        <Link href="/forms/new">New</Link>
-      </div>
     </form>
   )
 }

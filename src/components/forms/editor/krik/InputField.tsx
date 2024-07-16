@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {
   Control,
   Controller,
   UseFieldArrayReturn,
-  useFieldArray
+  useFieldArray,
+  useWatch
 } from 'react-hook-form'
 import { Form, FieldType } from '@/types/react'
 // TODO: make shadcn provider
@@ -12,11 +13,12 @@ import { Input } from '@/cn/ui/input' // Assuming you're using ShadCN UI compone
 import { Textarea } from '@/cn/ui/textarea' // Assuming you're using ShadCN UI components
 import { Checkbox } from '@/cn/ui/checkbox' // Assuming you're using ShadCN UI components
 import { Button } from '@/cn/ui/button' // Assuming you're using ShadCN UI components
+import { Select } from '@/cn/ui/select' // Assuming you're using ShadCN UI components
 
 interface InputFieldProps {
   index: number
-  fields: UseFieldArrayReturn<Form, 'fields', 'id'>['fields']
   control: Control<Form>
+  setLastUsedType: (type: FieldType) => void
 }
 
 type AnswerPlaceholdersProps = {
@@ -108,7 +110,11 @@ const AnswerPlaceholders: AnswerPlaceholdersProps = {
   )
 }
 
-export function InputField({ index, fields, control }: InputFieldProps) {
+export function InputField({
+  index,
+  control,
+  setLastUsedType
+}: InputFieldProps) {
   const fieldTypes: FieldType[] = [
     'text',
     'number',
@@ -118,14 +124,23 @@ export function InputField({ index, fields, control }: InputFieldProps) {
     'select'
   ]
 
+  const fieldType = useWatch({
+    control,
+    name: `fields.${index}.type`,
+    defaultValue: 'text' as FieldType
+  })
+
   const AnswerComponent = useCallback(() => {
-    const fieldType = fields[index].type as FieldType
     const Placeholder = AnswerPlaceholders[fieldType]
     return <Placeholder disabled fieldIndex={index} control={control} />
-  }, [fields, index, control])
+  }, [fieldType, index, control])
+
+  useEffect(() => {
+    setLastUsedType(fieldType)
+  }, [fieldType, setLastUsedType])
 
   return (
-    <div className="mb-4 rounded border p-4">
+    <div className="mb-4 rounded border bg-primary p-4">
       <Controller
         name={`fields.${index}.label`}
         control={control}
@@ -137,6 +152,15 @@ export function InputField({ index, fields, control }: InputFieldProps) {
         name={`fields.${index}.type`}
         control={control}
         render={({ field }) => (
+          // <Select {...field} className="mb-2 w-full">
+          // <Select {...field}>
+          //   {fieldTypes.map((type) => (
+          //     <option key={type} value={type}>
+          //       {type}
+          //     </option>
+          //   ))}
+          // </Select>
+
           <select {...field} className="mb-2 w-full rounded border p-2">
             {fieldTypes.map((type) => (
               <option key={type} value={type}>

@@ -95,3 +95,13 @@ https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
 In theory we could employ list virtualization (react-window)
 Or use very advanced solution like:
 https://formilyjs.org/guide/quick-start
+
+# Drag and drop (DND) functionality
+
+We have two options:
+
+- robust and performant react-beautiful-dnd
+- modern and easy to use dnd-kit
+
+Most developers support dnd-kit for its ease of use and out of the box appearance, which is great for small projects.
+Whre react-beautiful-dnd relies on the performance and customization, for this it reason it is more complex to implement and is more fit for enterprise grade solutions.

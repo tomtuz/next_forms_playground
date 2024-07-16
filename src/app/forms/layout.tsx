@@ -6,5 +6,5 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   // return <ScrollArea>{children}</ScrollArea>
-  return <div>{children}</div>
+  return <div className="flex h-full align-top">{children}</div>
 }

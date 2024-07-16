@@ -34,18 +34,6 @@ export function useFormData(formId?: string) {
   }, [getForm, formId]);
 
   // Mutations
-  // const addField = useCallback((type: FieldType) => {
-  //   // 1. set header -> title, description
-  //   // 2. set fields (multiple) -> data <FieldType>
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     fields: [
-  //       ...prevData.fields, // when editing
-  //       { id: uuidv4(), type, label: "", value: null }
-  //     ]
-  //   }));
-  // }, []);
-
   const addField = useCallback((type: FieldType) => {
     const newId = uuidv4(); // Generate the ID outside the state update function
     console.log("adding with id: ", newId)

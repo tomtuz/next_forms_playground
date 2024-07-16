@@ -2,7 +2,6 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { Form } from '@/types' // Adjust the import path as needed
 import {
   Table,
   TableBody,
@@ -12,33 +11,24 @@ import {
   TableHeader,
   TableRow
 } from '@/cn/ui/table'
-import { useFormContext } from '@/contexts/FormContext'
 
-interface FormListTableProps {
-  forms: Form[]
-}
-// React.FC<FormListTableProps> = ({ forms }) => (
+import { useFormContext } from '@/contexts/FormContext'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { Button } from '@/cn/ui'
+import { LS_FORM_DATA } from '@/constants'
+
 export function FormListTable() {
-  const { forms, deleteAllForms } = useFormContext()
+  const { forms } = useFormContext()
+  const { setValueForce } = useLocalStorage<Array<any>>(LS_FORM_DATA, [])
 
   return (
     <Table>
       <TableCaption>A list of your forms</TableCaption>
       <TableCaption>
-        <button type="button" onClick={() => deleteAllForms()}>
-          DeleteAll
-        </button>
+        <Button type="button" onClick={() => setValueForce([])}>
+          DeleteAll (LocalStorage)
+        </Button>
       </TableCaption>
-      <TableCaption>
-        <Link href="/forms/new">New</Link>
-      </TableCaption>
-      <TableCaption>
-        <Link href="/forms/newz">Newz</Link>
-      </TableCaption>
-      <TableCaption>
-        <Link href="/test">TestPage</Link>
-      </TableCaption>
-
       <TableHeader>
         <TableRow>
           <TableHead className="w-[100px]">ID</TableHead>

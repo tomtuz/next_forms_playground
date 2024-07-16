@@ -6,6 +6,7 @@ interface WidthWrapProps {
   children: React.ReactNode
 }
 
+// force specific dimensions
 export function IFrame({ children }: Readonly<WidthWrapProps>) {
   const forcedStyles =
     'w-[700px] max-w-[700px] outline outline-1 outline-red-400'

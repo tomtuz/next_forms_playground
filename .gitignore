@@ -37,3 +37,9 @@ next-env.d.ts
 
 # Million Lint
 .million
+
+# wdy injection configures webpack build build at /dist
+/dist
+
+# External imports for templating
+src/components/other

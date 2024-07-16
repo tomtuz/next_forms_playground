@@ -1,4 +1,3 @@
-// MultiOptionField.tsx
 import React from 'react'
 import { Control, useFieldArray, Controller } from 'react-hook-form'
 import { Input, Checkbox, Button } from '@/cn/ui'

@@ -1,4 +1,3 @@
-// AnswerPlaceholder.tsx
 import React from 'react'
 import { Control } from 'react-hook-form'
 import { Input, Textarea } from '@/cn/ui'

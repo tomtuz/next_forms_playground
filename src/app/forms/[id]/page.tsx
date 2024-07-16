@@ -3,7 +3,7 @@
 // ROUTE TO PREVIEW FORM BEFORE SAVING
 import { IFrame } from '@/components/layouts/IFrame'
 import { useParams } from 'next/navigation'
-import { FormEditor } from '@/components/forms/editor/FormEditor'
+import { FormEditor } from '@/components/forms/editor/vanilla/FormEditor'
 
 export default function EditForm() {
   const params = useParams()

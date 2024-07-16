@@ -1,4 +1,3 @@
-// SortableInputField.tsx
 import React, { useEffect, useRef, KeyboardEvent } from 'react'
 import { Control, Controller, useWatch } from 'react-hook-form'
 import { useSortable } from '@dnd-kit/sortable'

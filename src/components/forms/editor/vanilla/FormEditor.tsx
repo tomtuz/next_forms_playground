@@ -4,8 +4,8 @@
 import React from 'react'
 
 // UI
-import { FormFieldInput } from '@/components/forms/editor/FormFieldInput'
-import { FormHeader } from '@/components/forms/editor/FormHeader'
+import { FormFieldInput } from '@/components/forms/editor/vanilla/FormFieldInput'
+import { FormHeader } from '@/components/forms/editor/vanilla/FormHeader'
 
 // CN UI
 import { Button } from '@/cn/ui/button'

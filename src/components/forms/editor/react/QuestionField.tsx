@@ -10,13 +10,15 @@ import { Button, Input } from '@/cn/ui'
 import clsx from 'clsx'
 
 import { Form, FieldType } from '@/types/react'
+import { DevTool } from '@hookform/devtools'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import { AnswerPlaceholder } from './AnswerPlaceholder'
 import { FieldTypeSelect } from './FieldTypeSelect'
 
 interface SortableInputFieldProps {
   index: number
   control: Control<Form>
-  remove: () => void
+  // remove: () => void
   register: UseFormRegister<Form>
   setLastUsedType: (type: FieldType) => void
   isSelected: boolean
@@ -28,11 +30,15 @@ export function QuestionField({
   index,
   control,
   register,
-  remove,
+  // remove,
   setLastUsedType,
   isSelected
   // onSelect
 }: SortableInputFieldProps) {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
+
   const inputRef = useRef<HTMLInputElement>(null)
   const fieldType = useWatch({
     control,
@@ -40,9 +46,17 @@ export function QuestionField({
     defaultValue: 'text' as FieldType
   })
 
-  useEffect(() => {
-    setLastUsedType(fieldType)
-  }, [fieldType, setLastUsedType])
+  const [isMounted, setIsMounted] = useState(false)
+
+  // const { fields, remove, append } = useFieldArray({
+  //   control,
+  //   name: `fields.${index}.options`
+  // })
+
+  // TODO: This causes parent rerender
+  // useEffect(() => {
+  //   setLastUsedType(fieldType)
+  // }, [fieldType, setLastUsedType])
 
   // const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
   //   onSelect(index)
@@ -56,72 +70,22 @@ export function QuestionField({
   return (
     <div
       className={clsx(
-        'mb-4 rounded border bg-white p-4',
+        'mb-4 rounded border bg-blue-100 bg-white p-4',
         isSelected && 'ring-2 ring-blue-500'
       )}
       // onClick={handleClick}
       role="button"
     >
-      <QuestionHeader
-        index={index}
-        control={control}
-        inputRef={inputRef}
-        register={register}
-        remove={remove}
-      />
-      {/* <FieldTypeSelect index={index} control={control} /> */}
-      {/* <AnswerPlaceholder
+      <FieldTypeSelect index={index} control={control} />
+      <AnswerPlaceholder
         fieldType={fieldType}
         fieldIndex={index}
         register={register}
         control={control}
-      /> */}
-    </div>
-  )
-}
-
-interface QuestionHeaderProps {
-  index: number
-  control: Control<Form>
-  inputRef: React.RefObject<HTMLInputElement>
-  register: UseFormRegister<Form>
-  remove: () => void
-}
-
-function QuestionHeader({
-  index,
-  control,
-  inputRef,
-  register,
-  remove
-}: QuestionHeaderProps) {
-  return (
-    <div className="mb-2 flex items-center">
-      <div className="flex w-full">
-        {/* <Controller
-          name={`fields.${index}.label`}
-          control={control}
-          render={({ field }) => (
-            <Input
-              {...field}
-              ref={inputRef}
-              placeholder="Question"
-              className="w-full"
-            />
-          )}
-        /> */}
-        <input {...register(`fields.${index}.label`)} />
-
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={remove}
-          className="ml-2 bg-red-100"
-        >
-          Remove
-        </Button>
-      </div>
+      />
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
+      </span>
     </div>
   )
 }

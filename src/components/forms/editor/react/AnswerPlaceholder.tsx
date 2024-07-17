@@ -11,6 +11,8 @@ interface AnswerPlaceholderProps {
   register: UseFormRegister<Form>
 }
 
+// let renderCount = 0
+
 export function AnswerPlaceholder({
   fieldType,
   fieldIndex,
@@ -21,7 +23,7 @@ export function AnswerPlaceholder({
     case 'text':
       // return <input {...register(`fieldArray.${index}.name` as const)} />;
       // return <Input type="text" placeholder="Text answer..." />
-      return <input {...register(`fields.${fieldIndex}.options`)} />
+      return <input {...register(`fields.${fieldIndex}.options.0`)} />
     // return (
     //   <Controller
     //     name={`fields.${fieldIndex}.label`}
@@ -33,7 +35,9 @@ export function AnswerPlaceholder({
     // )
 
     case 'number':
-      return <Input type="number" placeholder="Number answer..." />
+      // return <Input type="number" placeholder="Number answer..." />
+      return <input {...register(`fields.${fieldIndex}.options.0`)} />
+
     case 'textarea':
       return <Textarea placeholder="Long answer..." />
     case 'checkbox':

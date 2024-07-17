@@ -23,6 +23,7 @@ export function MultiOptionField({
     <div>
       {fields.map((option, optionIndex) => (
         <div key={option.id} className="mb-2 flex items-center">
+          {/* // chebkox OR numbered list */}
           {type === 'checkbox' ? (
             <Checkbox disabled className="mr-2" />
           ) : (

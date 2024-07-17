@@ -1,5 +1,5 @@
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, useFieldArray } from 'react-hook-form'
 import {
   Select,
   SelectTrigger,
@@ -24,6 +24,11 @@ const fieldTypes: FieldType[] = [
 ]
 
 export function FieldTypeSelect({ index, control }: FieldTypeSelectProps) {
+  // const { fields, remove, append } = useFieldArray({
+  //   control,
+  //   name: `fields.${index}.type`
+  // })
+
   return (
     <Controller
       name={`fields.${index}.type`}

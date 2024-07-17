@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
 
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import { FieldArray } from './FieldArray'
 
 const defaultFormData = {
@@ -13,6 +14,8 @@ const defaultFormData = {
 }
 
 export function ScratchBaseEditor() {
+  const renderCount = useRenderCount()
+
   const { control, register, handleSubmit, getValues, reset, setValue } =
     useForm<Form>({
       defaultValues: defaultFormData
@@ -50,6 +53,9 @@ export function ScratchBaseEditor() {
         </Button>
         <Button type="submit">Save</Button>
       </div>
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
+      </span>
     </form>
   )
 }

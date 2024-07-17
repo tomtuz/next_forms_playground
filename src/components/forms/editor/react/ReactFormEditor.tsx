@@ -1,15 +1,19 @@
 'use client'
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
 // CN UI
 import { Button } from '@cn/ui/button'
+import { FormItem, FormLabel, Form as FormWrap } from '@cn/ui/form'
 
 import type { Form, FieldType } from '@/types/react'
 
 // Components
+import { DevTool } from '@hookform/devtools'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import { HeaderSection } from './HeaderSection'
+import { QuestionHeader } from './QuestionHeader'
 import { QuestionField } from './QuestionField'
 
 const defaultFieldType: FieldType = 'text'
@@ -59,28 +63,27 @@ function useFormEditor() {
     handleSubmit,
     fields,
     register,
-    // controlledFields,
-    // move,
     remove,
     addQuestion
-    // handleSelect
   }
 }
 
 export function ReactFormEditor() {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
+
   const {
     setLastUsedType,
-    selectedQuestionIndex,
-    control,
-    handleSubmit,
-    fields,
-    register,
-    // controlledFields,
-    // move,
-    remove,
-    addQuestion
-    // handleSelect
+    selectedQuestionIndex
+    // control,
+    // handleSubmit,
+    // fields,
+    // register,
+    // remove,
+    // addQuestion
   } = useFormEditor()
+  const [isMounted, setIsMounted] = useState(false)
 
   const onSubmit = (data: Form) => {
     try {
@@ -89,30 +92,65 @@ export function ReactFormEditor() {
       console.error('Error processing form data:', error)
     }
   }
+  // name={`fields.${index}.type`}
+  // control={control}
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const form = useForm<Form>({
+    defaultValues: {
+      header: { title: '', description: '' },
+      fields: []
+    }
+  })
+
+  // we should consider separating this to a separate component, so that we could avoid redrawing this form
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'fields'
+  })
+
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const addQuestion = useCallback(() => {
+    append({ label: '', type: 'text', options: [] })
+    // setSelectedQuestionIndex(fields.length)
+  }, [append, fields.length])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Header */}
-      <HeaderSection register={register} control={control} />
-      {/* Questions */}
-      {fields.map((field, index) => (
-        // {controlledFields.map((field, index) => (
-        <QuestionField
-          key={field.id}
-          index={index}
-          control={control}
-          register={register}
-          remove={remove}
-          setLastUsedType={setLastUsedType}
-          isSelected={index === selectedQuestionIndex}
-          // onSelect={handleSelect}
-        />
-      ))}
-      {/* Controls */}
-      <Button type="button" onClick={addQuestion}>
-        Add Question
-      </Button>
-      <Button type="submit">Print Form Data</Button>
-    </form>
+    <FormWrap {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+        {/* Question Header / label */}
+
+        <HeaderSection register={form.register} control={form.control} />
+
+        {/* NestedArray / Question Answers / options */}
+        {fields.map((field, index) => (
+          <div key={field.id}>
+            <QuestionHeader
+              index={index}
+              control={form.control}
+              remove={remove}
+            />
+            <QuestionField
+              key={field.id}
+              index={index}
+              control={form.control}
+              register={form.register}
+              setLastUsedType={setLastUsedType}
+              isSelected={index === selectedQuestionIndex}
+            />
+          </div>
+        ))}
+        {/* Controls */}
+        <Button type="button" onClick={addQuestion}>
+          Add Question
+        </Button>
+        <Button type="submit">Print Form Data</Button>
+
+        <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+          <span>{renderCount}</span>
+        </span>
+      </form>
+    </FormWrap>
   )
 }

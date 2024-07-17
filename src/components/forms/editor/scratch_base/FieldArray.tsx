@@ -10,9 +10,8 @@ import {
 } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import { NestedFieldArray } from './NestedFieldArray'
-
-let renderCount = 0
 
 interface FieldArrayProps {
   control: Control<Form, any>
@@ -31,18 +30,7 @@ export function FieldArray({
     control,
     name: 'fields'
   })
-
-  renderCount += 1
-
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) {
-    return null
-  }
+  const renderCount = useRenderCount()
 
   return (
     <div className="mb-4 rounded border bg-white p-4">
@@ -124,8 +112,8 @@ export function FieldArray({
         </div>
       </section>
 
-      <span className="flex w-full items-center justify-between">
-        Render Count: {renderCount}
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
       </span>
     </div>
   )

@@ -1,6 +1,8 @@
 import React from 'react'
 import { Control, Controller, UseFormRegister } from 'react-hook-form'
 import { Form } from '@/types/react'
+import { FormItem, FormLabel } from '@/cn/ui/form'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 
 interface HeaderSectionProps {
   control: Control<Form>
@@ -8,9 +10,16 @@ interface HeaderSectionProps {
 }
 
 export function HeaderSection({ control, register }: HeaderSectionProps) {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
+
+  // problems with this component
+  // Using Controller for input fields
+
   return (
-    <div>
-      {/* <Controller
+    <div className="bg-green-100 p-4">
+      <Controller
         name="header.title"
         control={control}
         render={({ field }) => (
@@ -20,11 +29,19 @@ export function HeaderSection({ control, register }: HeaderSectionProps) {
             className="mb-2 w-full rounded border p-2"
           />
         )}
-      /> */}
-      <input
+      />
+      {/* <FormItem>
+        <FormLabel>Form title</FormLabel>
+        <input
+          className="mb-2 w-full rounded border p-2"
+          {...register(`header.title`)}
+        />
+      </FormItem> */}
+      {/* <input
         className="mb-2 w-full rounded border p-2"
         {...register(`header.title`)}
-      />
+      /> */}
+
       {/* <Controller
         name="header.description"
         control={control}
@@ -36,10 +53,22 @@ export function HeaderSection({ control, register }: HeaderSectionProps) {
           />
         )}
       /> */}
+
+      {/* <FormItem>
+        <FormLabel>Form description</FormLabel>
+        <input
+          className="mb-4 w-full rounded border p-2"
+          {...register(`header.description`)}
+        />
+      </FormItem> */}
+
       <input
         className="mb-4 w-full rounded border p-2"
         {...register(`header.description`)}
       />
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
+      </span>
     </div>
   )
 }

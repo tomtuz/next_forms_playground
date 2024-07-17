@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Button } from '@/cn/ui'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import React from 'react'
 import { useFieldArray } from 'react-hook-form'
 
@@ -14,6 +15,8 @@ export function NestedFieldArray({
   control,
   register
 }: NestedFieldArrayProps) {
+  const renderCount = useRenderCount()
+
   const { fields, remove, append } = useFieldArray({
     control,
     name: `fields.${nestIndex}.options`
@@ -47,6 +50,9 @@ export function NestedFieldArray({
       >
         Add
       </Button>
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
+      </span>
     </div>
   )
 }

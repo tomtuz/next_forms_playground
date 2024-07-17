@@ -1,5 +1,5 @@
 import React from 'react'
-import { Control, Controller, UseFormRegister } from 'react-hook-form'
+import { Control } from 'react-hook-form'
 import { Input, Textarea } from '@/cn/ui'
 import { Form, FieldType } from '@/types/react'
 import { MultiOptionField } from './MultiOptionField'
@@ -8,30 +8,16 @@ interface AnswerPlaceholderProps {
   fieldType: FieldType
   fieldIndex: number
   control: Control<Form>
-  register: UseFormRegister<Form>
 }
 
 export function AnswerPlaceholder({
   fieldType,
   fieldIndex,
-  control,
-  register
+  control
 }: AnswerPlaceholderProps) {
   switch (fieldType) {
     case 'text':
-      // return <input {...register(`fieldArray.${index}.name` as const)} />;
-      // return <Input type="text" placeholder="Text answer..." />
-      return <input {...register(`fields.${fieldIndex}.options`)} />
-    // return (
-    //   <Controller
-    //     name={`fields.${fieldIndex}.label`}
-    //     control={control}
-    //     render={({ field.label }) => (
-    //       <Input {...field} type="text" placeholder="Text answer..." />
-    //     )}
-    //   />
-    // )
-
+      return <Input type="text" placeholder="Text answer..." />
     case 'number':
       return <Input type="number" placeholder="Number answer..." />
     case 'textarea':

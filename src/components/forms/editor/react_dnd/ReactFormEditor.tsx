@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useCallback, useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
+import { useFieldArray, useForm, Control } from 'react-hook-form'
 
 // CN UI
 import { Button } from '@cn/ui/button'
@@ -10,7 +10,7 @@ import type { Form, FieldType } from '@/types/react'
 
 // Components
 import { HeaderSection } from './HeaderSection'
-import { QuestionField } from './QuestionField'
+import { DNDQuestionList } from './dnd/QuestionList'
 
 const defaultFieldType: FieldType = 'text'
 
@@ -23,14 +23,14 @@ function useFormEditor() {
     number | null
   >(null)
 
-  const { control, handleSubmit, watch, register } = useForm<Form>({
+  const { control, handleSubmit, watch } = useForm<Form>({
     defaultValues: {
       header: { title: '', description: '' },
       fields: []
     }
   })
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, move, remove } = useFieldArray({
     control,
     name: 'fields'
   })
@@ -43,12 +43,12 @@ function useFormEditor() {
 
   const addQuestion = useCallback(() => {
     append({ label: '', type: lastUsedType, options: [] })
-    // setSelectedQuestionIndex(fields.length)
+    setSelectedQuestionIndex(fields.length)
   }, [append, lastUsedType, fields.length])
 
-  // const handleSelect = useCallback((index: number) => {
-  //   setSelectedQuestionIndex(index)
-  // }, [])
+  const handleSelect = useCallback((index: number) => {
+    setSelectedQuestionIndex(index)
+  }, [])
 
   return {
     lastUsedType,
@@ -58,12 +58,11 @@ function useFormEditor() {
     control,
     handleSubmit,
     fields,
-    register,
     // controlledFields,
-    // move,
+    move,
     remove,
-    addQuestion
-    // handleSelect
+    addQuestion,
+    handleSelect
   }
 }
 
@@ -74,12 +73,11 @@ export function ReactFormEditor() {
     control,
     handleSubmit,
     fields,
-    register,
     // controlledFields,
-    // move,
+    move,
     remove,
-    addQuestion
-    // handleSelect
+    addQuestion,
+    handleSelect
   } = useFormEditor()
 
   const onSubmit = (data: Form) => {
@@ -93,21 +91,19 @@ export function ReactFormEditor() {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {/* Header */}
-      <HeaderSection register={register} control={control} />
+      <HeaderSection control={control} />
       {/* Questions */}
-      {fields.map((field, index) => (
-        // {controlledFields.map((field, index) => (
-        <QuestionField
-          key={field.id}
-          index={index}
-          control={control}
-          register={register}
-          remove={remove}
-          setLastUsedType={setLastUsedType}
-          isSelected={index === selectedQuestionIndex}
-          // onSelect={handleSelect}
-        />
-      ))}
+      <DNDQuestionList
+        control={control}
+        fields={fields}
+        // fields={controlledFields}
+        move={move}
+        remove={remove}
+        selectedQuestionIndex={selectedQuestionIndex}
+        setLastUsedType={setLastUsedType}
+        handleSelect={handleSelect}
+        setSelectedQuestionIndex={handleSelect}
+      />
       {/* Controls */}
       <Button type="button" onClick={addQuestion}>
         Add Question

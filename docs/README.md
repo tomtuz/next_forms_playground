@@ -78,19 +78,19 @@ import { useToast } from '@/cn/ui/use-toast'
 Rendering multiple controlled inputs is a performance heavy task.
 
 There are heavy and complex solutions built to solve this exact issue.
-To appreaciate the scope of input handling I greatly recommend reading the entire page of:
+To appreciate the scope of input handling I recommend reading the entire page of:
 https://formilyjs.org/guide
 
 - When **not tracking** input states, we can have 0 redraws.
-- When **tracking** input states, we can have hundreds of redraws while typing in a single input field.
+- When **tracking** input states, if not careful, we can have hundreds of redraws while typing in a single input field.
 
 Rendering multiple controlled inputs is usually done by rendering an array of input elements.
-The input state can be retrieved by passing state update hooks as props (which in itself doesn't cause a redraw)
-However, since we are storing all the data in a single variable representing a 'form'
 
-When rendering multiple inputs that depened on controlled states, by default you end up redrawing all of the inputs elements if they are held in one variable.
+The input state can be retrieved by passing state update handlers as props (which in itself doesn't cause a redraw), however, since form data is usually stored in a source, slightest, suboptimal state handling will inadvertently cause react v-DOM diff checker to detect a component state change and redraw.
 
-## Lazy form management
+To battle this, packages such as `react-hook-form` use refs to communicate with DOM API natively, additionally using lazy form management and state update batching.
+
+## Lazy form management (Vanilla)
 
 If form use cases do not require immediate form validation or reactive state changes with side effects we should consider lazy form management options. Using lazy management allows us to fetch data lazily, prevent composite redraws, and in some cases greatly reduces code complexity.
 
@@ -101,10 +101,8 @@ Lazy management approaches:
 
 Refs vs FormData:
 
-- Storing `ref` values would allows us to focus and reference elements easily, but introduces code complexity as we have to track and manage ref values and there are many pitfalls, when dealing with refs. It would be possible to implement active validation using refs.
+- Storing `ref` values would allows us to focus and reference elements easily, but introduces code complexity as we have to track and manage ref values and there are many pitfalls, when dealing with refs. It would be possible to implement active validation using refs. (Best to abstract `ref` state management complexity with a dedicated package)
 - Using FormData API would not allow us to focus or reference values. For input validation, you might have to revert to browser inbuilt validation API.
-
-https://dev.to/ajones_codes/a-better-guide-to-forms-in-react-47f0
 
 ## List virtualization
 

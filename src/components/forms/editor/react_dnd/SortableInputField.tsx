@@ -7,7 +7,6 @@ import { GripVertical } from 'lucide-react'
 import clsx from 'clsx'
 
 import { Form, FieldType } from '@/types/react'
-import { MultiOptionField } from './MultiOptionField'
 import { AnswerPlaceholder } from './AnswerPlaceholder'
 import { FieldTypeSelect } from './FieldTypeSelect'
 
@@ -22,6 +21,7 @@ interface SortableInputFieldProps {
   onRemove: () => void
 }
 
+// Nested field array
 export function SortableInputField({
   id,
   index,

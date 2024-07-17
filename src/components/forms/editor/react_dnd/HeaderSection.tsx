@@ -1,16 +1,15 @@
 import React from 'react'
-import { Control, Controller, UseFormRegister } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 import { Form } from '@/types/react'
 
 interface HeaderSectionProps {
   control: Control<Form>
-  register: UseFormRegister<Form>
 }
 
-export function HeaderSection({ control, register }: HeaderSectionProps) {
+export function HeaderSection({ control }: HeaderSectionProps) {
   return (
     <div>
-      {/* <Controller
+      <Controller
         name="header.title"
         control={control}
         render={({ field }) => (
@@ -20,12 +19,8 @@ export function HeaderSection({ control, register }: HeaderSectionProps) {
             className="mb-2 w-full rounded border p-2"
           />
         )}
-      /> */}
-      <input
-        className="mb-2 w-full rounded border p-2"
-        {...register(`header.title`)}
       />
-      {/* <Controller
+      <Controller
         name="header.description"
         control={control}
         render={({ field }) => (
@@ -35,10 +30,6 @@ export function HeaderSection({ control, register }: HeaderSectionProps) {
             className="mb-4 w-full rounded border p-2"
           />
         )}
-      /> */}
-      <input
-        className="mb-4 w-full rounded border p-2"
-        {...register(`header.description`)}
       />
     </div>
   )

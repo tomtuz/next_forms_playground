@@ -23,7 +23,7 @@ import {
 
 import { SortableInputField } from '../SortableInputField'
 
-// DND wrapper
+// DND wrapper - FieldArray
 export function DNDQuestionList({
   control,
   fields,

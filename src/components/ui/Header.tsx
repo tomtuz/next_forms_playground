@@ -20,6 +20,15 @@ export default function Header() {
           <Link className="hover:underline" href="/forms/react">
             React
           </Link>
+          <Link className="hover:underline" href="/forms/react_dnd">
+            React+DND
+          </Link>
+          <Link className="hover:underline" href="/forms/scratch">
+            Sratch
+          </Link>
+          <Link className="hover:underline" href="/forms/scratch_base">
+            SratchBase
+          </Link>
           <Link className="hover:underline" href="/forms/test">
             Test
           </Link>

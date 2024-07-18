@@ -70,7 +70,7 @@ export function QuestionField({
   return (
     <div
       className={clsx(
-        'mb-4 rounded border bg-blue-100 bg-white p-4',
+        'mb-4 rounded border bg-blue-100 p-4',
         isSelected && 'ring-2 ring-blue-500'
       )}
       // onClick={handleClick}

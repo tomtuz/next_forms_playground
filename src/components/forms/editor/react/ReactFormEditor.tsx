@@ -10,11 +10,11 @@ import { FormItem, FormLabel, Form as FormWrap } from '@cn/ui/form'
 import type { Form, FieldType } from '@/types/react'
 
 // Components
-import { DevTool } from '@hookform/devtools'
 import { useRenderCount } from '@/hooks/useCountRedraw'
-import { HeaderSection } from './HeaderSection'
+import { FormHeader } from './FormHeader'
 import { QuestionHeader } from './QuestionHeader'
 import { QuestionField } from './QuestionField'
+import { FieldArray } from './FieldArray'
 
 const defaultFieldType: FieldType = 'text'
 
@@ -95,7 +95,6 @@ export function ReactFormEditor() {
   // name={`fields.${index}.type`}
   // control={control}
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<Form>({
     defaultValues: {
       header: { title: '', description: '' },
@@ -104,47 +103,30 @@ export function ReactFormEditor() {
   })
 
   // we should consider separating this to a separate component, so that we could avoid redrawing this form
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'fields'
-  })
+  // const { fields, append, remove } = useFieldArray({
+  //   control: form.control,
+  //   name: 'fields'
+  // })
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const addQuestion = useCallback(() => {
-    append({ label: '', type: 'text', options: [] })
-    // setSelectedQuestionIndex(fields.length)
-  }, [append, fields.length])
+  // const addQuestion = useCallback(() => {
+  //   append({ label: '', type: 'text', options: [] })
+  //   // setSelectedQuestionIndex(fields.length)
+  // }, [append, fields.length])
 
   return (
     <FormWrap {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         {/* Question Header / label */}
+        <h1 className="w-full p-4 text-center text-3xl">React Base</h1>
 
-        <HeaderSection register={form.register} control={form.control} />
+        <FormHeader register={form.register} control={form.control} />
 
         {/* NestedArray / Question Answers / options */}
-        {fields.map((field, index) => (
-          <div key={field.id}>
-            <QuestionHeader
-              index={index}
-              control={form.control}
-              remove={remove}
-            />
-            <QuestionField
-              key={field.id}
-              index={index}
-              control={form.control}
-              register={form.register}
-              setLastUsedType={setLastUsedType}
-              isSelected={index === selectedQuestionIndex}
-            />
-          </div>
-        ))}
+        <FieldArray form={form} />
         {/* Controls */}
-        <Button type="button" onClick={addQuestion}>
+        {/* <Button type="button" onClick={addQuestion}>
           Add Question
-        </Button>
+        </Button> */}
         <Button type="submit">Print Form Data</Button>
 
         <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">

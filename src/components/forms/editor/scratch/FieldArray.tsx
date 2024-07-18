@@ -1,13 +1,14 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useFieldArray } from 'react-hook-form'
+import { useFieldArray, UseFormReturn } from 'react-hook-form'
 import { Button } from '@/cn/ui'
+import { Form } from '@/types/react'
+import { useRenderCount } from '@/hooks/useCountRedraw'
 import { NestedFieldArray } from './NestedFieldArray'
 
-let renderCount = 0
-
 interface FieldArrayProps {
+  // form: UseFormReturn<Form, any, undefined>
   control: any
   register: any
   setValue: any
@@ -19,23 +20,29 @@ export function FieldArray({
   register,
   setValue,
   getValues
+  // form
 }: FieldArrayProps) {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
+
   const { fields, append, remove, prepend } = useFieldArray({
+    // control: form.control,
     control,
     name: 'test'
   })
 
-  renderCount += 1
+  // renderCount += 1
 
   const [isMounted, setIsMounted] = useState(false)
 
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
+  // useEffect(() => {
+  //   setIsMounted(true)
+  // }, [])
 
-  if (!isMounted) {
-    return null
-  }
+  // if (!isMounted) {
+  //   return null
+  // }
 
   return (
     <div className="mb-4 rounded border bg-white p-4">

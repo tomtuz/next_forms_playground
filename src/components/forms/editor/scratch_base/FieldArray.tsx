@@ -13,6 +13,33 @@ import { Form } from '@/types/react'
 import { useRenderCount } from '@/hooks/useCountRedraw'
 import { NestedFieldArray } from './NestedFieldArray'
 
+interface QuestionHeaderProps {
+  index: number
+  register: UseFormRegister<Form>
+}
+
+export function QuestionHeader({
+  index,
+  register
+}: Readonly<QuestionHeaderProps>) {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
+
+  return (
+    <div className="bg-blue-100 outline outline-1">
+      <input
+        className="w-[110px] p-1 outline outline-1"
+        placeholder="Question Title"
+        {...register(`fields.${index}.label`)}
+      />
+      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+        <span>{renderCount}</span>
+      </span>
+    </div>
+  )
+}
+
 interface FieldArrayProps {
   control: Control<Form, any>
   register: UseFormRegister<Form>
@@ -39,11 +66,12 @@ export function FieldArray({
           <div className="flex flex-col" key={item.id}>
             <div className="mb-2 flex items-center justify-between bg-green-100 p-2">
               {/* Question Header / label */}
-              <input
+              <QuestionHeader index={index} register={register} />
+              {/* <input
                 className="w-[110px] p-1 outline outline-1"
                 placeholder="Question Title"
                 {...register(`fields.${index}.label`)}
-              />
+              /> */}
 
               <Button
                 className="w-14"

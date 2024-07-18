@@ -9,16 +9,15 @@ interface HeaderSectionProps {
   register: UseFormRegister<Form>
 }
 
-export function HeaderSection({ control, register }: HeaderSectionProps) {
+export function FormHeader({ control, register }: HeaderSectionProps) {
   // -- DEBUG --
   const renderCount = useRenderCount()
   // -- DEBUG --
 
-  // problems with this component
-  // Using Controller for input fields
+  // Using custom UI, has runtime overhead because of event tracking by react-hook-form
 
   return (
-    <div className="bg-green-100 p-4">
+    <div className="bg-purple-100 p-4">
       <Controller
         name="header.title"
         control={control}

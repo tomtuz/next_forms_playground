@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import {
   Control,
   useFieldArray,
+  UseFieldArrayRemove,
   UseFormGetValues,
   UseFormRegister,
   UseFormSetValue
@@ -15,11 +16,13 @@ import { NestedFieldArray } from './NestedFieldArray'
 
 interface QuestionHeaderProps {
   index: number
+  remove: UseFieldArrayRemove
   register: UseFormRegister<Form>
 }
 
 export function QuestionHeader({
   index,
+  remove,
   register
 }: Readonly<QuestionHeaderProps>) {
   // -- DEBUG --
@@ -27,15 +30,27 @@ export function QuestionHeader({
   // -- DEBUG --
 
   return (
-    <div className="bg-blue-100 outline outline-1">
-      <input
-        className="w-[110px] p-1 outline outline-1"
-        placeholder="Question Title"
-        {...register(`fields.${index}.label`)}
-      />
-      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span>
+    <div className="mb-2 flex items-center justify-center bg-blue-100 p-4 outline outline-1">
+      <div className="flex w-full items-center justify-center gap-2 bg-blue-200">
+        <input
+          className="w-[110px]"
+          placeholder="Question Title"
+          {...register(`fields.${index}.label`)}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => remove()}
+          className="bg-red-100"
+        >
+          Remove
+        </Button>
+
+        <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
+          <span>{renderCount}</span>
+        </span>
+      </div>
     </div>
   )
 }
@@ -64,23 +79,8 @@ export function FieldArray({
       <div className="m-2 flex items-center justify-center gap-6">
         {fields.map((item, index) => (
           <div className="flex flex-col" key={item.id}>
-            <div className="mb-2 flex items-center justify-between bg-green-100 p-2">
-              {/* Question Header / label */}
-              <QuestionHeader index={index} register={register} />
-              {/* <input
-                className="w-[110px] p-1 outline outline-1"
-                placeholder="Question Title"
-                {...register(`fields.${index}.label`)}
-              /> */}
-
-              <Button
-                className="w-14"
-                type="button"
-                onClick={() => remove(index)}
-              >
-                Delete
-              </Button>
-            </div>
+            {/* Question Header / label */}
+            <QuestionHeader index={index} remove={remove} register={register} />
             {/* NestedArray / Question Answers / options */}
             <NestedFieldArray nestIndex={index} {...{ control, register }} />
           </div>

@@ -5,16 +5,16 @@ import { TestFormRefs } from '@/components/forms/editor/test/TestFormRefs'
 import { TestFormDataApi } from '@/components/forms/editor/test/TestFormDataApi'
 
 export default function TestForm() {
-  const callback = (id: string, phase: string, actualDuration: number) => {
-    console.log(
-      'id: ',
-      id,
-      'phase: ',
-      phase,
-      'actualDuration: ',
-      actualDuration
-    )
-  }
+  // const callback = (id: string, phase: string, actualDuration: number) => {
+  //   console.log(
+  //     'id: ',
+  //     id,
+  //     'phase: ',
+  //     phase,
+  //     'actualDuration: ',
+  //     actualDuration
+  //   )
+  // }
 
   return (
     <div className="flex w-full justify-center gap-4">
@@ -29,9 +29,9 @@ export default function TestForm() {
       </Profiler> */}
 
       <TestFormRefs />
-      <TestFormDataApi />
+      {/* <TestFormDataApi />
       <TestFormReact />
-      <TestFormReactDev />
+      <TestFormReactDev /> */}
     </div>
   )
 }

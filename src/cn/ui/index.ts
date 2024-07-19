@@ -5,7 +5,7 @@ import { Card } from '@/cn/ui/card'
 import { Checkbox } from '@/cn/ui/checkbox'
 import { Drawer } from '@/cn/ui/drawer'
 import { DropdownMenu } from '@/cn/ui/dropdown-menu'
-import { Form } from '@/cn/ui/form'
+import { Form, FormField } from '@/cn/ui/form'
 import { Input } from '@/cn/ui/input'
 import { Label } from '@/cn/ui/label'
 import { Popover } from '@/cn/ui/popover'
@@ -32,6 +32,7 @@ export {
   Drawer,
   DropdownMenu,
   Form,
+  FormField,
   Input,
   Label,
   Popover,

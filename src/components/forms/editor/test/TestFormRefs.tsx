@@ -2,7 +2,21 @@
 
 import { Button } from '@/cn/ui/button'
 import Link from 'next/link'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+// import * as React from 'react'
+
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  forwardRef
+} from 'react'
+
+// import type forwardRef from 'react'
+// import * as React from 'react'
+
 import { v4 as uuidv4 } from 'uuid'
 
 type InputRefCallback = (instance: HTMLInputElement | null) => void
@@ -46,7 +60,25 @@ function useFormState() {
   return { addForm, updateForms, getForms }
 }
 
-export function TestFormRefs() {
+// const FormMessage = React.forwardRef<
+//   HTMLParagraphElement,
+//   React.HTMLAttributes<HTMLParagraphElement>
+// >
+
+// const FormMessage = React.forwardRef<
+//   HTMLParagraphElement,
+//   React.HTMLAttributes<HTMLParagraphElement>
+// >
+
+// function TestFormRefs(): React.HTMLAttributes<HTMLParagraphElement> {
+
+// export declare const FormProvider: <TFieldValues extends FieldValues, TContext = any, TTransformedValues extends FieldValues | undefined = undefined>(props: FormProviderProps<TFieldValues, TContext, TTransformedValues>) => React.JSX.Element;
+// React.JSX.Element,
+
+const TestFormRefs = forwardRef<
+  HTMLParagraphElement,
+  React.HTMLAttributes<HTMLFormElement>
+>(({ className, ...props }, ref) => {
   const [formIds, setFormIds] = useState<string[]>([])
   const { addForm, updateForms, getForms } = useFormState()
   const inputRefs = useRef<{ [key: string]: HTMLInputElement }>({})
@@ -100,9 +132,14 @@ export function TestFormRefs() {
 
   const forms = useMemo(() => getForms(formIds), [getForms, formIds])
 
+  // ref={ref}
+  // className={cn(error && 'text-destructive', className)}
+  // htmlFor={formItemId}
+  // {...props}
+
   return (
     <form className="outline outline-gray-100">
-      <h1>TestFormRefs</h1>
+      <h1 ref={ref}>TestFormRefs</h1>
       <div className="flex flex-col gap-2 bg-pink-200 p-2 outline outline-1">
         {forms.map((form) => (
           <StateInputComp
@@ -121,7 +158,8 @@ export function TestFormRefs() {
       </div>
     </form>
   )
-}
+})
+TestFormRefs.displayName = 'TestFormRefs'
 
 function StateInputComp({
   initialValue,
@@ -138,3 +176,5 @@ function StateInputComp({
 
   return <input value={value} onChange={handleChange} ref={inputRef} />
 }
+
+export { TestFormRefs }

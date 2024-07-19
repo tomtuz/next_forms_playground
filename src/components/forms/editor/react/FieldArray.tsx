@@ -1,56 +1,75 @@
-import React, { useCallback, useState } from 'react'
-import { FieldType, Form } from '@/types/react'
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import { Form } from '@/types/react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
 import { Button } from '@/cn/ui'
-import { QuestionField } from './QuestionField'
-import { QuestionHeader } from './QuestionHeader'
+import { Question } from './memoized/Question'
+import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
+import { AnswerField } from './AnswerField'
+import { QuestionTitle } from './QuestionTitle'
+import clsx from 'clsx'
 
 interface FieldArrayProps {
   form: UseFormReturn<Form, any, undefined>
 }
 
-const defaultFieldType: FieldType = 'text'
-
 export function FieldArray({ form }: Readonly<FieldArrayProps>) {
-  const [lastUsedType, setLastUsedType] = useState<FieldType>(defaultFieldType)
-  // Selected Question index state for outline
+  const renderCount = useRenderCount()
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<
     number | null
   >(null)
 
-  const { fields, append, remove, prepend } = useFieldArray({
+  const newQuestionRef = useRef<number | null>(null)
+
+  const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'fields'
   })
 
   const addQuestion = useCallback(() => {
     append({ label: '', type: 'text', options: [] })
-    // setSelectedQuestionIndex(fields.length)
+    newQuestionRef.current = fields.length
   }, [append, fields.length])
 
+  const handleQuestionSelect = useCallback((index: number) => {
+    setSelectedQuestionIndex((prevIndex) =>
+      prevIndex === index ? null : index
+    )
+  }, [])
+
+  useEffect(() => {
+    if (newQuestionRef.current !== null) {
+      setSelectedQuestionIndex(newQuestionRef.current)
+      newQuestionRef.current = null
+    }
+  }, [fields.length])
+
   return (
-    <div>
-      <div>Hello</div>
+    <div className="p-4">
+      {/* {memoizedQuestions} */}
       {fields.map((field, index) => (
-        <div key={field.id}>
-          <QuestionHeader
+        <div
+          key={`${field.id}-div`}
+          className={clsx(
+            'mb-4 rounded border bg-red-100',
+            selectedQuestionIndex === index && 'ring-2 ring-blue-500'
+          )}
+        >
+          <Question
+            key={field.id}
+            field={field}
             index={index}
             control={form.control}
             remove={remove}
-          />
-          <QuestionField
-            key={field.id}
-            index={index}
-            control={form.control}
-            register={form.register}
-            setLastUsedType={setLastUsedType}
-            isSelected={index === selectedQuestionIndex}
+            isSelected={selectedQuestionIndex === index}
+            onSelect={handleQuestionSelect}
           />
         </div>
       ))}
+
       <Button type="button" onClick={addQuestion}>
         Add Question
       </Button>
+      {renderCountElement(renderCount, 'FieldArray')}
     </div>
   )
 }

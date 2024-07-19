@@ -1,8 +1,8 @@
 {
   // make sure next rules are last
   "extends": [
-    "airbnb",
-    "airbnb-typescript",
+    // "airbnb",
+    // "airbnb-typescript",
     "prettier",
     "next/core-web-vitals"
   ],

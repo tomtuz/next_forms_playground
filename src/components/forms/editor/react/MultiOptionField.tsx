@@ -2,6 +2,7 @@ import React from 'react'
 import { Control, useFieldArray, Controller } from 'react-hook-form'
 import { Input, Checkbox, Button } from '@/cn/ui'
 import { Form } from '@/types/react'
+import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 
 interface MultiOptionFieldProps {
   fieldIndex: number
@@ -14,13 +15,16 @@ export function MultiOptionField({
   control,
   type
 }: MultiOptionFieldProps) {
+  // -- DEBUG --
+  const renderCount = useRenderCount()
+  // -- DEBUG --
   const { fields, append, remove } = useFieldArray({
     control,
     name: `fields.${fieldIndex}.options`
   })
 
   return (
-    <div>
+    <div className="relative bg-orange-100 p-2">
       {fields.map((option, optionIndex) => (
         <div key={option.id} className="mb-2 flex items-center">
           {/* // chebkox OR numbered list */}
@@ -58,6 +62,7 @@ export function MultiOptionField({
       >
         Add Option
       </Button>
+      {renderCountElement(renderCount, 'MultiOptionField')}
     </div>
   )
 }

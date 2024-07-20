@@ -122,3 +122,28 @@ Comparison:
 - `dnd-kit`: ease of use and out of the box appearance, which is great for small projects.
 - `react-beautiful-dnd`: aims for performance and low level customization, for this reason, development experience might have a steeper learning curve, requiring more manual customization, thus being more fit for enterprise grade solutions.
 - `react-beautiful-dnd`: industry standard for a long time, but currently Atlassian focuses on other priorities and the development could be considered to be in a stale state.
+
+# React Hooks Form:
+
+There are a couple of ways to manage form state with the help of react-hook-form.
+
+**Regular approach:** pass props normally (prop drilling)
+
+**Problems with regular approach:**
+
+- verbose
+- might require early adoption of state management
+- do not explicitly isolate the scopes of functionality, which is the leading cause of rerender issues, as states that crosses scopes of components are bound to cause redraws.
+
+**With react-hook-form we can use:**
+
+- a centralized useFormState hook which would hold all the state management functionality in one place
+- a FormProvider to pass context of the form without prop drilling, with useFormContext
+
+**Problems with centralized useFormState hook:**
+
+1. this hook will end up holding multiple react-hook-form hooks, event update handler functions all of which will be used somwhere else and will need to be 'tracked down' when something goes wrong while reviewing each component individually. So its simpler to setup, than to debug.
+
+**Problems with centralized useFormState hook:**
+
+1. Using useFormContext hook could be considered an antipattern, because it decouples strong links between components and does not give immediate updates, when changed values do not represent the correct structure. So its easier to make mistakes.

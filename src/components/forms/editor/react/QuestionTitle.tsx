@@ -1,18 +1,16 @@
 import { Button, Input } from '@/cn/ui'
 import { Form } from '@/types/react'
-import { Control, Controller } from 'react-hook-form'
+import { UseFieldArrayRemove, useFormContext } from 'react-hook-form'
 import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
 
 interface QuestionHeaderProps {
   index: number
-  control: Control<Form>
-  remove: () => void
+  remove: UseFieldArrayRemove
 }
 
-export function QuestionTitle({ index, control, remove }: QuestionHeaderProps) {
-  // -- DEBUG --
+export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { register } = useFormContext<Form>()
 
   return (
     <div className="relative mb-2 flex items-center justify-center bg-blue-100 p-4 outline outline-1">
@@ -20,19 +18,15 @@ export function QuestionTitle({ index, control, remove }: QuestionHeaderProps) {
         <div className="flex flex-col">
           <div>Question Title</div>
           <div className="flex">
-            <Controller
-              name={`fields.${index}.label`}
-              control={control}
-              render={({ field }) => (
-                <Input {...field} placeholder="Question" className="w-full" />
-              )}
+            <input
+              {...register(`fields.${index}.label`)}
+              placeholder="Question"
+              className="w-full"
             />
-
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={remove}
               className="bg-red-100"
             >
               Remove

@@ -1,27 +1,23 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { Form } from '@/types/react'
-import { useFieldArray, UseFormReturn } from 'react-hook-form'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Question } from './memoized/Question'
 import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
-import { AnswerField } from './AnswerField'
-import { QuestionTitle } from './QuestionTitle'
 import clsx from 'clsx'
 
-interface FieldArrayProps {
-  form: UseFormReturn<Form, any, undefined>
-}
-
-export function FieldArray({ form }: Readonly<FieldArrayProps>) {
+export function FieldArray() {
   const renderCount = useRenderCount()
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<
     number | null
   >(null)
-
   const newQuestionRef = useRef<number | null>(null)
 
+  // Use useFormContext to access form methods
+  const { control } = useFormContext<Form>()
+
   const { fields, append, remove } = useFieldArray({
-    control: form.control,
+    control,
     name: 'fields'
   })
 
@@ -45,7 +41,6 @@ export function FieldArray({ form }: Readonly<FieldArrayProps>) {
 
   return (
     <div className="p-4">
-      {/* {memoizedQuestions} */}
       {fields.map((field, index) => (
         <div
           key={`${field.id}-div`}
@@ -58,7 +53,6 @@ export function FieldArray({ form }: Readonly<FieldArrayProps>) {
             key={field.id}
             field={field}
             index={index}
-            control={form.control}
             remove={remove}
             isSelected={selectedQuestionIndex === index}
             onSelect={handleQuestionSelect}

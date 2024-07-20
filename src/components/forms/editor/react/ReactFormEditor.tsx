@@ -1,9 +1,8 @@
 'use client'
 
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { Button } from '@cn/ui/button'
-import { Form as FormWrap } from '@cn/ui/form'
 import type { Form } from '@/types/react'
 import { FormHeader } from './FormHeader'
 import { FieldArray } from './FieldArray'
@@ -14,10 +13,12 @@ const defaultValues: Form = {
 }
 
 export function ReactFormEditor() {
-  const form = useForm<Form>({
+  // Use useForm hook to manage form state
+  const methods = useForm<Form>({
     defaultValues
   })
 
+  // Form submission handler
   const onSubmit = (data: Form) => {
     try {
       console.log(JSON.stringify(data, null, 2))
@@ -26,18 +27,23 @@ export function ReactFormEditor() {
     }
   }
 
+  // Handler to print current form data
   const handlePrintData = () => {
-    const data = form.getValues()
+    const data = methods.getValues()
     console.log(JSON.stringify(data, null, 2))
   }
 
   return (
-    <FormWrap {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+    // Provide form context to child components
+    <FormProvider {...methods}>
+      <form
+        onSubmit={methods.handleSubmit(onSubmit)}
+        className="w-2/3 space-y-6"
+      >
         <h1 className="w-full p-4 text-center text-3xl">React Base</h1>
 
-        <FormHeader control={form.control} />
-        <FieldArray form={form} />
+        <FormHeader />
+        <FieldArray />
 
         <div className="flex space-x-4">
           <Button type="submit">Submit Form</Button>
@@ -46,6 +52,6 @@ export function ReactFormEditor() {
           </Button>
         </div>
       </form>
-    </FormWrap>
+    </FormProvider>
   )
 }

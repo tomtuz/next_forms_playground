@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  Control,
-  useFormContext,
-  UseFormRegister,
-  useWatch
-} from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import clsx from 'clsx'
 
 import { Form, FieldType } from '@/types/react'
@@ -12,23 +7,18 @@ import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 import { AnswerPlaceholder } from './AnswerPlaceholder'
 import { AnswerTypeSelect } from './AnswerTypeSelect'
 
-interface SortableInputFieldProps {
+interface AnswerFieldProps {
   index: number
-  control: Control<Form>
   onAnswerTypeSelectOpen: () => void
 }
 
-// Nested field array
 export function AnswerField({
   index,
-  control,
   onAnswerTypeSelectOpen
-}: SortableInputFieldProps) {
-  // -- DEBUG --
+}: AnswerFieldProps) {
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { control } = useFormContext<Form>()
 
-  const { register } = useFormContext<Form>()
   const fieldType = useWatch({
     control,
     name: `fields.${index}.type`,
@@ -37,17 +27,9 @@ export function AnswerField({
 
   return (
     <div className={clsx('mb-4 rounded bg-red-100 p-4 outline outline-1')}>
-      <AnswerTypeSelect
-        nestIndex={index}
-        control={control}
-        onOpen={onAnswerTypeSelectOpen}
-      />
+      <AnswerTypeSelect nestIndex={index} onOpen={onAnswerTypeSelectOpen} />
 
-      <AnswerPlaceholder
-        fieldType={fieldType}
-        nestIndex={index}
-        control={control}
-      />
+      <AnswerPlaceholder fieldType={fieldType} nestIndex={index} />
       {renderCountElement(renderCount, 'AnswerField')}
     </div>
   )

@@ -1,10 +1,12 @@
+'use client'
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger
 } from '@radix-ui/react-tooltip'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 export function useRenderCount(): number {
   const renderCount = useRef(0)
@@ -18,8 +20,7 @@ export function useRenderCount(): number {
 
 export const renderCountElement = (
   count: number,
-  name: string = 'GenericElement',
-  shift: number = 1
+  name: string = 'GenericElement'
 ) => (
   <div>
     <TooltipProvider delayDuration={0}>

@@ -1,10 +1,5 @@
 import React from 'react'
-import {
-  Control,
-  Controller,
-  useFormContext,
-  UseFormRegister
-} from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { Input, Textarea } from '@/cn/ui'
 import { Form, FieldType } from '@/types/react'
 import { MultiOptionField } from './MultiOptionField'
@@ -12,13 +7,11 @@ import { MultiOptionField } from './MultiOptionField'
 interface AnswerPlaceholderProps {
   fieldType: FieldType
   nestIndex: number
-  control: Control<Form>
 }
 
 export function AnswerPlaceholder({
   fieldType,
-  nestIndex,
-  control
+  nestIndex
 }: AnswerPlaceholderProps) {
   const { register } = useFormContext<Form>()
 
@@ -30,64 +23,37 @@ export function AnswerPlaceholder({
           type="text"
           placeholder="Text answer..."
         />
-        // <Controller
-        //   name={`fields.${nestIndex}.options.0.label`}
-        //   control={control}
-        //   render={({ field }) => (
-        //     // <Input {...field} type="text" placeholder="Text answer..." />
-        //     <input {...field} type="text" placeholder="Text answer..." />
-        //   )}
-        //   defaultValue=""
-        // />
       )
 
     case 'number':
       return (
-        <Controller
-          name={`fields.${nestIndex}.options.0.label`}
-          control={control}
-          render={({ field }) => (
-            <Input {...field} type="number" placeholder="Number answer..." />
-          )}
-          defaultValue=""
+        <Input
+          {...register(`fields.${nestIndex}.options.0.label`, {
+            valueAsNumber: true
+          })}
+          type="number"
+          placeholder="Number answer..."
         />
       )
 
     case 'textarea':
       return (
-        <Controller
-          name={`fields.${nestIndex}.options.0.label`}
-          control={control}
-          render={({ field }) => (
-            <Textarea {...field} placeholder="TextArea answer..." />
-          )}
-          defaultValue=""
+        <Textarea
+          {...register(`fields.${nestIndex}.options.0.label`)}
+          placeholder="TextArea answer..."
         />
       )
 
     case 'checkbox':
-      return (
-        <MultiOptionField
-          fieldIndex={nestIndex}
-          control={control}
-          type="checkbox"
-        />
-      )
+      return <MultiOptionField fieldIndex={nestIndex} type="checkbox" />
 
     case 'file':
       return <Input type="file" />
 
     case 'select':
-      return (
-        <MultiOptionField
-          fieldIndex={nestIndex}
-          control={control}
-          type="select"
-        />
-      )
+      return <MultiOptionField fieldIndex={nestIndex} type="select" />
 
     default:
       return null
   }
 }
-AnswerPlaceholder.displayName = 'AnswerPlaceholder'

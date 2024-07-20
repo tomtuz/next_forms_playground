@@ -1,5 +1,5 @@
 import React from 'react'
-import { Control, Controller, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import {
   Select,
   SelectTrigger,
@@ -9,11 +9,9 @@ import {
 } from '@/cn/ui/select'
 import { Form, FieldType } from '@/types/react'
 import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
-import { register } from 'module'
 
 interface FieldTypeSelectProps {
   nestIndex: number
-  control?: Control<Form> | undefined
   onOpen?: () => void
 }
 
@@ -26,42 +24,30 @@ const fieldTypes: FieldType[] = [
   'select'
 ]
 
-export function AnswerTypeSelect({
-  nestIndex,
-  control,
-  onOpen
-}: FieldTypeSelectProps) {
-  // -- DEBUG --
+export function AnswerTypeSelect({ nestIndex, onOpen }: FieldTypeSelectProps) {
   const renderCount = useRenderCount()
-  // -- DEBUG --
-  const { register } = useFormContext<Form>()
+  const { setValue, getValues } = useFormContext<Form>()
 
   return (
     <div className="bg-yellow-200 p-2">
-      <Controller
-        name={`fields.${nestIndex}.type`}
-        control={control}
-        render={({ field }) => (
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <SelectTrigger className="mb-2 w-full">
-              <SelectValue placeholder="Select answer type" />
-            </SelectTrigger>
-            <SelectContent>
-              {fieldTypes.map((type) => (
-                <SelectItem key={type} value={type}>
-                  {type}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )}
-      />
-      {/* 
-      <select {...register(`fields.${nestIndex}.type`)}>
-        <option value="text">text</option>
-        <option value="number">number</option>
-        <option value="textarea">textarea</option>
-      </select> */}
+      <Select
+        onValueChange={(value) =>
+          setValue(`fields.${nestIndex}.type`, value as FieldType)
+        }
+        defaultValue={getValues(`fields.${nestIndex}.type`)}
+        onOpenChange={(open) => open && onOpen && onOpen()}
+      >
+        <SelectTrigger className="mb-2 w-full">
+          <SelectValue placeholder="Select answer type" />
+        </SelectTrigger>
+        <SelectContent>
+          {fieldTypes.map((type) => (
+            <SelectItem key={type} value={type}>
+              {type}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
       {renderCountElement(renderCount, 'AnswerTypeSelect')}
     </div>
   )

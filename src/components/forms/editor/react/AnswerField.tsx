@@ -1,32 +1,30 @@
 import React from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
-import { Form, FieldType } from '@/types/react'
+import { Form } from '@/types/react'
 import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 import { AnswerTypeSelect } from './AnswerTypeSelect'
 import { AnswerPlaceholder } from './AnswerPlaceholder'
+import { FieldArrayWithId } from 'react-hook-form'
 
 interface AnswerFieldProps {
   index: number
-  onAnswerTypeSelectOpen: () => void
+  field: FieldArrayWithId<Form, 'fields', 'id'>
+  onSelect: (index: number) => void
 }
 
-export function AnswerField({
-  index,
-  onAnswerTypeSelectOpen
-}: AnswerFieldProps) {
-  const renderCount = useRenderCount()
-  const { control } = useFormContext<Form>()
+const MemoizedAnswerTypeSelect = React.memo(AnswerTypeSelect)
+const MemoizedAnswerPlaceholder = React.memo(AnswerPlaceholder)
 
-  const fieldType = useWatch({
-    control,
-    name: `fields.${index}.type`,
-    defaultValue: 'text' as FieldType
-  })
+export function AnswerField({ index, field, onSelect }: AnswerFieldProps) {
+  const renderCount = useRenderCount()
 
   return (
     <div className="mb-4 rounded bg-red-100 p-4 outline outline-1">
-      <AnswerTypeSelect nestIndex={index} onOpen={onAnswerTypeSelectOpen} />
-      <AnswerPlaceholder fieldType={fieldType} nestIndex={index} />
+      <MemoizedAnswerTypeSelect
+        index={index}
+        onSelect={onSelect}
+        field={field}
+      />
+      <MemoizedAnswerPlaceholder field={field} index={index} />
       {renderCountElement(renderCount, 'AnswerField')}
     </div>
   )

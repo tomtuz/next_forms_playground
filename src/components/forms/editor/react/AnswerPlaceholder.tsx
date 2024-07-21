@@ -1,25 +1,29 @@
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
+import { FieldArrayWithId, useFormContext, useWatch } from 'react-hook-form'
 import { Input, Textarea } from '@/cn/ui'
 import { Form, FieldType } from '@/types/react'
 import { MultiOptionField } from './MultiOptionField'
 
 interface AnswerPlaceholderProps {
-  fieldType: FieldType
-  nestIndex: number
+  index: number
+  field: FieldArrayWithId<Form, 'fields', 'id'>
 }
 
-export function AnswerPlaceholder({
-  fieldType,
-  nestIndex
-}: AnswerPlaceholderProps) {
+export function AnswerPlaceholder({ field, index }: AnswerPlaceholderProps) {
   const { register } = useFormContext<Form>()
+  const { control } = useFormContext<Form>()
+
+  const fieldType = useWatch({
+    control,
+    name: `fields.${index}.type`,
+    defaultValue: field.type as FieldType
+  })
 
   switch (fieldType) {
     case 'text':
       return (
         <input
-          {...register(`fields.${nestIndex}.options.0.label`)}
+          {...register(`fields.${index}.options.0.label`)}
           type="text"
           placeholder="Text answer..."
         />
@@ -28,7 +32,7 @@ export function AnswerPlaceholder({
     case 'number':
       return (
         <input
-          {...register(`fields.${nestIndex}.options.0.label`, {
+          {...register(`fields.${index}.options.0.label`, {
             valueAsNumber: true
           })}
           type="number"
@@ -39,19 +43,19 @@ export function AnswerPlaceholder({
     case 'textarea':
       return (
         <Textarea
-          {...register(`fields.${nestIndex}.options.0.label`)}
+          {...register(`fields.${index}.options.0.label`)}
           placeholder="TextArea answer..."
         />
       )
 
     case 'checkbox':
-      return <MultiOptionField fieldIndex={nestIndex} type="checkbox" />
+      return <MultiOptionField fieldIndex={index} type="checkbox" />
 
     case 'file':
       return <Input type="file" />
 
     case 'select':
-      return <MultiOptionField fieldIndex={nestIndex} type="select" />
+      return <MultiOptionField fieldIndex={index} type="select" />
 
     default:
       return null

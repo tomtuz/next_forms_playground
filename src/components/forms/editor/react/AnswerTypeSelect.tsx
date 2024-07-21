@@ -1,5 +1,4 @@
-import React from 'react'
-import { useFormContext, useWatch } from 'react-hook-form'
+import React, { useCallback } from 'react'
 import {
   Select,
   SelectTrigger,
@@ -7,12 +6,14 @@ import {
   SelectContent,
   SelectItem
 } from '@/cn/ui/select'
-import { Form, FieldType } from '@/types/react'
+import { FieldType, Form } from '@/types/react'
 import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
+import { FieldArrayWithId, useFormContext, useWatch } from 'react-hook-form'
 
 interface AnswerTypeSelectProps {
-  nestIndex: number
-  onOpen: () => void
+  index: number
+  onSelect: (index: number) => void
+  field: FieldArrayWithId<Form, 'fields', 'id'>
 }
 
 const fieldTypes: FieldType[] = [
@@ -24,28 +25,52 @@ const fieldTypes: FieldType[] = [
   'select'
 ]
 
-export function AnswerTypeSelect({ nestIndex, onOpen }: AnswerTypeSelectProps) {
+export function AnswerTypeSelect({
+  index,
+  onSelect,
+  field
+}: AnswerTypeSelectProps) {
   const renderCount = useRenderCount()
+
   const { control, setValue } = useFormContext<Form>()
 
   const fieldType = useWatch({
     control,
-    name: `fields.${nestIndex}.type`,
-    defaultValue: 'text' as FieldType
+    name: `fields.${index}.type`,
+    defaultValue: field.type as FieldType
   })
 
-  const handleTypeChange = (value: string) => {
-    setValue(`fields.${nestIndex}.type`, value as FieldType, {
-      shouldDirty: true
-    })
-  }
+  const handleAnswerTypeSelectOpen = useCallback(() => {
+    onSelect(index)
+  }, [onSelect, index])
+
+  const handleFieldTypeChange = useCallback(
+    (type: FieldType) => {
+      setValue(`fields.${index}.type`, type, { shouldDirty: true })
+    },
+    [setValue, index]
+  )
+
+  const handleTypeChange = useCallback(
+    (value: string) => {
+      handleFieldTypeChange(value as FieldType)
+    },
+    [handleFieldTypeChange]
+  )
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (open) handleAnswerTypeSelectOpen()
+    },
+    [handleAnswerTypeSelectOpen]
+  )
 
   return (
     <div className="bg-yellow-200 p-2">
       <Select
         onValueChange={handleTypeChange}
         value={fieldType}
-        onOpenChange={(open) => open && onOpen()}
+        onOpenChange={handleOpenChange}
       >
         <SelectTrigger className="mb-2 w-full">
           <SelectValue placeholder="Select answer type" />

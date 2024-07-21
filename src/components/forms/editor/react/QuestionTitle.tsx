@@ -1,14 +1,18 @@
-import { Button, Input } from '@/cn/ui'
+import React from 'react'
+import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
-import { UseFieldArrayRemove, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
 
-interface QuestionHeaderProps {
+interface QuestionTitleProps {
   index: number
-  remove: (index: number) => void
+  remove: () => void
 }
 
-export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
+export const QuestionTitle = React.memo(function QuestionTitle({
+  index,
+  remove
+}: QuestionTitleProps) {
   const renderCount = useRenderCount()
   const { register } = useFormContext<Form>()
 
@@ -28,7 +32,7 @@ export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
               variant="outline"
               size="sm"
               className="bg-red-100"
-              onClick={() => remove(index)}
+              onClick={remove}
             >
               Remove
             </Button>
@@ -38,4 +42,4 @@ export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
       {renderCountElement(renderCount, 'QuestionTitle')}
     </div>
   )
-}
+})

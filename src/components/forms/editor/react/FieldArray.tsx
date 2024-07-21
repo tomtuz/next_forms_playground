@@ -1,19 +1,18 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { Form } from '@/types/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
-import { Button } from '@/cn/ui'
+import { Button } from '@cn/ui'
 import { Question } from './memoized/Question'
 import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
 import clsx from 'clsx'
 
 export function FieldArray() {
   const renderCount = useRenderCount()
-  const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<
-    number | null
-  >(null)
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(
+    null
+  )
   const newQuestionRef = useRef<number | null>(null)
 
-  // Use useFormContext to access form methods
   const { control } = useFormContext<Form>()
 
   const { fields, append, remove } = useFieldArray({
@@ -26,15 +25,23 @@ export function FieldArray() {
     newQuestionRef.current = fields.length
   }, [append, fields.length])
 
-  const handleQuestionSelect = useCallback((index: number) => {
-    setSelectedQuestionIndex((prevIndex) =>
-      prevIndex === index ? null : index
-    )
+  const handleQuestionActive = useCallback((index: number) => {
+    setActiveQuestionIndex(index)
   }, [])
+
+  const handleRemove = useCallback(
+    (index: number) => {
+      remove(index)
+      if (activeQuestionIndex === index) {
+        setActiveQuestionIndex(null)
+      }
+    },
+    [remove, activeQuestionIndex]
+  )
 
   useEffect(() => {
     if (newQuestionRef.current !== null) {
-      setSelectedQuestionIndex(newQuestionRef.current)
+      setActiveQuestionIndex(newQuestionRef.current)
       newQuestionRef.current = null
     }
   }, [fields.length])
@@ -46,16 +53,16 @@ export function FieldArray() {
           key={`${field.id}-div`}
           className={clsx(
             'mb-4 rounded border bg-red-100',
-            selectedQuestionIndex === index && 'ring-2 ring-blue-500'
+            activeQuestionIndex === index && 'ring-2 ring-blue-500'
           )}
+          onClick={() => handleQuestionActive(index)}
         >
           <Question
             key={field.id}
             field={field}
             index={index}
-            remove={remove}
-            isSelected={selectedQuestionIndex === index}
-            onSelect={handleQuestionSelect}
+            remove={handleRemove}
+            onSelect={handleQuestionActive}
           />
         </div>
       ))}

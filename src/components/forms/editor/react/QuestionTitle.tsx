@@ -5,7 +5,7 @@ import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
 
 interface QuestionHeaderProps {
   index: number
-  remove: UseFieldArrayRemove
+  remove: (index: number) => void
 }
 
 export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
@@ -28,6 +28,7 @@ export function QuestionTitle({ index, remove }: QuestionHeaderProps) {
               variant="outline"
               size="sm"
               className="bg-red-100"
+              onClick={() => remove(index)}
             >
               Remove
             </Button>

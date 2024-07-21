@@ -27,7 +27,7 @@ export function AnswerPlaceholder({
 
     case 'number':
       return (
-        <Input
+        <input
           {...register(`fields.${nestIndex}.options.0.label`, {
             valueAsNumber: true
           })}

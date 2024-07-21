@@ -24,16 +24,34 @@ const fieldTypes: FieldType[] = [
   'select'
 ]
 
-export function AnswerTypeSelect({ nestIndex, onOpen }: FieldTypeSelectProps) {
+export const AnswerTypeSelect = React.memo(function AnswerTypeSelect({
+  nestIndex,
+  onOpen
+}: FieldTypeSelectProps) {
   const renderCount = useRenderCount()
   const { setValue, getValues } = useFormContext<Form>()
+
+  const handleTypeChange = (value: string) => {
+    setValue(`fields.${nestIndex}.type`, value as FieldType, {
+      shouldDirty: true
+    })
+
+    // Reset options when changing type
+    if (value === 'checkbox' || value === 'select') {
+      setValue(`fields.${nestIndex}.options`, [{ label: '' }], {
+        shouldDirty: true
+      })
+    } else {
+      setValue(`fields.${nestIndex}.options`, [{ label: '' }], {
+        shouldDirty: true
+      })
+    }
+  }
 
   return (
     <div className="bg-yellow-200 p-2">
       <Select
-        onValueChange={(value) =>
-          setValue(`fields.${nestIndex}.type`, value as FieldType)
-        }
+        onValueChange={handleTypeChange}
         defaultValue={getValues(`fields.${nestIndex}.type`)}
         onOpenChange={(open) => open && onOpen && onOpen()}
       >
@@ -51,4 +69,4 @@ export function AnswerTypeSelect({ nestIndex, onOpen }: FieldTypeSelectProps) {
       {renderCountElement(renderCount, 'AnswerTypeSelect')}
     </div>
   )
-}
+})

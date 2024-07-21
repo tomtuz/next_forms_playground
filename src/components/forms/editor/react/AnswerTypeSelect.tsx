@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import {
   Select,
   SelectTrigger,
@@ -10,9 +10,9 @@ import {
 import { Form, FieldType } from '@/types/react'
 import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 
-interface FieldTypeSelectProps {
+interface AnswerTypeSelectProps {
   nestIndex: number
-  onOpen?: () => void
+  onOpen: () => void
 }
 
 const fieldTypes: FieldType[] = [
@@ -24,36 +24,28 @@ const fieldTypes: FieldType[] = [
   'select'
 ]
 
-export const AnswerTypeSelect = React.memo(function AnswerTypeSelect({
-  nestIndex,
-  onOpen
-}: FieldTypeSelectProps) {
+export function AnswerTypeSelect({ nestIndex, onOpen }: AnswerTypeSelectProps) {
   const renderCount = useRenderCount()
-  const { setValue, getValues } = useFormContext<Form>()
+  const { control, setValue } = useFormContext<Form>()
+
+  const fieldType = useWatch({
+    control,
+    name: `fields.${nestIndex}.type`,
+    defaultValue: 'text' as FieldType
+  })
 
   const handleTypeChange = (value: string) => {
     setValue(`fields.${nestIndex}.type`, value as FieldType, {
       shouldDirty: true
     })
-
-    // Reset options when changing type
-    if (value === 'checkbox' || value === 'select') {
-      setValue(`fields.${nestIndex}.options`, [{ label: '' }], {
-        shouldDirty: true
-      })
-    } else {
-      setValue(`fields.${nestIndex}.options`, [{ label: '' }], {
-        shouldDirty: true
-      })
-    }
   }
 
   return (
     <div className="bg-yellow-200 p-2">
       <Select
         onValueChange={handleTypeChange}
-        defaultValue={getValues(`fields.${nestIndex}.type`)}
-        onOpenChange={(open) => open && onOpen && onOpen()}
+        value={fieldType}
+        onOpenChange={(open) => open && onOpen()}
       >
         <SelectTrigger className="mb-2 w-full">
           <SelectValue placeholder="Select answer type" />
@@ -69,4 +61,4 @@ export const AnswerTypeSelect = React.memo(function AnswerTypeSelect({
       {renderCountElement(renderCount, 'AnswerTypeSelect')}
     </div>
   )
-})
+}

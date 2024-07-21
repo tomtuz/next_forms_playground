@@ -9,7 +9,7 @@ import clsx from 'clsx'
 export function FieldArray() {
   const renderCount = useRenderCount()
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(
-    null
+    0
   )
   const newQuestionRef = useRef<number | null>(null)
 
@@ -52,8 +52,8 @@ export function FieldArray() {
         <div
           key={`${field.id}-div`}
           className={clsx(
-            'mb-4 rounded border bg-red-100',
-            activeQuestionIndex === index && 'ring-2 ring-blue-500'
+            'mb-4 rounded border bg-red-100'
+            // activeQuestionIndex === index && 'ring-2 ring-blue-500'
           )}
           onClick={() => handleQuestionActive(index)}
         >
@@ -63,6 +63,7 @@ export function FieldArray() {
             index={index}
             remove={handleRemove}
             onSelect={handleQuestionActive}
+            isSelected={activeQuestionIndex === index}
           />
         </div>
       ))}

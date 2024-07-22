@@ -13,9 +13,6 @@ interface QuestionProps {
   onSelect: (index: number) => void
 }
 
-const MemoizedQuestionTitle = React.memo(QuestionTitle)
-const MemoizedAnswerField = React.memo(AnswerField)
-
 export function Question({
   field,
   index,
@@ -37,8 +34,8 @@ export function Question({
       onClick={handleQuestionSelect}
       className={isSelected ? 'ring-2 ring-blue-500' : ''}
     >
-      <MemoizedQuestionTitle index={index} remove={handleRemove} />
-      <MemoizedAnswerField index={index} field={field} onSelect={onSelect} />
+      <QuestionTitle index={index} remove={handleRemove} />
+      <AnswerField index={index} field={field} onSelect={onSelect} />
       {renderCountElement(renderCount, `Question: ${index}`)}
     </div>
   )

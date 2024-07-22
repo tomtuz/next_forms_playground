@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react'
+import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
 import { Form } from '@/types/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@/cn/ui'
@@ -12,7 +12,7 @@ export function FieldArray() {
     0
   )
   const activeQuestionIndexRef = useRef<number | null>(activeQuestionIndex)
-  const newQuestionRef = useRef<number | null>(null)
+  const newQuestionRef = useRef<number | null>(0)
 
   const { control } = useFormContext<Form>()
 
@@ -51,9 +51,9 @@ export function FieldArray() {
     }
   }, [fields.length])
 
-  return (
-    <div className="p-4">
-      {fields.map((field, index) => (
+  const formInputs = React.useMemo(
+    () =>
+      fields.map((field, index) => (
         <div
           key={`${field.id}-div`}
           className={clsx(
@@ -70,8 +70,13 @@ export function FieldArray() {
             isSelected={activeQuestionIndex === index}
           />
         </div>
-      ))}
+      )),
+    [handleQuestionActive, handleRemove, fields.length]
+  )
 
+  return (
+    <div className="p-4">
+      {formInputs}
       <Button type="button" onClick={addQuestion}>
         Add Question
       </Button>

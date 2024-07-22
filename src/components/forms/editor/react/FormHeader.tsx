@@ -2,14 +2,10 @@ import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Form } from '@/types/react'
 import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
-import { FormItem, FormLabel } from '@/cn/ui/form'
 import { Input } from '@/cn/ui'
 
 export function FormHeader() {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
-
   const { register } = useFormContext<Form>()
 
   return (

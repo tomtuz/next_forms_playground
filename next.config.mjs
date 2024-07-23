@@ -30,7 +30,17 @@
 
 // default config
 // -----------------
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {}
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  // webpack: (config, context) => {
+  //   injectWhyDidYouRender(config, context)
+  //   return config
+  // },
+  transpilePackages: ['jotai-devtools'],
+  reactStrictMode: true
+}
 
 export default nextConfig

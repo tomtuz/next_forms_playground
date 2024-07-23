@@ -6,7 +6,6 @@ import { Toaster } from '@/cn/ui/toaster'
 import { cn } from '@/lib/utils'
 
 import { FormProvider } from '@/contexts/FormContext'
-import { FormReactProvider } from '@/contexts/FormReactContext'
 import Header from '@/components/ui/Header'
 
 const fontSans = FontSans({
@@ -28,9 +27,7 @@ export default function RootLayout({
         )}
       >
         <Header />
-        <FormProvider>
-          <FormReactProvider>{children}</FormReactProvider>
-        </FormProvider>
+        <FormProvider>{children}</FormProvider>
         <Toaster />
       </body>
     </html>

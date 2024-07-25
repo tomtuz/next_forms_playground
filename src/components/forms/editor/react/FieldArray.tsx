@@ -1,28 +1,48 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react'
+import React, { useRef, useEffect, useState, useCallback, memo } from 'react'
 import { Form } from '@/types/react'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import { Button } from '@/cn/ui'
-import { Question } from './memoized/Question'
-import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
+import { QuestionComponent } from './memoized/Question'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import clsx from 'clsx'
 
+export const QuestionMemo = memo(QuestionComponent)
+
 export function FieldArray() {
-  const renderCount = useRenderCount()
+  const renderCount2 = useRenderCount()
+  const { renderCount, RenderCountVisualizer } = useRenderCountFull(
+    'FieldArray',
+    true
+  )
+
   const [activeQuestionIndex, setActiveQuestionIndex] = useState<number | null>(
     0
   )
   const activeQuestionIndexRef = useRef<number | null>(activeQuestionIndex)
   const newQuestionRef = useRef<number | null>(0)
 
-  const { control } = useFormContext<Form>()
+  const { control, reset } = useFormContext<Form>()
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'fields'
   })
 
+  // const renderHandler = useCallback(function resetHandler() {
+  //   rerender(!render)
+  // }, [])
+
+  const resetHandler = useCallback(function resetHandler() {
+    reset({
+      header: { title: '', description: '' },
+      fields: []
+    })
+  }, [])
+
   useEffect(() => {
     activeQuestionIndexRef.current = activeQuestionIndex
+    console.log('activeQuestionIndexRef: ', activeQuestionIndexRef)
   }, [activeQuestionIndex])
 
   const handleRemove = useCallback(
@@ -38,6 +58,13 @@ export function FieldArray() {
   const addQuestion = useCallback(() => {
     append({ label: '', type: 'text', options: [] })
     newQuestionRef.current = fields.length
+    // updateHistory()
+    newQuestionRef.current = renderCount2
+
+    // setFields((currentFields) => {
+    //   newQuestionRef.current = currentFields.length
+    //   return currentFields
+    // })
   }, [append, fields.length])
 
   const handleQuestionActive = useCallback((index: number) => {
@@ -51,17 +78,15 @@ export function FieldArray() {
     }
   }, [fields.length])
 
-  const formInputs = React.useMemo(
-    () =>
-      fields.map((field, index) => (
+  return (
+    <div className="p-4">
+      {fields.map((field, index) => (
         <div
           key={`${field.id}-div`}
-          className={clsx(
-            'mb-4 rounded border bg-red-100',
-            activeQuestionIndex === index && 'ring-2 ring-blue-500'
-          )}
+          className={clsx('mb-4 rounded border bg-red-100')}
         >
-          <Question
+          <span>idx: {index}</span>
+          <QuestionMemo
             key={field.id}
             field={field}
             index={index}
@@ -70,17 +95,20 @@ export function FieldArray() {
             isSelected={activeQuestionIndex === index}
           />
         </div>
-      )),
-    [handleQuestionActive, handleRemove, fields.length]
-  )
-
-  return (
-    <div className="p-4">
-      {formInputs}
-      <Button type="button" onClick={addQuestion}>
-        Add Question
-      </Button>
-      {renderCountElement(renderCount, 'FieldArray')}
+      ))}
+      <div className="flex">
+        {/* <Button type="button" onClick={renderHandler}>
+          Render
+        </Button> */}
+        <Button type="button" onClick={addQuestion}>
+          Add
+        </Button>
+        <Button type="button" onClick={resetHandler}>
+          Reset
+        </Button>
+      </div>
+      {renderCountElement(renderCount2, 'FieldArray')}
+      <RenderCountVisualizer />
     </div>
   )
 }

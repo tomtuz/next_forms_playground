@@ -18,7 +18,7 @@ export function useLocalStorage() {
     key: string,
     fallbackValue?: T
   ): [T | undefined, boolean] => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks, @typescript-eslint/no-shadow
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [value, setStorageValue] = useState<T | undefined>(fallbackValue);
 
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -38,7 +38,7 @@ export function useLocalStorage() {
         setIsLoading(false);
         setLoadingStates((prev) => new Map(prev).set(key, false));
       }
-    }, [key, fallbackValue, loadingStates]);
+    }, [key, fallbackValue]);
 
     return [value, isLoading];
   };

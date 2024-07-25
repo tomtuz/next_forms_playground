@@ -39,6 +39,8 @@ const nextConfig = {
   //   injectWhyDidYouRender(config, context)
   //   return config
   // },
+
+  // disable during prod
   transpilePackages: ['jotai-devtools'],
   reactStrictMode: true
 }

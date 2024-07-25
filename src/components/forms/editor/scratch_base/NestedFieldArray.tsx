@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Button } from '@/cn/ui'
-import { useRenderCount } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { Form } from '@/types/react'
 import React from 'react'
 import {
@@ -25,9 +26,11 @@ export function MultiOptionField({
   register
   // remove
 }: Readonly<MultiOptionFieldProps>) {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'MultiOptionField',
+    true
+  )
   const { append, fields, remove } = useFieldArray({
     control,
     name: `fields.${index}.options`
@@ -62,7 +65,7 @@ export function MultiOptionField({
       </Button>
 
       <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
+        {/* <span>{renderCount}</span> */}
       </span>
     </div>
   )
@@ -80,6 +83,10 @@ export function NestedFieldArray({
   register
 }: NestedFieldArrayProps) {
   const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'NestedFieldArray',
+    true
+  )
 
   return (
     <div className="flex flex-col items-center gap-2 bg-red-100 p-4">
@@ -91,9 +98,8 @@ export function NestedFieldArray({
         // remove={remove}
       />
 
-      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span>
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'NestedFieldArray')}
     </div>
   )
 }

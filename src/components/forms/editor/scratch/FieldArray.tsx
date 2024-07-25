@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { useFieldArray, UseFormReturn } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
-import { useRenderCount } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { NestedFieldArray } from './NestedFieldArray'
 
 interface FieldArrayProps {
@@ -22,9 +23,11 @@ export function FieldArray({
   getValues
   // form
 }: FieldArrayProps) {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'FieldArray',
+    true
+  )
 
   const { fields, append, remove, prepend } = useFieldArray({
     // control: form.control,
@@ -113,9 +116,8 @@ export function FieldArray({
         </Button>
       </section>
 
-      <span className="flex w-full items-center justify-between">
-        Render Count: {renderCount}
-      </span>
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'FieldArray')}
     </div>
   )
 }

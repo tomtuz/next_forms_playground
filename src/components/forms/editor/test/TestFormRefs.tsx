@@ -127,7 +127,7 @@ const TestFormRefs = forwardRef<
         console.log('errors: ', errors)
       }
     },
-    [getForms, formIds, updateForms]
+    [getForms, formIds, updateForms, errors]
   )
 
   const forms = useMemo(() => getForms(formIds), [getForms, formIds])

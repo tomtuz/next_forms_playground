@@ -1,11 +1,16 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Form } from '@/types/react'
-import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { Input } from '@/cn/ui'
 
 export function FormHeader() {
   const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'AnswerTypeSelect',
+    true
+  )
   const { register } = useFormContext<Form>()
 
   return (
@@ -26,6 +31,7 @@ export function FormHeader() {
           className="mb-2 w-full rounded border p-2"
         />
       </div>
+      <RenderCountVisualizer />
       {renderCountElement(renderCount, 'FormHeader')}
     </div>
   )

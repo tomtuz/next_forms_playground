@@ -1,13 +1,16 @@
 'use client'
 
-import { useRenderCount } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import React from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 
 export const TestWatch = () => {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'TestWatch',
+    true
+  )
   // const { register, handleSubmit, watch } = useForm()
   const { register, handleSubmit, control } = useForm()
   const onSubmit = (data: any) => console.log(data)
@@ -48,9 +51,8 @@ export const TestWatch = () => {
         <p>Name here: {`${firstName} ${lastName}`}</p>
       </div>
       <button type="submit">Submit</button>
-      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span>
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'TestWatch')}
     </form>
   )
 }

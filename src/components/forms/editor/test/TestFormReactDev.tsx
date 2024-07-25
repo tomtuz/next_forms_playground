@@ -1,8 +1,14 @@
 'use client'
 
-import { useForm } from 'react-hook-form'
-import { DevTool } from '@hookform/devtools'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Button } from '@/cn/ui'
+
+// https://github.com/react-hook-form/devtools/issues/187#issuecomment-1369182795
+import dynamic from 'next/dynamic'
+const DevT: React.ElementType = dynamic(
+  () => import('@hookform/devtools').then((module) => module.DevTool),
+  { ssr: false }
+)
 
 export function TestFormReactDev() {
   const { register, control, handleSubmit } = useForm({
@@ -23,7 +29,7 @@ export function TestFormReactDev() {
           <Button type="submit">Save</Button>
         </div>
       </form>
-      <DevTool control={control} />
+      <DevT control={control} placement="top-left" />
     </>
   )
 }

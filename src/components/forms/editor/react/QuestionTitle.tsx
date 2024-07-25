@@ -2,18 +2,21 @@ import React from 'react'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
 import { useFormContext } from 'react-hook-form'
-import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
+import { register } from 'module'
 
 interface QuestionTitleProps {
   index: number
   remove: () => void
 }
 
-export const QuestionTitle = React.memo(function QuestionTitle({
-  index,
-  remove
-}: QuestionTitleProps) {
+export function QuestionTitle({ index, remove }: QuestionTitleProps) {
   const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'AnswerTypeSelect',
+    true
+  )
   const { register } = useFormContext<Form>()
 
   return (
@@ -39,7 +42,8 @@ export const QuestionTitle = React.memo(function QuestionTitle({
           </div>
         </div>
       </div>
+      <RenderCountVisualizer />
       {renderCountElement(renderCount, 'QuestionTitle')}
     </div>
   )
-})
+}

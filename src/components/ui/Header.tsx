@@ -28,7 +28,10 @@ export default function Header() {
             SratchBase
           </Link>
           <Link className="hover:underline" href="/forms/test">
-            Test
+            TestFormTypes
+          </Link>
+          <Link className="hover:underline" href="/forms/test/render_test">
+            TestRender
           </Link>
         </div>
       </nav>

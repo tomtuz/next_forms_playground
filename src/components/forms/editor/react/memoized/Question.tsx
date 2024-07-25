@@ -1,7 +1,9 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, memo } from 'react'
 import { QuestionTitle } from '../QuestionTitle'
 import { AnswerField } from '../AnswerField'
-import { useRenderCount, renderCountElement } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
+// import { useRenderCount, RenderCounter } from '@/hooks/useCountRedraw'
 import { FieldArrayWithId } from 'react-hook-form'
 import { Form } from '@/types/react'
 
@@ -13,7 +15,9 @@ interface QuestionProps {
   onSelect: (index: number) => void
 }
 
-export function Question({
+const QuestionTitleMemo = React.memo(QuestionTitle)
+
+export function QuestionComponent({
   field,
   index,
   remove,
@@ -21,11 +25,14 @@ export function Question({
   onSelect
 }: QuestionProps) {
   const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'Question',
+    true
+  )
   const handleQuestionSelect = useCallback(() => {
     onSelect(index)
   }, [onSelect, index])
 
-  // Pass the remove function directly, without wrapping it
   const handleRemove = useCallback(() => remove(index), [remove, index])
 
   return (
@@ -34,9 +41,21 @@ export function Question({
       onClick={handleQuestionSelect}
       className={isSelected ? 'ring-2 ring-blue-500' : ''}
     >
-      <QuestionTitle index={index} remove={handleRemove} />
+      <QuestionTitleMemo index={index} remove={handleRemove} />
       <AnswerField index={index} field={field} onSelect={onSelect} />
-      {renderCountElement(renderCount, `Question: ${index}`)}
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'AnswerField')}
     </div>
   )
 }
+
+// export const Question = memo(
+//   QuestionComponent
+//   // (prevProps, nextProps) => {
+//   //   return (
+//   //     prevProps.field === nextProps.field &&
+//   //     // prevProps.index === nextProps.index &&
+//   //     prevProps.isSelected === nextProps.isSelected
+//   //   )
+//   // }
+// )

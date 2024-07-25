@@ -16,9 +16,8 @@ const MemoizedAnswerTypeSelect = React.memo(AnswerTypeSelect)
 // const MemoizedAnswerPlaceholder = React.memo(AnswerPlaceholder)
 
 export function AnswerField({ index, field, onSelect }: AnswerFieldProps) {
-  const renderCount2 = useRenderCount()
-  const { renderCount, updateHistory, RenderCountVisualizer } =
-    useRenderCountFull('AnswerField')
+  const renderCount = useRenderCount()
+  const { RenderCountVisualizer } = useRenderCountFull('AnswerField', true)
 
   return (
     <div className="mb-4 rounded bg-red-100 p-4 outline outline-1">
@@ -29,7 +28,7 @@ export function AnswerField({ index, field, onSelect }: AnswerFieldProps) {
       />
       <AnswerPlaceholder field={field} index={index} />
       <RenderCountVisualizer />
-      {renderCountElement(renderCount2, 'AnswerField')}
+      {renderCountElement(renderCount, 'AnswerField')}
     </div>
   )
 }

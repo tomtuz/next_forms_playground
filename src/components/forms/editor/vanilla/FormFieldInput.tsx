@@ -91,13 +91,13 @@ export function FormFieldInput({
 
   const handleFieldDelete = useCallback(() => {
     onDelete(field.id)
-  }, [field.id])
+  }, [field.id, onDelete])
 
   // > FormField
   //   > FormTypePicker
   //   > FormTypeRender (disabled/active)
   return (
-    <FieldWrap className="hover:bg-slate-100 relative transition duration-150 ease-in-out">
+    <FieldWrap className="relative transition duration-150 ease-in-out hover:bg-slate-100">
       <Input
         id={field.id}
         type="text"

@@ -11,7 +11,8 @@ import {
 } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
-import { useRenderCount } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { NestedFieldArray } from './NestedFieldArray'
 
 interface QuestionHeaderProps {
@@ -25,9 +26,11 @@ export function QuestionHeader({
   remove,
   register
 }: Readonly<QuestionHeaderProps>) {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'QuestionHeader',
+    true
+  )
 
   return (
     <div className="mb-2 flex items-center justify-center bg-blue-100 p-4 outline outline-1">
@@ -47,9 +50,8 @@ export function QuestionHeader({
           Remove
         </Button>
 
-        <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-          <span>{renderCount}</span>
-        </span>
+        <RenderCountVisualizer />
+        {renderCountElement(renderCount, 'QuestionHeader')}
       </div>
     </div>
   )
@@ -73,6 +75,10 @@ export function FieldArray({
     name: 'fields'
   })
   const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'FieldArray',
+    true
+  )
 
   return (
     <div className="mb-4 rounded border bg-white p-4">
@@ -140,9 +146,8 @@ export function FieldArray({
         </div>
       </section>
 
-      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span>
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'FieldArray')}
     </div>
   )
 }

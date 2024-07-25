@@ -7,8 +7,9 @@ import {
   SelectItem
 } from '@/cn/ui/select'
 import { FieldType, Form } from '@/types/react'
-import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 import { FieldArrayWithId, useFormContext, useWatch } from 'react-hook-form'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 
 interface AnswerTypeSelectProps {
   index: number
@@ -31,7 +32,10 @@ export function AnswerTypeSelect({
   field
 }: AnswerTypeSelectProps) {
   const renderCount = useRenderCount()
-
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'AnswerTypeSelect',
+    true
+  )
   const { control, setValue } = useFormContext<Form>()
 
   const fieldType = useWatch({
@@ -83,7 +87,8 @@ export function AnswerTypeSelect({
           ))}
         </SelectContent>
       </Select>
-      {renderCountElement(renderCount, 'AnswerTypeSelect')}
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'AnswerField')}
     </div>
   )
 }

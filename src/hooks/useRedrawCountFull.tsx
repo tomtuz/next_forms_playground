@@ -1,80 +1,82 @@
-import React, { useRef, useCallback, useEffect } from 'react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from '@/cn/ui/tooltip'
+'use client'
 
-interface RenderHistory {
+import {
+  useRef,
+  useLayoutEffect,
+  useState,
+  useCallback,
+  useEffect
+} from 'react'
+
+interface RenderInfo {
   count: number
   timestamp: number
+  type: 'mount' | 'update' | 'hydration'
 }
 
-export function useRenderCountFull(componentName: string = 'Component') {
+export function useRenderCountFull(
+  componentName: string,
+  debug: boolean = false
+) {
   const renderCount = useRef(0)
-  const historyRef = useRef<RenderHistory[]>([])
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const history = useRef<RenderInfo[]>([])
+  const [, forceUpdate] = useState({})
+  const isFirstRender = useRef(true)
+  const isMounted = useRef(false)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     renderCount.current += 1
+    const renderType = isFirstRender.current
+      ? 'mount'
+      : isMounted.current
+        ? 'update'
+        : 'hydration'
+    history.current.push({
+      count: renderCount.current,
+      timestamp: Date.now(),
+      type: renderType
+    })
 
-    // Use setTimeout to update history after all synchronous updates
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+    if (debug) {
+      console.log(
+        `${componentName} render: ${renderCount.current}, type: ${renderType}`
+      )
     }
-    timeoutRef.current = setTimeout(() => {
-      historyRef.current.push({
-        count: renderCount.current,
-        timestamp: Date.now()
-      })
-    }, 500)
 
+    isFirstRender.current = false
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
+      isMounted.current = true
     }
   })
 
-  const updateHistory = useCallback(() => {
-    historyRef.current.push({
-      count: renderCount.current,
-      timestamp: Date.now()
-    })
+  useEffect(() => {
+    // Force an update after mount to ensure we capture any hydration render
+    if (!isMounted.current) {
+      forceUpdate({})
+    }
   }, [])
 
-  const RenderCountVisualizer = useCallback(() => {
-    const currentCount = renderCount.current
-    const history = historyRef.current
+  const updateVisualizer = useCallback(() => {
+    forceUpdate({})
+  }, [])
 
-    return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            <span className="inline-flex space-x-1">
-              {history.length > 0 && (
-                <span className="w-[80px] bg-orange-200 text-sm font-bold outline outline-1 outline-red-300">
-                  {history[history.length - 1].count}
-                </span>
-              )}
-              <span className="w-[80px] bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-                {currentCount}
-              </span>
-            </span>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>{componentName}</p>
-            <p>History: {history.map((h) => h.count).join(', ')}</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    )
-  }, [componentName])
+  const RenderCountVisualizer = () => (
+    <div className="inline-flex items-center space-x-2 text-sm">
+      <span className="font-bold">{componentName}:</span>
+      <span className="rounded bg-blue-100 px-2 py-1">
+        Renders: {renderCount.current}
+      </span>
+      <span className="rounded bg-green-100 px-2 py-1">
+        History:{' '}
+        {history.current.map((h) => `${h.count}(${h.type[0]})`).join(', ')}
+      </span>
+    </div>
+  )
 
   return {
     renderCount: renderCount.current,
-    updateHistory,
-    RenderCountVisualizer
+    history: history.current,
+    RenderCountVisualizer,
+    updateVisualizer
   }
 }

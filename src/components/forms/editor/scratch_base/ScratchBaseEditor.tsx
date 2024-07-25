@@ -5,7 +5,8 @@ import { useForm, UseFormRegister } from 'react-hook-form'
 import { Button } from '@/cn/ui'
 import { Form } from '@/types/react'
 
-import { useRenderCount } from '@/hooks/useCountRedraw'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { FieldArray } from './FieldArray'
 
 const defaultFormData = {
@@ -18,9 +19,11 @@ interface HeaderSectionProps {
 }
 
 export function FormHeader({ register }: Readonly<HeaderSectionProps>) {
-  // -- DEBUG --
   const renderCount = useRenderCount()
-  // -- DEBUG --
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'FormHeader',
+    true
+  )
 
   return (
     <div className="bg-purple-100 p-4 outline outline-1">
@@ -33,15 +36,18 @@ export function FormHeader({ register }: Readonly<HeaderSectionProps>) {
         className="mb-4 w-full rounded border p-2"
         {...register('header.description')}
       />
-      <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span>
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'FormHeader')}
     </div>
   )
 }
 
 export function ScratchBaseEditor() {
-  // const renderCount = useRenderCount()
+  const renderCount = useRenderCount()
+  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+    'ScratchBaseEditor',
+    true
+  )
 
   const { control, register, handleSubmit, getValues, reset, setValue } =
     useForm<Form>({
@@ -72,9 +78,8 @@ export function ScratchBaseEditor() {
         </Button>
         <Button type="submit">Save</Button>
       </div>
-      {/* <span className="flex w-[80px] flex-col content-center items-center justify-center bg-red-100 text-sm font-bold outline outline-1 outline-red-300">
-        <span>{renderCount}</span>
-      </span> */}
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount, 'ScratchBaseEditor')}
     </form>
   )
 }

@@ -6,7 +6,8 @@ const config = {
     './src/components/**/*.tsx',
     './src/cn/**/*.{tsx,ts}',
     './src/app/**/*.tsx',
-    './src/hooks/useCountRedraw.tsx',
+    './src/hooks/useRedrawCountFull.tsx',
+    './src/hooks/useRedrawCount.tsx',
   ],
   prefix: "",
   theme: {

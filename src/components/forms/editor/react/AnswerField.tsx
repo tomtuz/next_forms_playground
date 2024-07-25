@@ -1,9 +1,10 @@
 import React from 'react'
 import { Form } from '@/types/react'
-import { renderCountElement, useRenderCount } from '@/hooks/useCountRedraw'
 import { AnswerTypeSelect } from './AnswerTypeSelect'
 import { AnswerPlaceholder } from './AnswerPlaceholder'
 import { FieldArrayWithId } from 'react-hook-form'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 
 interface AnswerFieldProps {
   index: number
@@ -11,14 +12,24 @@ interface AnswerFieldProps {
   onSelect: (index: number) => void
 }
 
+const MemoizedAnswerTypeSelect = React.memo(AnswerTypeSelect)
+// const MemoizedAnswerPlaceholder = React.memo(AnswerPlaceholder)
+
 export function AnswerField({ index, field, onSelect }: AnswerFieldProps) {
-  const renderCount = useRenderCount()
+  const renderCount2 = useRenderCount()
+  const { renderCount, updateHistory, RenderCountVisualizer } =
+    useRenderCountFull('AnswerField')
 
   return (
     <div className="mb-4 rounded bg-red-100 p-4 outline outline-1">
-      <AnswerTypeSelect index={index} onSelect={onSelect} field={field} />
+      <MemoizedAnswerTypeSelect
+        index={index}
+        onSelect={onSelect}
+        field={field}
+      />
       <AnswerPlaceholder field={field} index={index} />
-      {renderCountElement(renderCount, 'AnswerField')}
+      <RenderCountVisualizer />
+      {renderCountElement(renderCount2, 'AnswerField')}
     </div>
   )
 }

@@ -9,6 +9,6 @@
     "source.addMissingImports",
     "source.fixAll.eslint"
   ],
-  "eslint.validate": ["typescript", "javascript", "javascriptreact"],
-  "cSpell.diagnosticLevel": "Warning"
+  "eslint.validate": ["typescript", "javascript", "javascriptreact"]
+  // "cSpell.diagnosticLevel": "Warning"
 }

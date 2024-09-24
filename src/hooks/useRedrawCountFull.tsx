@@ -1,11 +1,11 @@
 'use client'
 
 import {
-  useRef,
-  useLayoutEffect,
-  useState,
   useCallback,
-  useEffect
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
 } from 'react'
 
 interface RenderInfo {
@@ -14,10 +14,12 @@ interface RenderInfo {
   type: 'mount' | 'update' | 'hydration'
 }
 
-export function useRenderCountFull(
-  componentName: string,
-  debug: boolean = false
-) {
+// const globalHistoryDisable = false
+const globalHistoryDisable = true
+const globalDisableComponent = true
+
+// semi-reliable component for redraws and redraw history
+export function useRenderCountFull(componentName: string, debug = false) {
   const renderCount = useRef(0)
   const history = useRef<RenderInfo[]>([])
   const [, forceUpdate] = useState({})
@@ -66,10 +68,12 @@ export function useRenderCountFull(
       <span className="rounded bg-blue-100 px-2 py-1">
         Renders: {renderCount.current}
       </span>
-      <span className="rounded bg-green-100 px-2 py-1">
-        History:{' '}
-        {history.current.map((h) => `${h.count}(${h.type[0]})`).join(', ')}
-      </span>
+      {!globalHistoryDisable && (
+        <span className="rounded bg-green-100 px-2 py-1">
+          History:{' '}
+          {history.current.map((h) => `${h.count}(${h.type[0]})`).join(', ')}
+        </span>
+      )}
     </div>
   )
 

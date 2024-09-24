@@ -1,8 +1,7 @@
 'use client'
 
 import { Button } from '@/cn/ui/button'
-import Link from 'next/link'
-import React, { useCallback, useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 type Form = {

@@ -6,7 +6,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from '@radix-ui/react-tooltip'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 
 export function useRenderCount(): number {
   const renderCount = useRef(0)
@@ -18,10 +18,8 @@ export function useRenderCount(): number {
   return renderCount.current
 }
 
-export const renderCountElement = (
-  count: number,
-  name: string = 'GenericElement'
-) => (
+// reliable, simple component for redraws
+export const renderCountElement = (count: number, name = 'GenericElement') => (
   <div>
     <TooltipProvider delayDuration={0}>
       <Tooltip>
@@ -31,7 +29,6 @@ export const renderCountElement = (
           </span>
         </TooltipTrigger>
         <TooltipContent className="bg-white">
-          {/* <TooltipContent className="bg-blue-400"> */}
           <p>{name}</p>
         </TooltipContent>
       </Tooltip>

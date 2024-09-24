@@ -1,12 +1,11 @@
 import {
   Menubar,
-  MenubarMenu,
-  MenubarTrigger,
   MenubarContent,
   MenubarItem,
-  MenubarSeparator
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger
 } from '@/cn/ui/menubar'
-import React from 'react'
 import Link from 'next/link'
 
 export function NavMenu() {
@@ -22,11 +21,6 @@ export function NavMenu() {
           <MenubarSeparator />
           <Link className="hover:underline" href="/test/state/jotai">
             <MenubarItem>Jotai</MenubarItem>
-          </Link>
-
-          <MenubarSeparator />
-          <Link className="hover:underline" href="/test/state/recoil">
-            <MenubarItem>Recoil</MenubarItem>
           </Link>
         </MenubarContent>
       </MenubarMenu>

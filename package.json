@@ -9,7 +9,8 @@
     "lint": "next lint",
     "dev:render": "cross-env APP_ENV=render next dev",
     "dev:million": "cross-env APP_ENV=million next dev",
-    "dep-check": "ncu --interactive --format group"
+    "dep-check": "ncu --interactive --format group",
+    "typecheck": "tsc -b"
   },
   "optionalDependencies": {
     "wdyr-dev": "^1.0.0"

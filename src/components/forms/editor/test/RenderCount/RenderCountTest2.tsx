@@ -1,18 +1,13 @@
 'use client'
 
 import { useHonestRenderCount } from '@/hooks/useHonestRedrawCount'
-import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
 import { useCallback, useState } from 'react'
 
-export function RenderCountTestComponent() {
-  const { RenderCountVisualizer, updateVisualizer } = useRenderCountFull(
+export function RenderCountTestComponent2() {
+  const { RenderCountVisualizer, updateVisualizer } = useHonestRenderCount(
     'TestComponent',
     true
   )
-
-  const { RenderCountVisualizer: RCV, updateVisualizer: UV } =
-    useHonestRenderCount('TestComponent2', true)
-
   const [count1, setCount1] = useState(0)
   const [count2, setCount2] = useState(0)
   const [text, setText] = useState('')
@@ -20,35 +15,30 @@ export function RenderCountTestComponent() {
   const incrementCount1 = useCallback(() => {
     setCount1((prev) => prev + 1)
     updateVisualizer()
-    UV()
-  }, [updateVisualizer, UV])
+  }, [updateVisualizer])
 
   const incrementCount2 = useCallback(() => {
     setCount2((prev) => prev + 1)
     updateVisualizer()
-    UV()
-  }, [updateVisualizer, UV])
+  }, [updateVisualizer])
 
   const updateText = useCallback(() => {
     setText(Date.now().toString())
     updateVisualizer()
-    UV()
-  }, [updateVisualizer, UV])
+  }, [updateVisualizer])
 
   const updateAll = useCallback(() => {
     setCount1((prev) => prev + 1)
     setCount2((prev) => prev + 1)
     setText(Date.now().toString())
     updateVisualizer()
-    UV()
-  }, [updateVisualizer, UV])
+  }, [updateVisualizer])
 
   return (
     <div className="rounded-md border border-gray-300 p-4">
       <h2 className="mb-4 text-xl font-bold">Render Count Test Component</h2>
       <div className="mb-4">
-        {/* <RenderCountVisualizer /> */}
-        <RCV />
+        <RenderCountVisualizer />
       </div>
       <div className="space-y-2">
         <p>Count 1: {count1}</p>

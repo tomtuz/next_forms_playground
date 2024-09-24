@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "target": "esnext",
     "allowJs": true,
     "skipLibCheck": true,
@@ -23,15 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@cn/*": [
-        "./src/cn/*"
-      ],
-      "@forms/*": [
-        "./src/components/forms/*"
-      ]
+      "@/*": ["./src/*"],
+      "@cn/*": ["./src/cn/*"],
+      "@forms/*": ["./src/components/forms/*"]
     },
     "strict": false
   },
@@ -40,9 +30,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/components/testing/zustand"
+    "src/components/testing/zustand",
+    "docs/.self/cotext.config.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

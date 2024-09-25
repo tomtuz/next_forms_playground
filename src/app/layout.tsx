@@ -27,13 +27,18 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'flex flex-col min-h-screen bg-background font-sans antialiased',
+          'flex min-h-screen flex-col bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
         <Header />
         <FormProvider>
-          <main className="flex flex-grow items-center justify-center pt-24 mx-auto">{children}</main>
+          <main className="flex-grow pt-16">
+            <div className="container mx-auto px-4">
+              {/* Breadcrumbs can be added here */}
+              <div className="mt-4">{children}</div>
+            </div>
+          </main>
         </FormProvider>
         <Toaster />
       </body>

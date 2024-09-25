@@ -1,12 +1,7 @@
-import { FieldType, Form } from '@/types/react';
-import { Button, Checkbox, Input, Textarea } from '@cn';
-import React, { useCallback, useEffect } from 'react';
-import {
-  Control,
-  Controller,
-  useFieldArray,
-  useWatch
-} from 'react-hook-form';
+import { FieldType, Form } from '@/types/react'
+import { Button, Checkbox, Input, Textarea } from '@cn'
+import React, { useCallback, useEffect } from 'react'
+import { Control, Controller, useFieldArray, useWatch } from 'react-hook-form'
 
 interface InputFieldProps {
   index: number

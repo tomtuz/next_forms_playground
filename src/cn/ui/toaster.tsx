@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   Toast,
@@ -6,9 +6,9 @@ import {
   ToastDescription,
   ToastProvider,
   ToastTitle,
-  ToastViewport,
-} from "@cn/toast"
-import { useToast } from "@cn/use-toast"
+  ToastViewport
+} from '@cn/toast'
+import { useToast } from '@cn/use-toast'
 
 export function Toaster() {
   const { toasts } = useToast()

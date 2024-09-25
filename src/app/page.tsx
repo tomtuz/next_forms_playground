@@ -1,74 +1,79 @@
 'use client'
 
-import { Button } from '@cn/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@cn/card'
+import { CategoryButton } from '@/components/ui/CategoryButon'
+import { LandingCard } from '@/components/ui/LandingCard'
+import { categories, categoryColors } from '@/utils/categories'
 import { Input } from '@cn/input'
-
-import Link from 'next/link'
-import { useState } from 'react'
-import { formRoutes } from './routes'
-
-const categories = ['All', ...new Set(formRoutes.map((formRoute) => formRoute.category))]
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { FormRoute, formRoutes } from './routes'
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [mounted, setMounted] = useState(false)
 
-  const filteredTests = formRoutes.filter(
-    (formRoute) =>
-      (selectedCategory === 'All' || formRoute.category === selectedCategory) &&
-      (formRoute.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        formRoute.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value)
+    },
+    []
   )
 
+  const filteredTests = useMemo(() => {
+    const lowercaseSearchTerm = searchTerm.toLowerCase()
+    return formRoutes.filter((formRoute: FormRoute) => {
+      const categoryMatch =
+        selectedCategory === 'All' || formRoute.category === selectedCategory
+      const nameMatch = formRoute.name
+        .toLowerCase()
+        .includes(lowercaseSearchTerm)
+      const descriptionMatch = Array.isArray(formRoute.description)
+        ? formRoute.description.some((desc: string) =>
+            desc.toLowerCase().includes(lowercaseSearchTerm)
+          )
+        : typeof formRoute.description === 'string' &&
+          formRoute.description.toLowerCase().includes(lowercaseSearchTerm)
+
+      return categoryMatch && (nameMatch || descriptionMatch)
+    })
+  }, [selectedCategory, searchTerm])
+
+  if (!mounted) {
+    return null // or a loading spinner
+  }
+
   return (
-    <div className=''>
-      <h1 className="mb-8 text-center text-4xl font-bold">
-        Form Performance Playground
-      </h1>
+    <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row">
         <Input
           type="search"
           placeholder="Search Forms..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={handleSearchChange}
           className="sm:w-64"
         />
-        <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0">
+        <div className="flex flex-wrap gap-2">
           {categories.map((category) => (
-            <Button
+            <CategoryButton
               key={category}
-              variant={selectedCategory === category ? 'default' : 'outline'}
+              category={category}
+              isSelected={selectedCategory === category}
               onClick={() => setSelectedCategory(category)}
-              className="whitespace-nowrap"
-            >
-              {category}
-            </Button>
+              categoryColors={categoryColors}
+            />
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {filteredTests.map((formRoute) => (
-          <Link href={`/forms/${formRoute.id}`} key={formRoute.id} className="block">
-            <Card className="h-full transition-shadow hover:shadow-lg">
-              <CardHeader>
-                <CardTitle>{formRoute.name}</CardTitle>
-                <CardDescription>{formRoute.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <span className="text-sm text-muted-foreground">
-                  Category: {formRoute.category}
-                </span>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
+      <div className="h-[calc(100vh-300px)] overflow-y-auto">
+        <div className="grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filteredTests.map((formRoute) => (
+            <LandingCard key={formRoute.id} formRoute={formRoute} />
+          ))}
+        </div>
       </div>
     </div>
   )

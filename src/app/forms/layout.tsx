@@ -7,7 +7,7 @@ export default function FormsLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex h-full flex-col">
       <nav className="p-4" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-1 md:space-x-3">
           <li className="flex items-center">
@@ -28,8 +28,8 @@ export default function FormsLayout({
           </li>
         </ol>
       </nav>
-      <div className="flex-grow flex items-center justify-center px-4">
-        <div className="max-w-4xl w-full outline-1 outline-green-200">
+      <div className="flex flex-grow items-center justify-center px-4">
+        <div className="w-full max-w-4xl outline-1 outline-green-200">
           {children}
         </div>
       </div>

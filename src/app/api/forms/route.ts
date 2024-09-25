@@ -5,7 +5,10 @@ export async function POST(request: Request) {
   try {
     const formData = await request.json()
     formStorage.saveForm(formData)
-    return NextResponse.json({ message: 'Form saved successfully' }, { status: 201 })
+    return NextResponse.json(
+      { message: 'Form saved successfully' },
+      { status: 201 }
+    )
   } catch (error) {
     return NextResponse.json({ error: 'Failed to save form' }, { status: 500 })
   }

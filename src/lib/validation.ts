@@ -1,4 +1,4 @@
-import { Form, FormField, FormHeader, } from '@/types'
+import { Form, FormField, FormHeader } from '@/types'
 
 export const checkFormData = (form: Form) => {
   console.log('Form validation:')
@@ -43,7 +43,7 @@ export const checkFields = (fields: FormField[]) => {
       return false
     }
 
-    console.log(fields[i]);
+    console.log(fields[i])
   }
 
   return true

@@ -3,11 +3,7 @@ import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
 import { Form } from '@/types/react'
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Button } from '@cn'
-import {
-  Control,
-  UseFormRegister,
-  useFieldArray
-} from 'react-hook-form'
+import { Control, UseFormRegister, useFieldArray } from 'react-hook-form'
 
 interface MultiOptionFieldProps {
   index: number

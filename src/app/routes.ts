@@ -1,53 +1,116 @@
-export interface Route {
-  id: string;
-  name: string;
-  path: string;
-  category?: string;
-  description?: string;
+export interface FormRoute {
+  id: string
+  name: string
+  path: string
+  category?: string
+  description?: string | string[]
 }
 
-export const formRoutes: Route[] = [
+export const formRoutes: FormRoute[] = [
   {
     id: 'vanilla',
-    name: 'Vanilla Form',
+    name: 'Vanilla',
     path: '/forms/vanilla',
     category: 'Basic',
-    description: 'A simple vanilla JavaScript form'
+    description: ['No external libraries']
   },
+
   {
     id: 'react',
-    name: 'React Form',
+    name: 'Form (React Hook Form)',
     path: '/forms/react',
-    category: 'Advanced',
-    description: 'A form built with React'
+    category: 'Basic',
+    description: ['react-hook-form']
   },
+
   {
     id: 'react-dnd',
-    name: 'React DnD Form',
+    name: 'Form (React Hook Form + DnD kit)',
     path: '/forms/react_dnd',
-    category: 'Advanced',
-    description: 'A form with drag and drop functionality'
+    category: 'Basic',
+    description: ["react-hook-form", "dnd-kit"]
   },
+
+  {
+    id: 'new',
+    name: 'New',
+    path: '/forms/new',
+    category: 'Basic',
+    description: ['A simple vanilla JavaScript form']
+  },
+
   {
     id: 'scratch',
     name: 'Scratch Form',
     path: '/forms/scratch',
-    category: 'Experimental',
-    description: 'An experimental form from scratch'
+    category: 'Basic',
+    description: ['An experimental form from scratch']
   },
+
   {
     id: 'scratch-base',
     name: 'Scratch Base Form',
     path: '/forms/scratch_base',
-    category: 'Experimental',
-    description: 'Another experimental form'
+    category: 'Basic',
+    description: ['Another experimental form']
   },
+
   {
     id: 'test',
-    name: 'Test Form',
+    name: 'Test',
     path: '/forms/test',
-    category: 'Testing',
-    description: 'A form for testing purposes'
+    category: 'Basic',
+    description: ['A form for testing purposes']
   },
+
+  {
+    id: 'test-render-test',
+    name: 'RenderTest',
+    path: '/forms/test/render_test',
+    category: 'Basic',
+    description: ['A form for testing purposes']
+  },
+
+  // non-input routes
+
+  {
+    id: 'list',
+    name: 'Data List',
+    path: '/forms/list',
+    category: 'Data',
+    description: ['A form for testing purposes']
+  },
+
+  {
+    id: 'template',
+    name: 'Template',
+    path: '/forms/template',
+    category: 'Other',
+    description: ['Example of form structure for testing']
+  },
+
+  // broken routes
+
+  {
+    id: 'other',
+    name: 'Other',
+    path: '/other/',
+    category: 'Custom',
+    description: ['A form for testing purposes']
+  },
+  {
+    id: 'one_example',
+    name: 'One Example',
+    path: '/other/onexample',
+    category: 'Custom',
+    description: ['A form for testing purposes']
+  },
+  {
+    id: 'dash',
+    name: 'Dash',
+    path: '/other/dash',
+    category: 'Custom',
+    description: ['A form for testing purposes']
+  }
   // Add more routes as needed
-];
+]

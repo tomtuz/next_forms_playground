@@ -24,8 +24,8 @@ export default function Header() {
       formRoute.category.toLowerCase().includes(searchTerm.toLowerCase())
   )
   return (
-    <header className="fixed top-0 w-full border-b bg-white p-4 shadow-md z-10 max-h-20">
-      <div className="container mx-auto flex items-center justify-between">
+    <header className="fixed top-0 z-50 w-full border-b bg-white shadow-sm">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/" className="text-2xl font-bold">
           Form Playground
         </Link>

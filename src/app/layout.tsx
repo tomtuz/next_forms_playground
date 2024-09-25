@@ -1,17 +1,22 @@
-import './globals.css'
-import React from 'react'
 import { Inter as FontSans } from 'next/font/google'
+import React from 'react'
+import './globals.css'
 
 import { Toaster } from '@/cn/ui/toaster'
 import { cn } from '@/lib/utils'
 
-import { FormProvider } from '@/contexts/FormContext'
 import Header from '@/components/ui/Header'
+import { FormProvider } from '@/contexts/FormContext'
 
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans'
 })
+
+export const metadata = {
+  title: 'Input Performance Playground',
+  description: 'Test and analyze form and input performance'
+}
 
 export default function RootLayout({
   children
@@ -22,12 +27,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          'flex min-h-screen flex-col items-center justify-center bg-background font-sans antialiased',
+          'flex flex-col min-h-screen bg-background font-sans antialiased',
           fontSans.variable
         )}
       >
         <Header />
-        <FormProvider>{children}</FormProvider>
+        <FormProvider>
+          <main className="flex flex-grow items-center justify-center pt-24 mx-auto">{children}</main>
+        </FormProvider>
         <Toaster />
       </body>
     </html>

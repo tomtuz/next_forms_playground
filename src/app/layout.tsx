@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { Toaster } from '@cn/toaster'
 
 import Header from '@/components/ui/Header'
+import { AppProvider } from '@/contexts/AppContext'
 import { FormProvider } from '@/contexts/FormContext'
 
 const fontSans = FontSans({
@@ -31,15 +32,16 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <Header />
-        <FormProvider>
-          <main className="flex-grow pt-16">
-            <div className="container mx-auto px-4">
-              {/* Breadcrumbs can be added here */}
-              <div className="mt-4">{children}</div>
-            </div>
-          </main>
-        </FormProvider>
+        <AppProvider>
+          <Header />
+          <FormProvider>
+            <main className="flex-grow pt-16">
+              <div className="container mx-auto px-4">
+                <div className="mt-4">{children}</div>
+              </div>
+            </main>
+          </FormProvider>
+        </AppProvider>
         <Toaster />
       </body>
     </html>

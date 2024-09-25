@@ -1,14 +1,14 @@
 'use client'
 
+import { LS_FORM_DATA } from '@/constants'
+import { Form } from '@/types'
 import React, {
   createContext,
+  useCallback,
   useContext,
-  useState,
   useEffect,
-  useCallback
+  useState
 } from 'react'
-import { Form } from '@/types'
-import { LS_FORM_DATA } from '@/constants'
 
 interface FormContextType {
   forms: Form[]
@@ -18,6 +18,7 @@ interface FormContextType {
   deleteAllForms: () => void
 }
 
+// Context provider specifically for table data handling
 const FormContext = createContext<FormContextType | undefined>(undefined)
 
 export function FormProvider({

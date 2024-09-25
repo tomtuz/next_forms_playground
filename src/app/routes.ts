@@ -32,19 +32,11 @@ export const formRoutes: FormRoute[] = [
   },
 
   {
-    id: 'new',
-    name: 'New',
-    path: '/forms/new',
-    category: 'Basic',
-    description: ['A simple vanilla JavaScript form']
-  },
-
-  {
     id: 'scratch',
     name: 'Scratch Form',
     path: '/forms/scratch',
     category: 'Basic',
-    description: ['An experimental form from scratch']
+    description: ['Performant example from "react-form-hook"', 'More examples: https://github.com/react-hook-form/react-hook-form/tree/master/examples', 'Example name - "Array of Field Array"', 'https://codesandbox.io/p/sandbox/react-hook-form-usefieldarray-nested-arrays-m8w6j?file=%2Fsrc%2Findex.js']
   },
 
   {
@@ -52,15 +44,15 @@ export const formRoutes: FormRoute[] = [
     name: 'Scratch Base Form',
     path: '/forms/scratch_base',
     category: 'Basic',
-    description: ['Another experimental form']
+    description: ['Re-written example of "Array of Field Array"']
   },
 
   {
     id: 'test',
-    name: 'Test',
+    name: 'Combo tables',
     path: '/forms/test',
     category: 'Basic',
-    description: ['A form for testing purposes']
+    description: ['A combination tables:', '"refs" table', 'native FormData API table',  'react-hook-form', 'react-hook-form (+devtools)']
   },
 
   {
@@ -68,7 +60,7 @@ export const formRoutes: FormRoute[] = [
     name: 'RenderTest',
     path: '/forms/test/render_test',
     category: 'Basic',
-    description: ['A form for testing purposes']
+    description: ['Simple redraw counter', 'Simulates parts of "Form (React Hook Form)" structure']
   },
 
   // non-input routes
@@ -78,7 +70,7 @@ export const formRoutes: FormRoute[] = [
     name: 'Data List',
     path: '/forms/list',
     category: 'Data',
-    description: ['A form for testing purposes']
+    description: ['A table component "FormListTable".', 'Lists data from "FormContext" and localStorage', 'used mainly with "Vanilla']
   },
 
   {
@@ -86,7 +78,33 @@ export const formRoutes: FormRoute[] = [
     name: 'Template',
     path: '/forms/template',
     category: 'Other',
-    description: ['Example of form structure for testing']
+    description: ['Example form component, showing how tested input form should be displayed and work']
+  },
+
+  // State management in Next (mostly obsolete)
+
+  {
+    id: 'state',
+    name: 'State management',
+    path: '/test',
+    category: 'State',
+    description: ['Basically a clone of "Combo tables"']
+  },
+
+  {
+    id: 'jotai',
+    name: 'Jotai',
+    path: '/test/state/jotai',
+    category: 'State',
+    description: ['Enables "jotai" devtools', 'State management in case of quick and complex solution', 'Probably will never be needed']
+  },
+
+  {
+    id: 'zustand',
+    name: 'Zustand',
+    path: '/test/state/zustand',
+    category: 'State',
+    description: ['Enables "zustand" devtools', 'State management in case of quick and complex solution', 'Probably will never be needed']
   },
 
   // broken routes

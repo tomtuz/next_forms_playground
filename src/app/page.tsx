@@ -2,6 +2,7 @@
 
 import { CategoryButton } from '@/components/ui/CategoryButon'
 import { LandingCard } from '@/components/ui/LandingCard'
+import { useAppContext } from '@/contexts/AppContext'
 import { categories, categoryColors } from '@/utils/categories'
 import { Input } from '@cn/input'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
@@ -9,7 +10,7 @@ import { FormRoute, formRoutes } from './routes'
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('All')
+  const { selectedCategory, setSelectedCategory } = useAppContext()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {

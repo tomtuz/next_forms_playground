@@ -28,7 +28,7 @@ export const formRoutes: FormRoute[] = [
     name: 'Form (React Hook Form + DnD kit)',
     path: '/forms/react_dnd',
     category: 'Basic',
-    description: ["react-hook-form", "dnd-kit"]
+    description: ['react-hook-form', 'dnd-kit']
   },
 
   {

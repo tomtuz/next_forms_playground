@@ -20,7 +20,7 @@ export const LandingCard = memo(function LandingCard({
 }: LandingCardProps) {
   return (
     <Link href={formRoute.path} className="block h-full">
-      <Card className="grid h-full grid-rows-[auto,1fr,auto] transition-shadow hover:shadow-lg p-4">
+      <Card className="grid h-full grid-rows-[auto,1fr,auto] p-4 transition-shadow hover:shadow-lg">
         <CardHeader className="p-0 pb-2">
           <CardTitle className="text-lg">{formRoute.name}</CardTitle>
         </CardHeader>
@@ -32,7 +32,9 @@ export const LandingCard = memo(function LandingCard({
               ))}
             </ul>
           ) : (
-            <CardDescription className="text-sm">{formRoute.description}</CardDescription>
+            <CardDescription className="text-sm">
+              {formRoute.description}
+            </CardDescription>
           )}
         </CardContent>
         <CardContent className="mt-auto p-0 pt-2">

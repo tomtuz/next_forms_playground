@@ -17,7 +17,7 @@
     ]
   },
   "formatter": {
-    "enabled": true,
+    "enabled": false, // used only for auto-imports
     "formatWithErrors": false,
     "ignore": [],
     "attributePosition": "multiline",
@@ -27,9 +27,12 @@
     "lineEnding": "lf"
   },
   "linter": {
-    "enabled": true,
+    "enabled": false, // (optional)
     "rules": {
       "recommended": true,
+      "complexity": {
+        "noUselessLoneBlockStatements": "off"
+      },
       "suspicious": {
         "noDebugger": "off",
         "noConsoleLog": "off",
@@ -39,6 +42,7 @@
       "style": {
         "useImportType": "off"
       },
+      "correctness": {},
       "a11y": {
         "useKeyWithClickEvents": "off"
       },
@@ -56,5 +60,10 @@
       "allowComments": true,
       "allowTrailingCommas": false
     }
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
   }
 }

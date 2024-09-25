@@ -1,28 +1,46 @@
 {
+  // Biome - auto imports
+  // Prettier - auto formatting, 'tailwind' class sorting
+  // Eslint - auto fix lint errors
+
+  "biome.enabled": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "biome.enabled": false,
-  "editor.formatOnSave": true,
   "eslint.useFlatConfig": false, // Next.js don't support flat config yet
+
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    // biome
+    "source.organizeImports.biome": "explicit",
+    "source.addMissingImports.biome": "explicit",
+
+    // biome fallback
+    "source.organizeImports": "explicit",
+    "source.addMissingImports": "explicit",
+    // "source.removeUnusedImports": "explicit",
+
+    // eslint
+    "source.fixAll.eslint": "explicit"
+  },
+
+  "eslint.validate": [
+    "typescript",
+    "javascript",
+    "javascriptreact",
+    "typescriptreact"
+  ],
+
+  "typescript.preferences.importModuleSpecifier": "project-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+
+  // "typescript.preferences.autoImportSpecifierExcludeRegexes": [
+  //   "*/lucide-react/*/Link"
+  // ],
+
+  // "typescript.preferences.autoImportFileExcludePatterns": ["lucide-react"],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.autoIndent": "full",
+
   "files.associations": {
     "*.css": "tailwindcss"
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.addMissingImports": "explicit",
-    "source.removeUnusedImports": "explicit",
-    "source.organizeImports": "explicit"
-  },
-
-  "eslint.validate": ["typescript", "javascript", "javascriptreact"],
-
-  "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-
-  "javascript.updateImportsOnFileMove.enabled": "always",
-  "typescript.updateImportsOnFileMove.enabled": "always",
-
-  "javascript.suggest.autoImports": true,
-  "typescript.suggest.autoImports": true,
-  "typescript.tsdk": "node_modules/typescript/lib"
+  }
 }

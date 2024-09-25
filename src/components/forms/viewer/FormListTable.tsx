@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-import Link from 'next/link'
 import {
   Table,
   TableBody,
@@ -10,12 +8,13 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/cn/ui/table'
+} from '@cn/table'
+import Link from 'next/link'
 
+import { LS_FORM_DATA } from '@/constants'
 import { useFormContext } from '@/contexts/FormContext'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { Button } from '@/cn/ui'
-import { LS_FORM_DATA } from '@/constants'
+import { Button } from '@cn/button'
 
 export function FormListTable() {
   const { forms } = useFormContext()

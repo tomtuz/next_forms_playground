@@ -1,9 +1,8 @@
-import React from 'react'
-import { useFormContext, useFieldArray } from 'react-hook-form'
-import { Input, Checkbox, Button } from '@/cn/ui'
-import { Form } from '@/types/react'
+import { renderCountElement, useRenderCount } from '@/hooks/useRedrawCount'
 import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
-import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
+import { Form } from '@/types/react'
+import { Button, Checkbox, Input } from '@cn'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 
 interface MultiOptionFieldProps {
   fieldIndex: number

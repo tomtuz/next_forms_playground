@@ -1,19 +1,12 @@
-import React, { useCallback, useEffect } from 'react'
+import { FieldType, Form } from '@/types/react';
+import { Button, Checkbox, Input, Textarea } from '@cn';
+import React, { useCallback, useEffect } from 'react';
 import {
   Control,
   Controller,
-  UseFieldArrayReturn,
   useFieldArray,
   useWatch
-} from 'react-hook-form'
-import { Form, FieldType } from '@/types/react'
-// TODO: make shadcn provider
-// import { Input, Textarea, Checkbox, Button } from '@/cn/ui' // Assuming you're using ShadCN UI components
-import { Input } from '@/cn/ui/input' // Assuming you're using ShadCN UI components
-import { Textarea } from '@/cn/ui/textarea' // Assuming you're using ShadCN UI components
-import { Checkbox } from '@/cn/ui/checkbox' // Assuming you're using ShadCN UI components
-import { Button } from '@/cn/ui/button' // Assuming you're using ShadCN UI components
-import { Select } from '@/cn/ui/select' // Assuming you're using ShadCN UI components
+} from 'react-hook-form';
 
 interface InputFieldProps {
   index: number

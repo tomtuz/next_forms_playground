@@ -1,10 +1,10 @@
 'use client'
 
-import { useAtom } from 'jotai'
-import { componentListAtom } from '@/stores/jotai'
 import type { ComponentItem } from '@/stores/jotai'
+import { componentListAtom } from '@/stores/jotai'
+import { Button, Card, Input } from '@cn'
+import { useAtom } from 'jotai'
 import { useState } from 'react'
-import { Button, Card, Input } from '@/cn/ui'
 
 export function ListPage() {
   const [list, setList] = useAtom(componentListAtom)

@@ -1,8 +1,7 @@
 'use client'
 
-import React from 'react'
+import { Button } from '@cn'
 import { useForm } from 'react-hook-form'
-import { Button } from '@/cn/ui'
 import { FieldArray } from './FieldArray'
 
 interface DefauultValues {

@@ -1,14 +1,14 @@
 'use client'
 
 import { formRoutes } from '@/app/routes'
-import { Button } from '@/cn/ui/button'
+import { Button } from '@cn/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
-} from '@/cn/ui/dropdown-menu'
-import { Input } from '@/cn/ui/input'
+} from '@cn/dropdown-menu'
+import { Input } from '@cn/input'
 import { ChevronDown, Search } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'

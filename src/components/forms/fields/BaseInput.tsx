@@ -1,5 +1,5 @@
+import { Label } from '@cn/label'
 import React from 'react'
-import { Label } from '@/cn/ui/label'
 
 interface BaseInputProps {
   title?: string

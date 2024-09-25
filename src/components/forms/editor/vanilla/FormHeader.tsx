@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Input } from '@/cn/ui/input'
+import { Input } from '@cn/input'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 
 interface HeaderProps {

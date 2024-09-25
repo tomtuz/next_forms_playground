@@ -2,8 +2,8 @@ import { Inter as FontSans } from 'next/font/google'
 import React from 'react'
 import './globals.css'
 
-import { Toaster } from '@/cn/ui/toaster'
 import { cn } from '@/lib/utils'
+import { Toaster } from '@cn/toaster'
 
 import Header from '@/components/ui/Header'
 import { FormProvider } from '@/contexts/FormContext'

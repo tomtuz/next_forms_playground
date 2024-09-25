@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { Button } from '@/cn/ui'
-import React from 'react'
+import { Button } from '@cn'
 import { useFieldArray } from 'react-hook-form'
 
 interface NestedFieldArrayProps {

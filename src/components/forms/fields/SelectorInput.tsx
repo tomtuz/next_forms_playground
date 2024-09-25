@@ -1,11 +1,11 @@
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
-} from '@/cn/ui/select'
-import { Rabbit, Bird, Turtle } from 'lucide-react'
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@cn/select'
+import { Bird, Rabbit, Turtle } from 'lucide-react'
 
 export function SelectorInput() {
   return (

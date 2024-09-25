@@ -2,12 +2,11 @@
 
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
-} from '@/cn/ui/select'
-import React from 'react'
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@cn/select'
 
 interface SelectorProps {
   disabled?: boolean

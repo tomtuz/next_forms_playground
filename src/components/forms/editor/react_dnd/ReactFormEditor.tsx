@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useCallback, useState } from 'react'
-import { useFieldArray, useForm, Control } from 'react-hook-form'
+import { useCallback, useState } from 'react'
+import { useFieldArray, useForm } from 'react-hook-form'
 
 // CN UI
-import { Button } from '@cn/ui/button'
+import { Button } from '@cn'
 
-import type { Form, FieldType } from '@/types/react'
+import type { FieldType, Form } from '@/types/react'
 
 // Components
 import { HeaderSection } from './HeaderSection'

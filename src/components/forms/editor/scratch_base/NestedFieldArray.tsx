@@ -1,14 +1,12 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { Button } from '@/cn/ui'
+import { renderCountElement, useRenderCount } from '@/hooks/useRedrawCount'
 import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
-import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 import { Form } from '@/types/react'
-import React from 'react'
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { Button } from '@cn'
 import {
   Control,
-  FieldArrayWithId,
-  useFieldArray,
-  UseFormRegister
+  UseFormRegister,
+  useFieldArray
 } from 'react-hook-form'
 
 interface MultiOptionFieldProps {

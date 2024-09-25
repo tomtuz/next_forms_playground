@@ -1,11 +1,10 @@
 'use client'
 
-import React from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
-import { Button } from '@cn/ui/button'
 import type { Form } from '@/types/react'
-import { FormHeader } from './FormHeader'
+import { Button } from '@cn'
+import { FormProvider, useForm } from 'react-hook-form'
 import { FieldArray } from './FieldArray'
+import { FormHeader } from './FormHeader'
 
 const defaultValues: Form = {
   header: { title: '', description: '' },

@@ -13,6 +13,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "outDir": "dist",
     "plugins": [
       {
         "name": "next"
@@ -25,12 +28,16 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@cn/*": ["./src/cn/*"],
-      "@forms/*": ["./src/components/forms/*"]
+      "@cn": ["./src/cn/index.ts"],
+      "@cn/*": ["./src/cn/ui/*"],
+      "@forms/*": ["./src/components/forms/*"],
+      "@components/*": ["./src/components/*"],
+      "@twc/*": ["./src/components/tailwind/*"]
     },
     "strict": false
   },
   "include": [
+    "src/**/*",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

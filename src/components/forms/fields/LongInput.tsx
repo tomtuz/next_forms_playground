@@ -1,4 +1,4 @@
-import { Textarea } from '@/cn/ui/textarea'
+import { Textarea } from '@cn/textarea'
 
 interface LongInputProps {
   id?: string

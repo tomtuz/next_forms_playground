@@ -1,7 +1,7 @@
 'use client'
 
-import { FormProvider, useForm } from 'react-hook-form'
-import { Button } from '@/cn/ui'
+import { Button } from '@cn/button'
+import { useForm } from 'react-hook-form'
 
 // https://github.com/react-hook-form/devtools/issues/187#issuecomment-1369182795
 import dynamic from 'next/dynamic'

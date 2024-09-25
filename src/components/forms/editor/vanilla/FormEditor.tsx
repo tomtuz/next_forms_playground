@@ -8,9 +8,9 @@ import { FormFieldInput } from '@/components/forms/editor/vanilla/FormFieldInput
 import { FormHeader } from '@/components/forms/editor/vanilla/FormHeader'
 
 // CN UI
-import { Button } from '@/cn/ui/button'
-import { Separator } from '@/cn/ui/separator'
-import { useToast } from '@/cn/ui/use-toast'
+import { Button } from '@cn/button'
+import { Separator } from '@cn/separator'
+import { useToast } from '@cn/use-toast'
 
 // Hooks
 import { useFormData } from '@/hooks/useFormData'

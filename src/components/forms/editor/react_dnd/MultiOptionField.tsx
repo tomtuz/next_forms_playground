@@ -1,7 +1,6 @@
-import React from 'react'
-import { Control, useFieldArray, Controller } from 'react-hook-form'
-import { Input, Checkbox, Button } from '@/cn/ui'
 import { Form } from '@/types/react'
+import { Button, Checkbox, Input } from '@cn'
+import { Control, Controller, useFieldArray } from 'react-hook-form'
 
 interface MultiOptionFieldProps {
   fieldIndex: number

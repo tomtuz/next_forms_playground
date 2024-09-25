@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/cn/ui/button'
+import { Button } from '@cn/button'
 import { useCallback, useEffect, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 

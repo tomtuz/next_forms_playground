@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@/cn/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/cn/ui/card'
+import { Button } from '@cn/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@cn/card'
 import {
   Dialog,
   DialogContent,
@@ -9,8 +9,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger
-} from '@/cn/ui/dialog'
-import { Input } from '@/cn/ui/input'
+} from '@cn/dialog'
+import { Input } from '@cn/input'
 import { useEffect, useState } from 'react'
 
 export default function SimpleInputTest() {

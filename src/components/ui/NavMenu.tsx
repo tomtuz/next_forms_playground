@@ -5,7 +5,7 @@ import {
   MenubarMenu,
   MenubarSeparator,
   MenubarTrigger
-} from '@/cn/ui/menubar'
+} from '@cn/menubar'
 import Link from 'next/link'
 
 export function NavMenu() {

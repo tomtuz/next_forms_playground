@@ -1,14 +1,15 @@
 'use client'
 
-import { Button } from '@/cn/ui/button'
+import { Button } from '@cn/button'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle
-} from '@/cn/ui/card'
-import { Input } from '@/cn/ui/input'
+} from '@cn/card'
+import { Input } from '@cn/input'
+
 import Link from 'next/link'
 import { useState } from 'react'
 import { formRoutes } from './routes'

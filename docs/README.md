@@ -54,9 +54,9 @@ import { FormField } from '@/components/field/FormField'
 import { FormHeader } from '@/components/field/FormHeader'
 
 // CN UI -- external and native
-import { Button } from '@/cn/ui/button'
-import { Separator } from '@/cn/ui/separator'
-import { useToast } from '@/cn/ui/use-toast'
+import { Button } from '@cn/button'
+import { Separator } from '@cn/separator'
+import { useToast } from '@cn/use-toast'
 ```
 
 **\* This was done to increase the distinction between different types of components and reduce clutter**

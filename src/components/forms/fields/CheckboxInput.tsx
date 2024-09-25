@@ -1,5 +1,4 @@
-import React from 'react'
-import { Checkbox } from '@/cn/ui/checkbox'
+import { Checkbox } from '@cn/checkbox'
 
 interface InputProps {
   disabled?: boolean

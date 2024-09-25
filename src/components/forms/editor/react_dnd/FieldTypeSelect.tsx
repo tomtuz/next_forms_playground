@@ -1,13 +1,12 @@
-import React from 'react'
-import { Control, Controller } from 'react-hook-form'
+import { FieldType, Form } from '@/types/react'
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
-} from '@/cn/ui/select'
-import { Form, FieldType } from '@/types/react'
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@cn/select'
+import { Control, Controller } from 'react-hook-form'
 
 interface FieldTypeSelectProps {
   index: number

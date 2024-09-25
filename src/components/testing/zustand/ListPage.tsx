@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import useListStore from '@/stores/zustand'
 import type { ComponentItem } from '@/stores/zustand'
-import { Card, Button, Input } from '@/cn/ui'
+import useListStore from '@/stores/zustand'
+import { Button, Card, Input } from '@cn'
+import { useState } from 'react'
 
 export function ListPage() {
   const { items, addItem, removeItem } = useListStore()

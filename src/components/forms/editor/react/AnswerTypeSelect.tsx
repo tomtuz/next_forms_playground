@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react'
+import { renderCountElement, useRenderCount } from '@/hooks/useRedrawCount'
+import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
+import { FieldType, Form } from '@/types/react'
 import {
   Select,
-  SelectTrigger,
-  SelectValue,
   SelectContent,
-  SelectItem
-} from '@/cn/ui/select'
-import { FieldType, Form } from '@/types/react'
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@cn/select'
+import { useCallback } from 'react'
 import { FieldArrayWithId, useFormContext, useWatch } from 'react-hook-form'
-import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
-import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
 
 interface AnswerTypeSelectProps {
   index: number

@@ -1,10 +1,8 @@
-import React from 'react'
-import { Button } from '@/cn/ui'
-import { Form } from '@/types/react'
-import { useFormContext } from 'react-hook-form'
+import { renderCountElement, useRenderCount } from '@/hooks/useRedrawCount'
 import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
-import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
-import { register } from 'module'
+import { Form } from '@/types/react'
+import { Button } from '@cn'
+import { useFormContext } from 'react-hook-form'
 
 interface QuestionTitleProps {
   index: number

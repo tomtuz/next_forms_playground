@@ -1,9 +1,9 @@
-import { FormRoute, routesData } from '@/app/routes';
+import { FormRoute, formRoutes } from '@/app/routes';
 import { colorSet } from '@/constants';
 
 export const categories = [
   'All',
-  ...new Set(routesData.map((formRoute: FormRoute) => formRoute.category).filter(Boolean))
+  ...new Set(formRoutes.map((formRoute: FormRoute) => formRoute.category).filter(Boolean))
 ] as string[];
 
 export const generateCategoryColors = (categories: string[]) => {

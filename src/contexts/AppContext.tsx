@@ -9,6 +9,7 @@ type AppContextType = {
   categoryColors: Record<string, string>
 }
 
+// Top-level context provider for generic application needs
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export function AppProvider({ children }: { children: ReactNode }) {

@@ -1,47 +1,60 @@
 import HomeContent from '@/components/ui/HomeContent'
-import fs from 'fs'
+import fs from 'fs/promises'
 import path from 'path'
-import { FormRoute, routesData } from './routes'
-
-const defaultShortContent = '- No short information available'
-const defaultLongContent = '- No detailed information available'
-
-// handle missing 'docs' files
-function getMDXContent(routePath: string, isShort: boolean) {
-  const fileName = isShort ? 'short-info.mdx' : 'info.mdx'
-  const filePath = path.join(process.cwd(), 'src', 'docs', routePath, fileName)
-
-  if (!fs.existsSync(filePath)) {
-    const content = isShort ? defaultShortContent : defaultLongContent
-    fs.mkdirSync(path.dirname(filePath), { recursive: true })
-    fs.writeFileSync(filePath, content)
-  }
-
-  return fs.readFileSync(filePath, 'utf-8')
-}
+import { FormRoute, formRoutes } from './routes'
 
 const normalizePath = (path: string) => {
   return path.startsWith('/') ? path.slice(1) : path
 }
 
-// ensure 'docs' files exist and can be resolved resolve
-function prepareRoutes(): FormRoute[] {
-  return routesData.map((route) => {
-    const normalizedPath = normalizePath(route.path)
-    const shortDescription = getMDXContent(normalizedPath, true)
-    const longDescription = getMDXContent(normalizedPath, false)
-
-    return {
-      ...route,
-      shortDescription,
-      longDescription
-    }
-  })
+async function getMDXContent(routePath: string, fileName: string): Promise<string | null> {
+  const filePath = path.join(process.cwd(), 'src', 'docs', routePath, fileName)
+  try {
+    await fs.access(filePath, fs.constants.R_OK)
+    const fileContent = await fs.readFile(filePath, 'utf-8')
+    return fileContent
+  } catch (error) {
+    return null
+  }
 }
 
-// End of server-side calculations
-export default function Home() {
-  const routes = prepareRoutes()
 
+async function prepareRoutes(): Promise<FormRoute[]> {
+  // console.log("\nPreparing routes...")
+  
+  const preparedRoutes = await Promise.all(formRoutes.map(async (route) => {
+    const normalizedPath = normalizePath(route.path)
+    // console.log(`\n- Processing route: ${route.name}`)
+    // console.log(`  Path: ${normalizedPath}`)
+
+    const shortDescription = await getMDXContent(normalizedPath, 'short-info.mdx')
+    const longDescription = await getMDXContent(normalizedPath, 'info.mdx')
+
+    // console.log(`  Short description: ${shortDescription ? '[√]' : '[x]'}`)
+    // console.log(`  Long description: ${longDescription ? '[√]' : '[x]'}`)
+
+    if (shortDescription !== null || longDescription !== null) {
+      // console.log(`  Updating route with new descriptions`)
+      return {
+        ...route,
+        shortDescription: shortDescription || route.shortDescription,
+        longDescription: longDescription || route.longDescription
+      }
+    }
+
+    // console.log(`  No changes for this route`)
+    return route
+  }))
+
+  // console.log("\nRoutes preparation completed")
+  return preparedRoutes
+}
+
+export default async function Home() {
+  console.log("\nRendering Home component")
+  const routes = await prepareRoutes()
+  console.log(`\nSummary:`)
+  console.log(`  - Prepared ${routes.length} routes`)
+  
   return <HomeContent initialRoutes={routes} />
 }

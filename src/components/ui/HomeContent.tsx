@@ -70,7 +70,9 @@ export default function HomeContent({ initialRoutes }: HomeContentProps) {
       <div className="h-[calc(100vh-300px)] overflow-y-auto">
         <div className="grid auto-rows-fr grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredTests.map((formRoute) => (
-            <LandingCard key={formRoute.id} formRoute={formRoute} />
+            <div key={formRoute.id}>
+              <LandingCard formRoute={formRoute} />
+            </div>
           ))}
         </div>
       </div>

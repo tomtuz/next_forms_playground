@@ -1,6 +1,6 @@
 'use client'
 
-import { routesData } from '@/app/routes'
+import { formRoutes } from '@/app/routes'
 import { useAppContext } from '@/contexts/AppContext'
 import { Button } from '@cn/button'
 import {
@@ -24,7 +24,7 @@ export default function Header() {
 
   const filteredFormRoutes = useMemo(() => {
     const lowercaseSearchTerm = searchTerm.toLowerCase()
-    return routesData.filter(
+    return formRoutes.filter(
       (formRoute) =>
         formRoute.name.toLowerCase().includes(lowercaseSearchTerm) ||
         formRoute.category.toLowerCase().includes(lowercaseSearchTerm)
@@ -32,7 +32,7 @@ export default function Header() {
   }, [searchTerm])
 
   const currentFormRoute = useMemo(() => {
-    return routesData.find((route) => pathname === `${route.path}`)
+    return formRoutes.find((route) => pathname === `${route.path}`)
   }, [pathname])
 
   const isRootPath = pathname === '/'

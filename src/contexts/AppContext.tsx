@@ -1,13 +1,14 @@
 'use client'
 
+import { categoryColors } from '@/utils/categories'
 import { createContext, ReactNode, useContext, useState } from 'react'
 
 type AppContextType = {
   selectedCategory: string
   setSelectedCategory: (category: string) => void
+  categoryColors: Record<string, string>
 }
 
-// Top-level context provider for generic application needs
 const AppContext = createContext<AppContextType | undefined>(undefined)
 
 export function AppProvider({ children }: { children: ReactNode }) {
@@ -16,6 +17,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const value = {
     selectedCategory,
     setSelectedCategory,
+    categoryColors,
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

@@ -3,9 +3,11 @@ import type { Config } from "tailwindcss"
 const config = {
   darkMode: ["class"],
   content: [
-    './src/components/**/*.tsx',
+    './src/components/**/*.{tsx,ts}',
     './src/cn/**/*.{tsx,ts}',
-    './src/app/**/*.tsx',
+    './src/app/**/*.{tsx,ts}',
+    './src/constants/**/*.{tsx,ts}',
+    './src/utils/**/*.{tsx,ts}',
     './src/hooks/useRedrawCountFull.tsx',
     './src/hooks/useRedrawCount.tsx',
   ],

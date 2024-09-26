@@ -33,16 +33,34 @@
 // /** @type {import('next').NextConfig} */
 // const nextConfig = {}
 
+import createMDX from '@next/mdx'
+import remarkGfm from 'remark-gfm'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // webpack: (config, context) => {
-  //   injectWhyDidYouRender(config, context)
-  //   return config
-  // },
+  // Extend `pageExtensions`` to include MDX files
+  // We don't want to display .mdx files as pages for now so we leave it commented out.
+  // pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 
   // disable during prod
   transpilePackages: ['jotai-devtools'],
   reactStrictMode: true
+
+  // webpack: (config, context) => {
+  //   injectWhyDidYouRender(config, context)
+  //   return config
+  // },
 }
 
-export default nextConfig
+const withMDX = createMDX({
+  // allow '.md' extensions
+  // extension: /\.(md|mdx)$/,
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: []
+  }
+})
+
+// export default nextConfig
+export default withMDX(nextConfig)

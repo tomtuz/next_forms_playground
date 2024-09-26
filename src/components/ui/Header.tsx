@@ -1,8 +1,7 @@
 'use client'
 
-import { formRoutes } from '@/app/routes'
+import { routesData } from '@/app/routes'
 import { useAppContext } from '@/contexts/AppContext'
-import { categoryColors } from '@/utils/categories'
 import { Button } from '@cn/button'
 import {
   DropdownMenu,
@@ -20,11 +19,12 @@ import { useCallback, useMemo, useState } from 'react'
 export default function Header() {
   const pathname = usePathname()
   const [searchTerm, setSearchTerm] = useState('')
-  const { selectedCategory, setSelectedCategory } = useAppContext()
+  const { selectedCategory, setSelectedCategory, categoryColors } =
+    useAppContext()
 
   const filteredFormRoutes = useMemo(() => {
     const lowercaseSearchTerm = searchTerm.toLowerCase()
-    return formRoutes.filter(
+    return routesData.filter(
       (formRoute) =>
         formRoute.name.toLowerCase().includes(lowercaseSearchTerm) ||
         formRoute.category.toLowerCase().includes(lowercaseSearchTerm)
@@ -32,18 +32,24 @@ export default function Header() {
   }, [searchTerm])
 
   const currentFormRoute = useMemo(() => {
-    return formRoutes.find(route => pathname === `${route.path}`)
+    return routesData.find((route) => pathname === `${route.path}`)
   }, [pathname])
 
   const isRootPath = pathname === '/'
 
-  const handleCategorySelect = useCallback((category: string) => {
-    setSelectedCategory(category)
-  }, [setSelectedCategory])
+  const handleCategorySelect = useCallback(
+    (category: string) => {
+      setSelectedCategory(category)
+    },
+    [setSelectedCategory]
+  )
 
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value)
-  }, [])
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target.value)
+    },
+    []
+  )
 
   return (
     <header className="fixed top-0 z-50 w-full border-b bg-white shadow-sm">
@@ -54,7 +60,8 @@ export default function Header() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              {currentFormRoute ? currentFormRoute.name : 'Forms'} <ChevronDown className="ml-2 h-4 w-4" />
+              {currentFormRoute ? currentFormRoute.name : 'Forms'}{' '}
+              <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
@@ -71,12 +78,18 @@ export default function Header() {
               </div>
             </div>
             {filteredFormRoutes.map((formRoute) => (
-              <DropdownMenuItem key={formRoute.id} asChild className='cursor-pointer'>
+              <DropdownMenuItem
+                key={formRoute.id}
+                asChild
+                className="cursor-pointer"
+              >
                 <Link
                   href={`${formRoute.path}`}
                   className={clsx(
                     'flex items-center justify-between',
-                    !isRootPath && pathname === `${formRoute.path}` && 'bg-accent'
+                    !isRootPath &&
+                      pathname === `${formRoute.path}` &&
+                      'bg-accent'
                   )}
                   onClick={() => handleCategorySelect(formRoute.category)}
                 >
@@ -87,7 +100,7 @@ export default function Header() {
                       categoryColors[formRoute.category],
                       // Highlight logic for root path and other paths
                       (isRootPath && selectedCategory === formRoute.category) ||
-                      (!isRootPath && pathname === `${formRoute.path}`)
+                        (!isRootPath && pathname === `${formRoute.path}`)
                         ? 'ring-2 ring-primary'
                         : ''
                     )}

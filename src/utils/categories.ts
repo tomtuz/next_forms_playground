@@ -1,13 +1,13 @@
-import { formRoutes } from '@/app/routes'
-import { colorSet } from '@/constants'
+import { FormRoute, routesData } from '@/app/routes';
+import { colorSet } from '@/constants';
 
 export const categories = [
   'All',
-  ...new Set(formRoutes.map((formRoute) => formRoute.category))
-]
+  ...new Set(routesData.map((formRoute: FormRoute) => formRoute.category).filter(Boolean))
+] as string[];
 
 export const generateCategoryColors = (categories: string[]) => {
-  return categories.reduce(
+  return categories.reduce<Record<string, string>>(
     (acc, category, index) => {
       if (category === 'All') {
         acc[category] = 'bg-gray-50 text-gray-800'
@@ -19,7 +19,7 @@ export const generateCategoryColors = (categories: string[]) => {
       }
       return acc
     },
-    {} as Record<string, string>
+    {}
   )
 }
 

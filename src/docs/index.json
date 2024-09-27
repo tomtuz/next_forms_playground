@@ -1,0 +1,6 @@
+{
+  "forms/vanilla": "forms_vanilla.mdx",
+  "forms/react": "forms_react.mdx",
+  "forms/scratch": "forms_scratch.mdx",
+  "forms/react_dnd": "forms_react_dnd.mdx"
+}

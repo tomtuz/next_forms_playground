@@ -1,17 +1,19 @@
-import HomeContent from '@/components/ui/HomeContent'
+
 import { RouteInfo, getProjectPaths } from '@/utils/doc_resolver'
+import { createCLILogger } from '@/utils/logger/logger.cli'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
 import path from 'path'
 import { appConfig } from '../config/app'
-import { createCLILogger } from '../utils/logger/logger.cli'
 import { FormRoute, formRoutes } from './routes'
 
+// import { matter } from 'vfile-matter'
+// import { read } from 'to-vfile'
 
 const logger = createCLILogger()
 logger.setLevels(appConfig.loggingMode)
 
-async function getMDXContent(filePath: string) {
+async function getMDXContent(filePath) {
   try {
     await fs.access(filePath, fs.constants.R_OK)
     // const fileContent = await read(filePath, 'utf8')
@@ -33,6 +35,27 @@ async function getMDXContent(filePath: string) {
   }
 }
 
+// async function getMDXContent(
+//   filePath: string,
+// ): Promise<any> {
+//   try {
+//     await fs.access(filePath, fs.constants.R_OK)
+//     const fileContent = await read(filePath, 'utf8')
+//     await matter(fileContent)
+
+//     const content = fileContent.value || null;
+//     const frontMatter = fileContent.data.matter || null;
+
+//     logger.step("FrontMatter: ", frontMatter)
+//     logger.step("Content: ", content)
+
+//     return { metadata: frontMatter, content}
+
+//   } catch (error) {
+//     return { metadata: null, content: null}
+//   }
+// }
+
 async function getDocsContent(
   routePath: string
 ): Promise<{ metadata: any | null; content: any | null }> {
@@ -45,24 +68,24 @@ async function getDocsContent(
     // const mdxModule = await getMDXContent(routePath)
     const { metadata, content } = await getMDXContent(routePath)
     if (content) {
-      // logger.info('-------------------------')
+      logger.info('-------------------------')
       // logger.info(`mdxModule [${routePath}]): `, content)
       // logger.info("type mdxModule: ", typeof content)
     }
 
     // const mdxModule = await import(routePath)
-    logger.info(`Successfully loaded MDX for route: ${routePath}`)
+    // logger.info(`Successfully loaded MDX for route: ${routePath}`)
 
     // logger.info('metadata: ', metadata)
     
     // The default export is the React component for the MDX content
     // const content = mdxModule.default
 
-    if (!metadata || !metadata.shortDescription) {
-      console.warn(
-        `Missing shortDescription in metadata for route: ${routePath}`
-      )
-    }
+    // if (!metadata || !metadata.shortDescription) {
+    //   console.warn(
+    //     `Missing shortDescription in metadata for route: ${routePath}`G
+    //   )
+    // }
 
     return {
       metadata: metadata,
@@ -93,13 +116,13 @@ async function prepareRoutes(
       })
 
       if (!docRoute) {
-        logger.warn(
-          `${index + 1}/${displayRoutes.length}\tdocRoute missing '${displayRoute.path}', skipping...`
-        )
+        // logger.warn(
+        //   `${index + 1}/${displayRoutes.length}\tdocRoute missing '${displayRoute.path}', skipping...`
+        // )
         return displayRoute
       }
 
-      console.warn('found: ', docRoute)
+      // console.warn('found: ', docRoute)
       const { metadata, content } = docRoute.docs
         ? await getDocsContent(docRoute.docs)
         : { metadata: null, content: null }
@@ -124,10 +147,12 @@ async function prepareRoutes(
   return displayRoutesAll
 }
 
-export default async function Home() {
+async function Homeris() {
   const routePaths = await getProjectPaths()
   const routeDisplayArr = await prepareRoutes(formRoutes, routePaths)
 
-  logger.step(`√ routeDisplayArr:`, routeDisplayArr)
-  return <HomeContent initialRoutes={routeDisplayArr} />
+  // logger.step(`√ routeDisplayArr:`, routeDisplayArr)
 }
+
+// getMDXContent("C:\\rcm\\_react\\play_nextjs_forms\\src\\docs\\forms_vanilla.mdx")
+Homeris()

@@ -3,7 +3,7 @@
 import { Button } from '@cn/button'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@cn/dialog'
 import { Suspense, useState } from 'react'
-import Markdown from 'react-markdown'
+// import Markdown from 'react-markdown'
 
 export function RouteInfoDialog({ formRoute }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -32,7 +32,7 @@ export function RouteInfoDialog({ formRoute }) {
         </DialogHeader>
         <div className="max-h-[70vh] overflow-y-auto prose dark:prose-invert">
           <Suspense fallback={<div>Loading detailed description...</div>}>
-            <Markdown>{formRoute.longDescription}</Markdown>
+            {/* <Markdown>{formRoute.longDescription}</Markdown> */}
           </Suspense>
         </div>
       </DialogContent>

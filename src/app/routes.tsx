@@ -15,7 +15,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'vanilla',
       name: 'Vanilla',
-      path: '/forms/vanilla',
+      path: 'forms/vanilla',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -24,7 +24,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'react',
       name: 'Form (React Hook Form)',
-      path: '/forms/react',
+      path: 'forms/react',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -33,7 +33,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'react-dnd',
       name: 'Form (React Hook Form + DnD kit)',
-      path: '/forms/react_dnd',
+      path: 'forms/react_dnd',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -42,7 +42,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'scratch',
       name: 'Scratch Form',
-      path: '/forms/scratch',
+      path: 'forms/scratch',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -51,7 +51,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'scratch-base',
       name: 'Scratch Base Form',
-      path: '/forms/scratch_base',
+      path: 'forms/scratch_base',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -60,7 +60,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'test',
       name: 'Combo tables',
-      path: '/forms/test',
+      path: 'forms/test',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -69,7 +69,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'test-render-test',
       name: 'RenderTest',
-      path: '/forms/test/render_test',
+      path: 'forms/test/render_test',
       category: 'Basic',
       shortDescription,
       longDescription
@@ -80,7 +80,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'list',
       name: 'Data List',
-      path: '/forms/list',
+      path: 'forms/list',
       category: 'Data',
       shortDescription,
       longDescription
@@ -89,7 +89,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'template',
       name: 'Template',
-      path: '/forms/template',
+      path: 'forms/template',
       category: 'Other',
       shortDescription,
       longDescription
@@ -100,7 +100,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'state',
       name: 'State management',
-      path: '/test',
+      path: 'test',
       category: 'State',
       shortDescription,
       longDescription
@@ -109,7 +109,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'jotai',
       name: 'Jotai',
-      path: '/test/state/jotai',
+      path: 'test/state/jotai',
       category: 'State',
       shortDescription,
       longDescription
@@ -118,7 +118,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'zustand',
       name: 'Zustand',
-      path: '/test/state/zustand',
+      path: 'test/state/zustand',
       category: 'State',
       shortDescription,
       longDescription
@@ -129,7 +129,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'other',
       name: 'Other',
-      path: '/other',
+      path: 'other',
       category: 'Custom',
       shortDescription,
       longDescription
@@ -137,7 +137,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'one_example',
       name: 'One Example',
-      path: '/other/onexample',
+      path: 'other/onexample',
       category: 'Custom',
       shortDescription,
       longDescription
@@ -145,7 +145,7 @@ export const prepareRoutes = (): FormRoute[] => {
     {
       id: 'dash',
       name: 'Dash',
-      path: '/other/dash',
+      path: 'other/dash',
       category: 'Custom',
       shortDescription,
       longDescription

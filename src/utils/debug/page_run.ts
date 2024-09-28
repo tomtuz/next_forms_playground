@@ -82,7 +82,8 @@ async function discoverRoutes(appDir: string, docsDir: string): Promise<RouteInf
 }
 
 async function Home() {
-  logger.info('Starting route discovery...')
+  logger.verbose('logLevels (page.tsx):', logger.getLoggerInfo())
+  logger.step('Starting route discovery...')
 
   const foundRoutes = await discoverRoutes(APP_DIR, DOCS_DIR)
   logger.step(`√ Discovered routes - (${foundRoutes.length})`, foundRoutes)

@@ -1,14 +1,19 @@
-import { LoggerInterface, OutputLevel } from './types';
+import { LoggerInterface, OutputLevel, TransformData } from './types';
 
-export function createBrowserLogger(): LoggerInterface {
+export function createBrowserLogger(initSettings?: OutputLevel): LoggerInterface {
+  let isIsolated: boolean = false
+  let isDisabled: boolean = false
   const level: OutputLevel = {
     Info: true,
     Debug: false,
     Verbose: false,
   };
 
-  const setLevels = (levelObj: Partial<OutputLevel>): void => {
+  const setLevels = (levelObj: Partial<OutputLevel>, isolatedLogger?: boolean, disableLogs?: boolean): void => {
     Object.assign(level, levelObj);
+    if(isolatedLogger) {
+      isIsolated = isolatedLogger
+    }
   };
 
   const setLevel = (levelKey: keyof OutputLevel, value: boolean): void => {
@@ -16,6 +21,8 @@ export function createBrowserLogger(): LoggerInterface {
   };
 
   const getLevels = (): OutputLevel => ({ ...level });
+
+  const getLoggerInfo = () => ({ levels: level, isIsolated, isDisabled })
 
   const error = (message?: any, ...optionalParams: any[]): void => {
     console.error(message, ...optionalParams);
@@ -59,10 +66,50 @@ export function createBrowserLogger(): LoggerInterface {
     console.log(`${prefix}${message}`);
   };
 
+  const rawStatus = (
+    message?: any,
+    status_type?: 'success' | 'error' | 'info' | 'custom'
+    ): string => {
+    const prefix = status_type ? `[${status_type.toUpperCase()}] ` : '';
+    return `${prefix}${message}`;
+  };
+
+  const transform = (
+    transformData: TransformData,
+    callback?: () => void
+  ): void => {
+    if (isDisabled) {
+      return
+    }
+    const { levels } = transformData.meta
+
+    const currentLevels = getLevels()
+    for (const [key, value] of Object.entries(currentLevels)) {
+      const customSetting = levels[key];
+      if (customSetting && customSetting !== value) {
+        return
+      }
+    }
+
+    let result = ''
+    for (const item of transformData.textParts) {
+      result += item.m
+      result += item.end || ' '
+    }
+
+    console.log(result)
+  }
+
+  // handle default settings
+  if (initSettings) {
+    setLevels(initSettings)
+  }
+
   return {
     setLevels,
     setLevel,
     getLevels,
+    getLoggerInfo,
     error,
     warn,
     info,
@@ -72,5 +119,7 @@ export function createBrowserLogger(): LoggerInterface {
     step,
     struct,
     status,
+    rawStatus,
+    transform
   };
 }

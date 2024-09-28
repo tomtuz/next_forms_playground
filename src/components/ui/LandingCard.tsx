@@ -10,14 +10,14 @@ import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { memo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import { RouteInfoDialog } from './RouteInfoDialog'
 
 interface LandingCardProps {
   formRoute: FormRoute
 }
 
 function MarkdownRenderer({ content }) {
-  const contentData = [Object.values(content)].join('\n')
-  return <ReactMarkdown>{contentData}</ReactMarkdown>;
+  return <ReactMarkdown>{content}</ReactMarkdown>;
 }
 
 export const LandingCard = memo(function LandingCard({
@@ -62,8 +62,7 @@ export const LandingCard = memo(function LandingCard({
         <CardTitle className="text-lg">{formRoute.name}</CardTitle>
       </CardHeader>
       <CardContent className="prose dark:prose-invert flex flex-col p-0">
-        {/* <Markdown>{formRoute.shortDescription}</Markdown> */}
-        <MarkdownRenderer  content={formRoute.shortDescription} />
+        <MarkdownRenderer content={formRoute.shortDescription} />
       </CardContent>
       <CardContent className="mt-auto flex items-center justify-between p-0 pt-2">
         <span
@@ -78,7 +77,7 @@ export const LandingCard = memo(function LandingCard({
           <Link href={formRoute.path} className="block">
             <Button variant="outline">Open</Button>
           </Link>
-          {/* <RouteInfoDialog formRoute={formRoute} /> */}
+          <RouteInfoDialog formRoute={formRoute} />
           <Button
             variant="outline"
             size="icon"

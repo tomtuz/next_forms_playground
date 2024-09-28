@@ -1,7 +1,7 @@
 'use client'
 
-import { categoryColors } from '@/utils/categories'
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { categoryColors } from '@/utils/categories';
+import { ReactNode, createContext, useContext, useState } from 'react';
 
 type AppContextType = {
   selectedCategory: string

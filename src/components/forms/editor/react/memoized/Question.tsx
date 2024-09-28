@@ -1,11 +1,11 @@
-import React, { useCallback, memo } from 'react'
-import { QuestionTitle } from '../QuestionTitle'
-import { AnswerField } from '../AnswerField'
+import { renderCountElement, useRenderCount } from '@/hooks/useRedrawCount'
 import { useRenderCountFull } from '@/hooks/useRedrawCountFull'
-import { useRenderCount, renderCountElement } from '@/hooks/useRedrawCount'
+import { AnswerField } from '@forms/editor/react/AnswerField'
+import { QuestionTitle } from '@forms/editor/react/QuestionTitle'
+import React, { useCallback } from 'react'
 // import { useRenderCount, RenderCounter } from '@/hooks/useCountRedraw'
-import { FieldArrayWithId } from 'react-hook-form'
 import { Form } from '@/types/react'
+import { FieldArrayWithId } from 'react-hook-form'
 
 interface QuestionProps {
   field: FieldArrayWithId<Form, 'fields', 'id'>

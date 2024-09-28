@@ -1,0 +1,110 @@
+[
+  {
+    "folder": "forms/list",
+    "projectPath": "src/app/forms/list",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms",
+    "projectPath": "src/app/forms",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/react",
+    "projectPath": "src/app/forms/react",
+    "hasDocs": true,
+    "docs": "src/docs/forms_react.mdx"
+  },
+  {
+    "folder": "forms/react_dnd",
+    "projectPath": "src/app/forms/react_dnd",
+    "hasDocs": true,
+    "docs": "src/docs/forms_react_dnd.mdx"
+  },
+  {
+    "folder": "forms/scratch",
+    "projectPath": "src/app/forms/scratch",
+    "hasDocs": true,
+    "docs": "src/docs/forms_scratch.mdx"
+  },
+  {
+    "folder": "forms/scratch_base",
+    "projectPath": "src/app/forms/scratch_base",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/template",
+    "projectPath": "src/app/forms/template",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/test",
+    "projectPath": "src/app/forms/test",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/test/render_test",
+    "projectPath": "src/app/forms/test/render_test",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/vanilla",
+    "projectPath": "src/app/forms/vanilla",
+    "hasDocs": true,
+    "docs": "src/docs/forms_vanilla.mdx"
+  },
+  {
+    "folder": "forms/[id]",
+    "projectPath": "src/app/forms/[id]",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "forms/[id]/preview",
+    "projectPath": "src/app/forms/[id]/preview",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "other/dash",
+    "projectPath": "src/app/other/dash",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "other/onexample",
+    "projectPath": "src/app/other/onexample",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "other",
+    "projectPath": "src/app/other",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "test",
+    "projectPath": "src/app/test",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "test/state/jotai",
+    "projectPath": "src/app/test/state/jotai",
+    "hasDocs": false,
+    "docs": ""
+  },
+  {
+    "folder": "test/state/zustand",
+    "projectPath": "src/app/test/state/zustand",
+    "hasDocs": false,
+    "docs": ""
+  }
+]

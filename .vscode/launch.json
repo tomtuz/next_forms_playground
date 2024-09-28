@@ -14,6 +14,30 @@
       "url": "http://localhost:3000"
     },
     {
+      "type": "node-terminal",
+      "request": "launch",
+      "name": "Debug TSX",
+      "command": "npm run debug_tsx"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug TSX Package",
+      "program": "${workspaceFolder}/src/utils/debug/parse_mdx.ts",
+      "outFiles": ["${workspaceFolder}/src/utils/debug/"],
+      "args": ["tsx", "./parse_mdx.ts"],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "${workspaceFolder}/node_modules/src/**",
+        "!**/node_modules/**"
+      ],
+      "env": {
+        "TS_NODE_PROJECT": "${workspaceFolder}/tsconfig.json"
+      },
+      "console": "integratedTerminal"
+    },
+    {
       "name": "Next.js: debug full stack",
       "type": "node-terminal",
       "request": "launch",

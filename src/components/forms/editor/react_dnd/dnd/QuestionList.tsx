@@ -1,27 +1,27 @@
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Control } from 'react-hook-form'
 
-import { Form, FieldType } from '@/types/react'
+import { FieldType, Form } from '@/types/react'
 
 import {
-  useSensors,
-  useSensor,
-  PointerSensor,
-  KeyboardSensor,
-  DragStartEvent,
-  DragEndEvent,
-  DndContext,
   closestCenter,
-  DragOverlay
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors
 } from '@dnd-kit/core'
 
 import {
-  sortableKeyboardCoordinates,
   SortableContext,
+  sortableKeyboardCoordinates,
   verticalListSortingStrategy
 } from '@dnd-kit/sortable'
 
-import { SortableInputField } from '../SortableInputField'
+import { SortableInputField } from '@forms/editor/react_dnd/SortableInputField'
 
 // DND wrapper - FieldArray
 export function DNDQuestionList({

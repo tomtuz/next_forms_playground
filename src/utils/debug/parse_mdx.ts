@@ -1,17 +1,16 @@
-import HomeContent from '@/components/ui/HomeContent'
+
+import { FormRoute, formRoutes } from '@/app/routes'
 import { RouteInfo, getProjectPaths } from '@/utils/doc_resolver'
 import { getLogger } from '@/utils/logger'
 import { TransformData } from '@/utils/logger/types'
 import fs from 'fs/promises'
 import matter from 'gray-matter'
 import c from 'picocolors'
-import { FormRoute, formRoutes } from './routes'
 
 const logger = getLogger({
   Info: true,
   Debug: true,
   Verbose: false
-  // Verbose: true
 })
 
 async function getMDXContent(filePath: string): Promise<{ metadata: any | null; content: any | null }> {
@@ -22,16 +21,11 @@ async function getMDXContent(filePath: string): Promise<{ metadata: any | null; 
     // using 'gray-matter'
     const fileMatter = matter(fileContent);
     const { data: frontmatter, content } = fileMatter;
+
     logger.verbose("fileMatter: ", fileMatter)
 
-    // Convert frontmatter to markdown
-    const metadata = Object.keys(frontmatter).length > 0
-      ? Object.entries(frontmatter).map(([key, value]) => `**${key}**: ${value}`).join('\n\n')
-      : null;
-
-
     return {
-      metadata,
+      metadata: frontmatter,
       content,
     };
 
@@ -88,11 +82,11 @@ async function prepareRoutes(
       }
 
       if (metadata) {
-        displayRoute.shortDescription = metadata
+        displayRoute.shortDescription = metadata || "nothing"
       }
 
       if (content) {
-        displayRoute.longDescription = content
+        displayRoute.longDescription = content || "nothing"
       }
 
       return displayRoute
@@ -115,11 +109,12 @@ async function prepareRoutes(
   return displayRoutesAll
 }
 
-export default async function Home() {
-  logger.verbose('logLevels (page.tsx):', logger.getLoggerInfo())
+async function RunParse() {
+  logger.verbose('logLevels (parse_mdx.tsx):', logger.getLoggerInfo())
   const routePaths = await getProjectPaths()
   const routeDisplayArr = await prepareRoutes(formRoutes, routePaths)
 
   logger.verbose('√ routeDisplayArr:\n', routeDisplayArr)
-  return <HomeContent initialRoutes={routeDisplayArr} />
 }
+
+RunParse()

@@ -147,3 +147,122 @@ There are a couple of ways to manage form state with the help of react-hook-form
 **Problems with centralized useFormState hook:**
 
 1. Using useFormContext hook could be considered an antipattern, because it decouples strong links between components and does not give immediate updates, when changed values do not represent the correct structure. So its easier to make mistakes.
+
+---
+
+# Handling event propagation
+
+## Hooks for debugging events
+
+- `useClickDebugger`: click on attached element to get its propagation path
+- `useEventListener`: helper to bind events to HTML element targets
+
+## Event precedence
+
+**The problem:**
+
+- Click `Button` (Open Dialog) -> Opens `Dialog` AND `Card` at once.
+
+**Expected:**
+
+- Click `Button` (Open Dialog) -> Opens `Dialog`
+
+**Current 'bubble' propagation array:**
+
+1. Button
+2. CardContent.card-style
+3. Card (here we call un-intended 'handleBoxClick' by propagation)
+
+**Example:**
+
+```tsx
+
+{itemArr.map((item) => (
+  <Card onClick={handleCardOpen}>
+
+    <CardContent className="card-style">
+      <span>
+        Dialog text: { item.text }
+      </span>
+    </CardContent>
+
+    <CardContent className="card-style">
+      <Button onClick={handleDialogOpen}>
+        Open Dialog
+      </Button>
+
+      <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
+        <DialogDescription>
+          Dialog text: { item.info }
+        </DialogDescription>
+      </Dialog>
+    </CardContent>
+
+  </Card>
+}
+```
+
+**Solution:**
+
+- To resolve this, extract depended children as separately controlled components, i.e.:
+
+```tsx
+
+{itemArr.map((item) => (
+  <>
+    <Card onClick={handleCardOpen}>
+
+      <CardContent className="card-style">
+        <span>
+          Dialog text: { item.text }
+        </span>
+      </CardContent>
+
+      <CardContent className="card-style">
+        {/* Stop propagation goin up. Never calls 'handleCardOpen' */}
+        <Button onClick={(e) => e.stopPropagation; handleDialogOpen(e); }>
+          Open Dialog
+        </Button>
+      </CardContent>
+
+    </Card>
+
+    {/* Extract children out of parent event context */}
+    <Dialog isOpen={isOpen} onOpenChange={setIsOpen}>
+      <DialogDescription>
+        Dialog text: { item.info }
+      </DialogDescription>
+    </Dialog>
+  </>
+}
+```
+
+**Alternative for custom UI libraries:**
+
+- ShadCN UI:
+
+  Prevent `Dialog` 'overlay' events escaping the `Dialog` component:
+
+  ```tsx
+  /* Change this: */
+  <DialogOverlay />
+
+  /* To this: */
+  <DialogOverlay onClick={(event) => event.stopPropagation()} />
+
+  /* ------------------------ */
+
+  /* For 'Select' components: */
+  <SelectContent
+    ref={(ref) => {
+      if (!ref) { return; }
+      ref.ontouchstart = (e) => {
+        e.preventDefault();
+      }
+    }}
+  >
+  /* ... */
+  </SelectContent>
+  ```
+
+  This way you could also nest the Dialog within i.e. `Card` component.

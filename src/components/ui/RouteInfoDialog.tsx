@@ -1,36 +1,43 @@
-'use client'
+import { logger } from '@/utils/logger';
+import { useClickDebugger } from '@/utils/useClickDebugger';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@cn/dialog';
+import { Suspense, useCallback, useRef } from 'react';
+import Markdown from 'react-markdown';
 
-import { Button } from '@cn/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@cn/dialog'
-import { Suspense, useState } from 'react'
-import Markdown from 'react-markdown'
+interface RouteInfoDialogProps {
+  formRoute: {
+    name: string;
+    longDescription: string;
+  };
+  isOpen: boolean;
+  onOpenChange: (open: boolean) => void;
+}
 
-export function RouteInfoDialog({ formRoute }) {
-  const [isOpen, setIsOpen] = useState(false)
+export function RouteInfoDialog({ formRoute, isOpen, onOpenChange }: RouteInfoDialogProps) {
+  const dialogRef = useRef<HTMLDivElement>(null);
 
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open)
-  }
+  useClickDebugger(dialogRef, undefined, 'RouteInfoDialog');
 
-  const handleMoreInfoClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setIsOpen(true)
-  }
+  const handleOpenChange = useCallback((open: boolean) => {
+    logger.info('--- Dialog open state changed ---')
+    logger.info(`Dialog is now ${open ? 'open' : 'closed'}`)
+    onOpenChange(open);
+  }, [onOpenChange]);
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        <Button variant="outline" onClick={handleMoreInfoClick}>More Info</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-3xl">
+    <Dialog open={isOpen} onOpenChange={handleOpenChange} >
+      <DialogContent 
+        ref={dialogRef}
+        className="max-w-3xl" 
+        data-testid="route-info-dialog"
+      >
         <DialogHeader>
           <DialogTitle>{formRoute.name} - Implementation Details</DialogTitle>
           <DialogDescription>
             Detailed information about the {formRoute.name} implementation.
           </DialogDescription>
         </DialogHeader>
-        <div className="max-h-[70vh] overflow-y-auto prose dark:prose-invert">
+        <div className="max-h-[70vh] overflow-y-auto prose dark:prose-invert mt-4">
           <Suspense fallback={<div>Loading detailed description...</div>}>
             <Markdown>{formRoute.longDescription}</Markdown>
           </Suspense>
@@ -39,3 +46,5 @@ export function RouteInfoDialog({ formRoute }) {
     </Dialog>
   )
 }
+
+RouteInfoDialog.displayName = 'RouteInfoDialog'

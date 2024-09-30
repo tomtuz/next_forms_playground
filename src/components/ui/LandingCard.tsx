@@ -28,7 +28,7 @@ interface RouteInfoDialogProps {
 const RouteInfoDialog: ComponentType<RouteInfoDialogProps> = dynamic(
   () => import('./RouteInfoDialog').then((mod) => mod.RouteInfoDialog),
   {
-    loading: () => <div>Loading...</div>,
+    loading: () => <div>Loading...</div>
   }
 )
 

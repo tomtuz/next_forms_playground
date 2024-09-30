@@ -31,6 +31,6 @@ export function useHeaderSearch() {
   return {
     searchTerm,
     handleSearchChange,
-    filteredFormRoutes,
+    filteredFormRoutes
   }
 }

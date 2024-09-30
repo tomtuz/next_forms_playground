@@ -15,11 +15,14 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const value = useMemo(() => ({
-    selectedCategory,
-    setSelectedCategory,
-    categoryColors
-  }), [selectedCategory]);
+  const value = useMemo(
+    () => ({
+      selectedCategory,
+      setSelectedCategory,
+      categoryColors
+    }),
+    [selectedCategory]
+  )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

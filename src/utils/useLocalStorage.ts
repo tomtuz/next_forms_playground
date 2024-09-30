@@ -6,8 +6,8 @@ type StorageKey = {
 }
 
 interface CacheState {
-  routes: boolean,
-  docs: boolean,
+  routes: boolean
+  docs: boolean
   total_cache: boolean
 }
 
@@ -25,13 +25,11 @@ export const seLocalStorage = (key: StorageKey): StorageKey['defaultValue'] => {
       const value = window.localStorage.getItem(keyName)
       if (value) {
         return JSON.parse(value)
-      }
-      else {
+      } else {
         window.localStorage.setItem(keyName, JSON.stringify(defaultValue))
         return defaultValue
       }
-    }
-    catch (err) {
+    } catch (err) {
       return defaultValue
     }
   })
@@ -40,8 +38,7 @@ export const seLocalStorage = (key: StorageKey): StorageKey['defaultValue'] => {
   const setValue = (newValue: any) => {
     try {
       window.localStorage.setItem(keyName, JSON.stringify(newValue))
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err)
     }
     setStoredValue(newValue)

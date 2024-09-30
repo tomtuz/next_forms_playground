@@ -61,7 +61,7 @@ const statusTemplate = (title: string, message: string): TransformData => {
     },
     textParts: [
       { m: `[${title}]`, c: c.blueBright },
-      { m: `${message}`, c: c.white },
+      { m: `${message}`, c: c.white }
     ]
   }
 }
@@ -89,14 +89,18 @@ export async function getCachedRoutes(
       const cacheData: CacheData = JSON.parse(cacheContent)
 
       if (cacheData.lastModified === indexLastModified) {
-        logger.transform(statusTemplate('(0) TOTAL CACHE', '- using total cache'))
+        logger.transform(
+          statusTemplate('(0) TOTAL CACHE', '- using total cache')
+        )
         return cacheData.routes
       }
     }
 
     if (cacheState.routes && cacheState.docs) {
       // logger.info('Recalculating total cache')
-      logger.transform(statusTemplate('(2) CALC CACHE', '- calculating "docs" + "routes"'))
+      logger.transform(
+        statusTemplate('(2) CALC CACHE', '- calculating "docs" + "routes"')
+      )
       const docRoutes = await getProjectPaths()
       const updatedRoutes = await prepareRoutes(formRoutes, docRoutes)
       await saveCache(updatedRoutes, indexLastModified)
@@ -105,17 +109,23 @@ export async function getCachedRoutes(
     }
 
     if (!cacheState.docs) {
-      logger.transform(statusTemplate('(1) CALC "docs"', '- calculating "docs"'))
+      logger.transform(
+        statusTemplate('(1) CALC "docs"', '- calculating "docs"')
+      )
       await recalculateDocs()
       await setCacheState({ ...cacheState, docs: true })
     }
 
     if (!cacheState.routes || routesLastModified > indexLastModified) {
-      logger.transform(statusTemplate('(1) CALC "routes"', '- calculating "routes"'))
+      logger.transform(
+        statusTemplate('(1) CALC "routes"', '- calculating "routes"')
+      )
       await setCacheState({ ...cacheState, routes: true })
     }
 
-    logger.transform(statusTemplate('(3) CALC ALL"', 'Recalculating everything'))
+    logger.transform(
+      statusTemplate('(3) CALC ALL"', 'Recalculating everything')
+    )
     const docRoutes = await getProjectPaths()
     const updatedRoutes = await prepareRoutes(formRoutes, docRoutes)
     await saveCache(updatedRoutes, indexLastModified)
@@ -278,7 +288,6 @@ export async function forceRefreshCache() {
 }
 
 async function recalculateDocs() {
-
   // Implement logic to recalculate docs/index.json
   // This might involve reimplementing parts of doc_resolver.ts
 }

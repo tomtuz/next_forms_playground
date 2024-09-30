@@ -1,4 +1,4 @@
-import c from 'picocolors'
+import c from './colors'
 import { LoggerInterface, OutputLevel, TransformData } from './types'
 
 export function createCLILogger(initSettings?: OutputLevel): LoggerInterface {

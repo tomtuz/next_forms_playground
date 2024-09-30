@@ -1,12 +1,12 @@
 /// <reference types="@welldone-software/why-did-you-render" />
 
-import React from 'react'
+import React from 'react';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 // use this in during regular dev:
-// import whyDidYouRender from '@welldone-software/why-did-you-render';
-// @ts-expect-error
-import whyDidYouRender from 'wdyr-dev/src/index'
+import whyDidYouRender from '@welldone-software/why-did-you-render';
+// // @ts-expect-error
+// import whyDidYouRender from 'wdyr-dev/src/index'
 
 // eslint-disable-next-line no-console -- Show information that `whyDidYouRender` has been applied to the website.
 console.debug(

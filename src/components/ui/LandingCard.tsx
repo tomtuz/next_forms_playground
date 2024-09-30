@@ -7,19 +7,37 @@ import { Button } from '@cn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@cn/card'
 import clsx from 'clsx'
 import { PlusCircle } from 'lucide-react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { memo, useCallback, useState } from 'react'
+import type { ComponentType } from 'react'
+import React, { memo, Suspense, useCallback, useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { RouteInfoDialog } from './RouteInfoDialog'
+import remarkGfm from 'remark-gfm'
 
 interface LandingCardProps {
   formRoute: FormRoute
 }
 
-const MarkdownRenderer = memo(({ content }: { content: string }) => (
-  <ReactMarkdown>{content}</ReactMarkdown>
-))
+interface RouteInfoDialogProps {
+  formRoute: FormRoute
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
+}
+
+const RouteInfoDialog: ComponentType<RouteInfoDialogProps> = dynamic(
+  () => import('./RouteInfoDialog').then((mod) => mod.RouteInfoDialog),
+  {
+    loading: () => <div>Loading...</div>,
+  }
+)
+
+const MarkdownRenderer = memo(({ content }: { content: string }) => {
+  return useMemo(
+    () => <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>,
+    [content]
+  )
+})
 
 MarkdownRenderer.displayName = 'MarkdownRenderer'
 
@@ -28,6 +46,7 @@ export const LandingCard = memo(function LandingCard({
 }: LandingCardProps) {
   // Hooks
 
+  const memoContent = useMemo(() => ({ formRoute }), [formRoute])
   const router = useRouter()
   const { toast } = useToast()
   const [isCreatingDocs, setIsCreatingDocs] = useState(false)
@@ -68,9 +87,22 @@ export const LandingCard = memo(function LandingCard({
     }
   }, [formRoute.path, toast])
 
-  const handleCardClick = useCallback((e: React.MouseEvent) => {
+  const handleCardClick = useCallback(() => {
     router.push(formRoute.path)
+  }, [formRoute.path, router])
+
+  const handleOpenDialog = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation()
+    setDialogOpen(true)
   }, [])
+
+  const handleCreateDocsClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation()
+      handleCreateDocs()
+    },
+    [handleCreateDocs]
+  )
 
   // Other
 
@@ -86,7 +118,7 @@ export const LandingCard = memo(function LandingCard({
           <CardTitle className="text-lg">{formRoute.name}</CardTitle>
         </CardHeader>
         <CardContent className="prose dark:prose-invert flex flex-col p-0">
-          <MarkdownRenderer content={formRoute.shortDescription} />
+          <MarkdownRenderer content={memoContent.formRoute.shortDescription} />
         </CardContent>
         <CardContent className="mt-auto flex items-center justify-between p-0 pt-2">
           <span
@@ -103,10 +135,7 @@ export const LandingCard = memo(function LandingCard({
             </Link>
             <Button
               variant="outline"
-              onClick={(e) => {
-                e.stopPropagation()
-                setDialogOpen(true)
-              }}
+              onClick={handleOpenDialog}
               data-testid="more-info-button"
             >
               More Info
@@ -114,10 +143,7 @@ export const LandingCard = memo(function LandingCard({
             <Button
               variant="outline"
               size="icon"
-              onClick={(e) => {
-                e.stopPropagation()
-                handleCreateDocs()
-              }}
+              onClick={handleCreateDocsClick}
               disabled={isCreatingDocs}
               data-testid="create-docs-button"
             >
@@ -126,11 +152,14 @@ export const LandingCard = memo(function LandingCard({
           </div>
         </CardContent>
       </Card>
-      <RouteInfoDialog
-        formRoute={formRoute}
-        isOpen={dialogOpen}
-        onOpenChange={setDialogOpen}
-      />
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouteInfoDialog
+          formRoute={memoContent.formRoute}
+          isOpen={dialogOpen}
+          onOpenChange={setDialogOpen}
+        />
+      </Suspense>
     </>
   )
 })

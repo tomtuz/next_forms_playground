@@ -4,7 +4,9 @@ import { FormRoute } from '@/app/routes'
 import { LandingCard } from '@/components/ui/LandingCard'
 import { useAppContext } from '@/contexts/AppContext'
 import { categories, categoryColors } from '@/utils/categories'
+import { Button } from '@cn/button'
 import { Input } from '@cn/input'
+import { FileText, RefreshCcw } from 'lucide-react'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { CategoryButton } from './CategoryButon'
 
@@ -27,6 +29,24 @@ export default function HomeContent({ initialRoutes }: HomeContentProps) {
     },
     []
   )
+
+  const handleForceRefresh = useCallback(async () => {
+    const response = await fetch('/api/refresh-cache', { method: 'POST' })
+    if (response.ok) {
+      window.location.reload()
+    } else {
+      console.error('Failed to refresh cache')
+    }
+  }, [])
+
+  const handleRefreshDocs = useCallback(async () => {
+    const response = await fetch('/api/refresh-docs', { method: 'POST' })
+    if (response.ok) {
+      window.location.reload()
+    } else {
+      console.error('Failed to refresh docs')
+    }
+  }, [])
 
   const filteredTests = useMemo(() => {
     const lowercaseSearchTerm = searchTerm.toLowerCase()
@@ -65,6 +85,12 @@ export default function HomeContent({ initialRoutes }: HomeContentProps) {
               categoryColors={categoryColors}
             />
           ))}
+          <Button onClick={handleForceRefresh} variant="outline" size="icon">
+            <RefreshCcw className="h-4 w-4" />
+          </Button>
+          <Button onClick={handleRefreshDocs} variant="outline" size="icon">
+            <FileText className="h-4 w-4" />
+          </Button>
         </div>
       </div>
       <div className="h-[calc(100vh-300px)] overflow-y-auto">

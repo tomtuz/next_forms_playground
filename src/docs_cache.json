@@ -1,0 +1,125 @@
+{
+  "lastModified": "2024-09-27T14:47:53.523Z",
+  "routes": [
+    {
+      "id": "vanilla",
+      "name": "Vanilla",
+      "path": "forms/vanilla",
+      "category": "Basic",
+      "shortDescription": "**title**: My first MDX blog post\n\n**description**: A short MDX blog post.\n\n**shortDescription**: This is a short description for the Vanilla form.",
+      "longDescription": "\n- No external libraries\n- Simple form implementation\n\n# Vanilla Form Implementation\n\nThis route demonstrates a basic form implementation without using any external form libraries.\n\n## Implementation Decisions\n\n1. **Native HTML Form Elements**: We use native HTML form elements to maintain simplicity and reduce bundle size.\n\n2. **Custom Validation**:\n   Test\n\n3. **State Management**:\n   Test\n\n## Key Features\n\n- Feature 1\n- Feature 2\n- Feature 3\n\n## Limitations\n\n- Limitation 1\n- Limitation 2\n"
+    },
+    {
+      "id": "react",
+      "name": "Form (React Hook Form)",
+      "path": "forms/react",
+      "category": "Basic",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No external libraries\n- Simple form implementation\n\n# Vanilla Form Implementation\n\nThis route demonstrates a basic form implementation without using any external form libraries.\n\n## Implementation Decisions\n\n1. **Native HTML Form Elements**: We use native HTML form elements to maintain simplicity and reduce bundle size.\n\n2. **Custom Validation**:\n   Test\n\n3. **State Management**:\n   Test\n\n## Key Features\n\n- Feature 1\n- Feature 2\n- Feature 3\n\n## Limitations\n\n- Limitation 1\n- Limitation 2\n"
+    },
+    {
+      "id": "react-dnd",
+      "name": "Form (React Hook Form + DnD kit)",
+      "path": "forms/react_dnd",
+      "category": "Basic",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No external libraries\n- Simple form implementation\n\n# Vanilla Form Implementation\n\nThis route demonstrates a basic form implementation without using any external form libraries.\n\n## Implementation Decisions\n\n1. **Native HTML Form Elements**: We use native HTML form elements to maintain simplicity and reduce bundle size.\n\n2. **Custom Validation**:\n   Test\n\n3. **State Management**:\n   Test\n\n## Key Features\n\n- Feature 1\n- Feature 2\n- Feature 3\n\n## Limitations\n\n- Limitation 1\n- Limitation 2\n"
+    },
+    {
+      "id": "scratch",
+      "name": "Scratch Form",
+      "path": "forms/scratch",
+      "category": "Basic",
+      "shortDescription": "**title**: MDX for forms_scratch\n\n**description**: A short MDX blog post.\n\n**shortDescription**: This is a short description for the Vanilla form.",
+      "longDescription": "\n# Vanilla Form Documentation\n\nThis is the detailed documentation...\n\n- No external libraries\n- Simple form implementation\n"
+    },
+    {
+      "id": "scratch-base",
+      "name": "Scratch Base Form",
+      "path": "forms/scratch_base",
+      "category": "Basic",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "test",
+      "name": "Combo tables",
+      "path": "forms/test",
+      "category": "Basic",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "test-render-test",
+      "name": "RenderTest",
+      "path": "forms/test/render_test",
+      "category": "Basic",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "list",
+      "name": "Data List",
+      "path": "forms/list",
+      "category": "Data",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "template",
+      "name": "Template",
+      "path": "forms/template",
+      "category": "Other",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "state",
+      "name": "State management",
+      "path": "test",
+      "category": "State",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "jotai",
+      "name": "Jotai",
+      "path": "test/state/jotai",
+      "category": "State",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "zustand",
+      "name": "Zustand",
+      "path": "test/state/zustand",
+      "category": "State",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "other",
+      "name": "Other",
+      "path": "other",
+      "category": "Custom",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "one_example",
+      "name": "One Example",
+      "path": "other/onexample",
+      "category": "Custom",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    },
+    {
+      "id": "dash",
+      "name": "Dash",
+      "path": "other/dash",
+      "category": "Custom",
+      "shortDescription": "- No short information available",
+      "longDescription": "- No detailed information available"
+    }
+  ]
+}

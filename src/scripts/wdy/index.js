@@ -5,7 +5,8 @@ const injectionSource = './src/scripts/wdy/injection.ts'
  * @param config - The webpack configuration object
  * @param context - The Next.js webpack configuration context
  */
-module.exports = (config, context) => {
+// module.exports = (config, context) => {
+export const injectWhyDidYouRender = (config, context) => {
   if (context.dev && !context.isServer) {
     const originalEntry = config.entry
 

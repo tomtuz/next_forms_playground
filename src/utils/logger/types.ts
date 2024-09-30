@@ -1,7 +1,5 @@
 // DOMAIN: Logger
 
-import { Formatter } from 'picocolors/types'
-
 export interface LoggerInterface {
   setLevels(
     levelObj: Partial<OutputLevel>,
@@ -94,6 +92,8 @@ export type colorKeys = [
   'white',
   'gray'
 ]
+
+export type Formatter = (input: string | number | null | undefined) => string
 
 export type TextPart = {
   m: string

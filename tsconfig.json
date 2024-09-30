@@ -39,7 +39,8 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/api/refresh-docs"
   ],
   "exclude": ["node_modules", "**/*.jsonc"]
 }

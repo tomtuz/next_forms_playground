@@ -1,7 +1,7 @@
 'use client'
 
 import { categoryColors } from '@/utils/categories'
-import { ReactNode, createContext, useContext, useState } from 'react'
+import { ReactNode, createContext, useContext, useMemo, useState } from 'react'
 
 type AppContextType = {
   selectedCategory: string
@@ -15,11 +15,11 @@ const AppContext = createContext<AppContextType | undefined>(undefined)
 export function AppProvider({ children }: { children: ReactNode }) {
   const [selectedCategory, setSelectedCategory] = useState('All')
 
-  const value = {
+  const value = useMemo(() => ({
     selectedCategory,
     setSelectedCategory,
     categoryColors
-  }
+  }), [selectedCategory]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 }

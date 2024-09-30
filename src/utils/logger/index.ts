@@ -6,11 +6,12 @@ const isBrowser =
   typeof window !== 'undefined' && typeof window.document !== 'undefined'
 
 const createLogger = (initSettings?: OutputLevel): LoggerInterface =>
-  isBrowser ? createBrowserLogger(initSettings) : createCLILogger(initSettings)
+  isBrowser
+    ? createBrowserLogger(initSettings)
+    : createCLILogger(initSettings)
 
 export const logger = createLogger()
 export const getLogger = (initSettings?: OutputLevel) =>
   createLogger(initSettings)
 
-// Add a named export for the Logger class
 export { Logger }

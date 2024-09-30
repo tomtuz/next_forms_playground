@@ -2,7 +2,7 @@ export interface FormRoute {
   id: string
   name: string
   path: string
-  category?: string
+  category: string
   shortDescription: string
   longDescription: string
 }

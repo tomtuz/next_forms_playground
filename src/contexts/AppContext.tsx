@@ -1,7 +1,7 @@
 'use client'
 
-import { categoryColors } from '@/utils/categories';
-import { ReactNode, createContext, useContext, useState } from 'react';
+import { categoryColors } from '@/utils/categories'
+import { ReactNode, createContext, useContext, useState } from 'react'
 
 type AppContextType = {
   selectedCategory: string
@@ -18,7 +18,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const value = {
     selectedCategory,
     setSelectedCategory,
-    categoryColors,
+    categoryColors
   }
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

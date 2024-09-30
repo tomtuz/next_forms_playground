@@ -1,7 +1,6 @@
 // DOMAIN: Logger
 
-import { Formatter } from "picocolors/types"
-
+import { Formatter } from 'picocolors/types'
 
 export interface LoggerInterface {
   setLevels(
@@ -86,27 +85,33 @@ export type OutputLevel = {
 
 export type colorKeys = [
   'black',
-	'red',
-	'green',
-	'yellow',
-	'blue',
-	'magenta',
-	'cyan',
-	'white',
-	'gray',
+  'red',
+  'green',
+  'yellow',
+  'blue',
+  'magenta',
+  'cyan',
+  'white',
+  'gray'
 ]
 
 export type TextPart = {
-  m: string,
-  end?: string,
-  c?: Formatter
+  m: string
+  end?: string
+  c?: Formatter | null
 }
+
+type KeyTuple<T> =
+  T extends Record<string, any>
+    ? {
+        [K in keyof T]: K extends string ? K : never
+      }[keyof T][]
+    : never
 
 export type TransformData = {
   meta?: {
-    formatter?: Formatter
-    levels?: Partial<OutputLevel>
-  },
+    formatter?: Formatter | null
+    levels?: KeyTuple<OutputLevel>
+  }
   textParts: TextPart[]
 }
-

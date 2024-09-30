@@ -2,11 +2,12 @@ import fs from 'fs/promises'
 import path from 'path'
 import { logger } from './logger'
 
-logger.setLevels({
+logger.setLevels(
+  {
     Info: true,
     Debug: true,
-    Verbose: false,
-  },
+    Verbose: false
+  }
   // true, // isIsolated
   // true, // isDisabled
 )
@@ -34,7 +35,11 @@ function getRelativePathFromRoot(absolutePath: string): string {
   return path.relative(PROJECT_ROOT, absolutePath).replace(/\\/g, '/')
 }
 
-async function processDirectory(currentPath: string, relativePath: string, docsIndex: DocsIndex): Promise<RouteInfo[]> {
+async function processDirectory(
+  currentPath: string,
+  relativePath: string,
+  docsIndex: DocsIndex
+): Promise<RouteInfo[]> {
   const routes: RouteInfo[] = []
   const dirNames = await fs.readdir(currentPath)
 
@@ -43,7 +48,11 @@ async function processDirectory(currentPath: string, relativePath: string, docsI
     const stat = await fs.stat(itemPath)
 
     if (stat.isDirectory()) {
-      const subRoutes = await processDirectory(itemPath, path.join(relativePath, dirName), docsIndex)
+      const subRoutes = await processDirectory(
+        itemPath,
+        path.join(relativePath, dirName),
+        docsIndex
+      )
       routes.push(...subRoutes)
     } else if (dirName === 'page.tsx') {
       const folderPath = normalizePathForComparison(relativePath)
@@ -55,7 +64,9 @@ async function processDirectory(currentPath: string, relativePath: string, docsI
         folder: folderPath,
         projectPath,
         hasDocs,
-        docs: hasDocs ? getRelativePathFromRoot(path.join(DOCS_DIR, docFileName)) : ''
+        docs: hasDocs
+          ? getRelativePathFromRoot(path.join(DOCS_DIR, docFileName))
+          : ''
       }
 
       if (folderPath !== '') {
@@ -79,26 +90,25 @@ async function readDocsIndex(docsDir: string): Promise<DocsIndex> {
   }
 }
 
-async function discoverRoutes(appDir: string, docsDir: string): Promise<RouteInfo[]> {
+async function discoverRoutes(
+  appDir: string,
+  docsDir: string
+): Promise<RouteInfo[]> {
   const docsIndex = await readDocsIndex(docsDir)
-  logger.step("Docs index content", docsIndex)
+  logger.step('Docs index content', docsIndex)
 
   return processDirectory(appDir, '', docsIndex)
 }
 
 export async function getProjectPaths(): Promise<RouteInfo[]> {
-  logger.verbose("logLevels (doc_resolver.tsx):", logger.getLoggerInfo())
+  logger.verbose('logLevels (doc_resolver.tsx):', logger.getLoggerInfo())
   logger.info('Starting route discovery...')
 
   const foundRoutes = await discoverRoutes(APP_DIR, DOCS_DIR)
 
-  const routeDataPath = path.join(PROJECT_ROOT, 'src', 'routeData.json');
-  await fs.writeFile(
-    routeDataPath,
-    JSON.stringify(foundRoutes, null, 2)
-  )
+  const routeDataPath = path.join(PROJECT_ROOT, 'src', 'routeData.json')
+  await fs.writeFile(routeDataPath, JSON.stringify(foundRoutes, null, 2))
 
   logger.warn(`Route data written to ${routeDataPath}`)
-  return foundRoutes 
+  return foundRoutes
 }
-

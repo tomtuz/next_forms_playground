@@ -40,7 +40,11 @@ function getRelativePathFromRoot(absolutePath: string): string {
   return path.relative(PROJECT_ROOT, absolutePath).replace(/\\/g, '/')
 }
 
-async function processDirectory(currentPath: string, relativePath: string, docsIndex: DocsIndex): Promise<RouteInfo[]> {
+async function processDirectory(
+  currentPath: string,
+  relativePath: string,
+  docsIndex: DocsIndex
+): Promise<RouteInfo[]> {
   const routes: RouteInfo[] = []
   const items = await fs.readdir(currentPath)
 
@@ -49,7 +53,11 @@ async function processDirectory(currentPath: string, relativePath: string, docsI
     const stat = await fs.stat(itemPath)
 
     if (stat.isDirectory()) {
-      const subRoutes = await processDirectory(itemPath, path.join(relativePath, item), docsIndex)
+      const subRoutes = await processDirectory(
+        itemPath,
+        path.join(relativePath, item),
+        docsIndex
+      )
       routes.push(...subRoutes)
     } else if (item === 'page.tsx') {
       const folderPath = normalizePathForComparison(relativePath)
@@ -61,7 +69,9 @@ async function processDirectory(currentPath: string, relativePath: string, docsI
         folder: folderPath,
         projectPath,
         hasDocs,
-        docs: hasDocs ? getRelativePathFromRoot(path.join(DOCS_DIR, docFileName)) : ''
+        docs: hasDocs
+          ? getRelativePathFromRoot(path.join(DOCS_DIR, docFileName))
+          : ''
       }
 
       if (folderPath !== '') {
@@ -74,9 +84,12 @@ async function processDirectory(currentPath: string, relativePath: string, docsI
   return routes
 }
 
-async function discoverRoutes(appDir: string, docsDir: string): Promise<RouteInfo[]> {
+async function discoverRoutes(
+  appDir: string,
+  docsDir: string
+): Promise<RouteInfo[]> {
   const docsIndex = await readDocsIndex(docsDir)
-  logger.step("Docs index content", docsIndex)
+  logger.step('Docs index content', docsIndex)
 
   return processDirectory(appDir, '', docsIndex)
 }

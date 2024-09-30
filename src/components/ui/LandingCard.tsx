@@ -1,7 +1,7 @@
 import type { FormRoute } from '@/app/routes'
+import { useClickDebugger } from '@/hooks/debug/useClickDebugger'
 import { categoryColors } from '@/utils/categories'
 import { logger } from '@/utils/logger'
-import { useClickDebugger } from '@/utils/useClickDebugger'
 import { useToast } from '@cn'
 import { Button } from '@cn/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@cn/card'
@@ -9,7 +9,7 @@ import clsx from 'clsx'
 import { PlusCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { memo, useCallback, useRef, useState } from 'react'
+import { memo, useCallback, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { RouteInfoDialog } from './RouteInfoDialog'
 
@@ -28,14 +28,11 @@ export const LandingCard = memo(function LandingCard({
 }: LandingCardProps) {
   // Hooks
 
-  const cardRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const { toast } = useToast()
   const [isCreatingDocs, setIsCreatingDocs] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
-
-  // immediate hooks
-  useClickDebugger(cardRef, undefined, 'LandingCard')
+  const [cardRef] = useClickDebugger(undefined, 'LandingCard')
 
   // Funcs
 
@@ -77,13 +74,6 @@ export const LandingCard = memo(function LandingCard({
 
   // Other
 
-  const getCategoryColor = (category: string | undefined) => {
-    if (!category) return 'bg-gray-200 text-gray-800'
-    return category in categoryColors
-      ? categoryColors[category as keyof typeof categoryColors]
-      : 'bg-gray-200 text-gray-800'
-  }
-
   return (
     <>
       <Card
@@ -102,12 +92,12 @@ export const LandingCard = memo(function LandingCard({
           <span
             className={clsx(
               'rounded-full px-3 py-1 text-xs font-medium',
-              getCategoryColor(formRoute.category)
+              categoryColors[formRoute.category]
             )}
           >
             {formRoute.category || 'Uncategorized'}
           </span>
-          <div className="flex space-x-2" data-prevent-navigation>
+          <div className="flex space-x-2">
             <Link href={formRoute.path} className="block">
               <Button variant="outline">Open</Button>
             </Link>
@@ -124,7 +114,10 @@ export const LandingCard = memo(function LandingCard({
             <Button
               variant="outline"
               size="icon"
-              onClick={handleCreateDocs}
+              onClick={(e) => {
+                e.stopPropagation()
+                handleCreateDocs()
+              }}
               disabled={isCreatingDocs}
               data-testid="create-docs-button"
             >

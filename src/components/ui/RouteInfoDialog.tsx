@@ -1,34 +1,45 @@
-import { logger } from '@/utils/logger';
-import { useClickDebugger } from '@/utils/useClickDebugger';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@cn/dialog';
-import { Suspense, useCallback, useRef } from 'react';
-import Markdown from 'react-markdown';
+import { logger } from '@/utils/logger'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle
+} from '@cn/dialog'
+import { Suspense, useCallback } from 'react'
+import Markdown from 'react-markdown'
+import { useClickDebugger } from '../../hooks/debug/useClickDebugger'
 
 interface RouteInfoDialogProps {
   formRoute: {
-    name: string;
-    longDescription: string;
-  };
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
+    name: string
+    longDescription: string
+  }
+  isOpen: boolean
+  onOpenChange: (open: boolean) => void
 }
 
-export function RouteInfoDialog({ formRoute, isOpen, onOpenChange }: RouteInfoDialogProps) {
-  const dialogRef = useRef<HTMLDivElement>(null);
+export function RouteInfoDialog({
+  formRoute,
+  isOpen,
+  onOpenChange
+}: RouteInfoDialogProps) {
+  const [dialogRef] = useClickDebugger(undefined, 'RouteInfoDialog')
 
-  useClickDebugger(dialogRef, undefined, 'RouteInfoDialog');
-
-  const handleOpenChange = useCallback((open: boolean) => {
-    logger.info('--- Dialog open state changed ---')
-    logger.info(`Dialog is now ${open ? 'open' : 'closed'}`)
-    onOpenChange(open);
-  }, [onOpenChange]);
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      logger.info('--- Dialog open state changed ---')
+      logger.info(`Dialog is now ${open ? 'open' : 'closed'}`)
+      onOpenChange(open)
+    },
+    [onOpenChange]
+  )
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange} >
-      <DialogContent 
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+      <DialogContent
         ref={dialogRef}
-        className="max-w-3xl" 
+        className="max-w-3xl"
         data-testid="route-info-dialog"
       >
         <DialogHeader>
@@ -37,7 +48,7 @@ export function RouteInfoDialog({ formRoute, isOpen, onOpenChange }: RouteInfoDi
             Detailed information about the {formRoute.name} implementation.
           </DialogDescription>
         </DialogHeader>
-        <div className="max-h-[70vh] overflow-y-auto prose dark:prose-invert mt-4">
+        <div className="prose dark:prose-invert mt-4 max-h-[70vh] overflow-y-auto">
           <Suspense fallback={<div>Loading detailed description...</div>}>
             <Markdown>{formRoute.longDescription}</Markdown>
           </Suspense>

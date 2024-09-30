@@ -113,7 +113,7 @@ export function createCLILogger(initSettings?: OutputLevel): LoggerInterface {
     }
   }
 
-  const handleParams = (headContent, paramsArr: any[]) => {
+  const handleParams = (headContent: any, paramsArr: any[]) => {
     if (isDisabled) {
       return
     }
@@ -176,29 +176,49 @@ export function createCLILogger(initSettings?: OutputLevel): LoggerInterface {
     if (isDisabled) {
       return
     }
-    const levels = transformData.meta?.levels
-    const formatter = transformData.meta?.formatter
 
-    if (levels){
-      const currentLevels = getLevels()
-      for (const [key, value] of Object.entries(currentLevels)) {
-        const customSetting = levels[key];
-        if (customSetting && customSetting !== value) {
-          return
-        }
+    // Destructure TransformData, providing default values
+    const { meta, textParts } = transformData
+
+    // Validate textParts
+    if (!Array.isArray(textParts) || textParts.length === 0) {
+      return
+    }
+
+    // Determine if logging should proceed based on levels
+    const currentLevels = getLevels()
+    const shouldLog = (() => {
+      if (!meta || !meta.levels || meta.levels.length === 0) {
+        // If levels are not set, enable if any currentLevels are true
+        return Object.values(currentLevels).some((level) => level)
+      } else {
+        // Check if any of the specified levels are enabled
+        return meta.levels.some(
+          (level) => currentLevels[level as keyof OutputLevel]
+        )
       }
+    })()
+
+    if (!shouldLog) {
+      return
     }
 
-    const baseFormatter = formatter || c.white
+    // Use meta.formatter if provided, otherwise default to white
+    const baseFormatter = meta?.formatter || c.white
 
-    let result = ''
-    for (const item of transformData.textParts) {
-      const fmt = item.c || baseFormatter
-      result += fmt(item.m)
-      result += item.end || ' '
-    }
+    // Efficiently build the result string
+    const result = textParts.reduce(
+      (acc, { m, end = ' ', c: itemFormatter }) => {
+        const formatter = itemFormatter || baseFormatter
+        return acc + formatter(m) + end
+      },
+      ''
+    )
 
     console.log(result)
+
+    // Call the callback if provided
+    callback?.()
   }
 
   // handle default settings

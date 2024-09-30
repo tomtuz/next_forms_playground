@@ -14,30 +14,33 @@ const logger = getLogger({
   // Verbose: true
 })
 
-async function getMDXContent(filePath: string): Promise<{ metadata: any | null; content: any | null }> {
+async function getMDXContent(
+  filePath: string
+): Promise<{ metadata: any | null; content: any | null }> {
   try {
     await fs.access(filePath, fs.constants.R_OK)
-    const fileContent = await fs.readFile(filePath, 'utf-8');
+    const fileContent = await fs.readFile(filePath, 'utf-8')
 
     // using 'gray-matter'
-    const fileMatter = matter(fileContent);
-    const { data: frontmatter, content } = fileMatter;
-    logger.verbose("fileMatter: ", fileMatter)
+    const fileMatter = matter(fileContent)
+    const { data: frontmatter, content } = fileMatter
+    logger.verbose('fileMatter: ', fileMatter)
 
     // Convert frontmatter to markdown
-    const metadata = Object.keys(frontmatter).length > 0
-      ? Object.entries(frontmatter).map(([key, value]) => `**${key}**: ${value}`).join('\n\n')
-      : null;
-
+    const metadata =
+      Object.keys(frontmatter).length > 0
+        ? Object.entries(frontmatter)
+            .map(([key, value]) => `**${key}**: ${value}`)
+            .join('\n\n')
+        : null
 
     return {
       metadata,
-      content,
-    };
-
+      content
+    }
   } catch (error) {
     console.error(`Error loading MDX for route: ${filePath}`, error)
-    return { metadata: null, content: null}
+    return { metadata: null, content: null }
   }
 }
 
@@ -46,8 +49,8 @@ async function prepareRoutes(
   docRoutes: RouteInfo[]
 ): Promise<FormRoute[]> {
   logger.step("Matching 'routes' to 'docs': ")
-  const totalCount = displayRoutes.length;
-  const outputArr: { folder: string, metadata: any }[] = [];
+  const totalCount = displayRoutes.length
+  const outputArr: { folder: string; metadata: any }[] = []
 
   const displayRoutesAll = await Promise.all(
     displayRoutes.map(async (displayRoute, index) => {
@@ -59,21 +62,24 @@ async function prepareRoutes(
       })
 
       const statusInfo: TransformData = {
-          meta: {
-            formatter: c.blackBright,
-            levels: { Info: true, Debug: true, Verbose: false }
-          },
-          textParts: [
-            { m: `[${index}/${totalCount}]`, end: "\t ", c: c.blueBright },
-            { m: '(displayRoute)', c: c.underline },
-            { m: `[${displayRoute.path}]`, c: c.yellow },
-            { m: `<->`},
-            { m: `[${docRoute ? `${docRoute.docs}` : "x"}]`, c: c.yellow },
-            { m: '(docs)', c: c.underline },
-            { m: `${docRoute ? "[OK]" : '[-]'}`, c: docRoute ? c.green : null},
+        meta: {
+          formatter: c.blackBright,
+          levels: ['Info', 'Debug']
+        },
+        textParts: [
+          { m: `[${index}/${totalCount}]`, end: '\t ', c: c.blueBright },
+          { m: '(displayRoute)', c: c.underline },
+          { m: `[${displayRoute.path}]`, c: c.yellow },
+          { m: `<->` },
+          { m: `[${docRoute ? `${docRoute.docs}` : 'x'}]`, c: c.yellow },
+          { m: '(docs)', c: c.underline },
+          {
+            m: `${docRoute ? '[OK]' : '[-]'}`,
+            c: docRoute ? c.green : undefined
+          }
         ]
       }
-      logger.transform(statusInfo);
+      logger.transform(statusInfo)
 
       if (!docRoute) {
         return displayRoute
@@ -101,15 +107,20 @@ async function prepareRoutes(
 
   logger.step(`Show 'MDX' metadata: `)
   for (let i = 0; i < outputArr.length; i++) {
-    const { folder, metadata } = outputArr[i];
+    const { folder, metadata } = outputArr[i]
     const metadataEmpty = Object.keys(metadata).length === 0
     const metadataInfo: TransformData = {
-        textParts: [
-          { m: `${i+1}. [${folder}]:`, c: c.blueBright },
-          { m: metadataEmpty ? '[None]' : `\n${JSON.stringify(metadata, null, 2)}`, c: c.white },
+      textParts: [
+        { m: `${i + 1}. [${folder}]:`, c: c.blueBright },
+        {
+          m: metadataEmpty
+            ? '[None]'
+            : `\n${JSON.stringify(metadata, null, 2)}`,
+          c: c.white
+        }
       ]
     }
-    logger.transform(metadataInfo);
+    logger.transform(metadataInfo)
   }
 
   return displayRoutesAll

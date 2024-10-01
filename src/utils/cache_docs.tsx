@@ -35,7 +35,7 @@ async function getCacheState(): Promise<CacheState> {
   try {
     const stateContent = await fs.readFile(CACHE_STATE_FILE, 'utf-8')
     const parsedState = JSON.parse(stateContent)
-    logger.info('parsedState: ', parsedState)
+    logger.info('[CACHE]: ', parsedState)
     return parsedState
   } catch (error) {
     logger.warn('Cache was not found, using defaults...')
@@ -70,15 +70,17 @@ const statusTemplate = (title: string, message: string): TransformData => {
 export async function getCachedRoutes(
   formRoutes: FormRoute[]
 ): Promise<FormRoute[]> {
-  const cacheState = await getCacheState()
-
   try {
-    const indexStats = await fs.stat(INDEX_FILE)
-    const routesStats = await fs.stat(ROUTES_FILE)
-    const cacheExists = await fs
-      .access(CACHE_FILE)
-      .then(() => true)
-      .catch(() => false)
+    const [cacheState, indexStats, routesStats, cacheExists] =
+      await Promise.all([
+        getCacheState(),
+        fs.stat(INDEX_FILE),
+        fs.stat(ROUTES_FILE),
+        fs
+          .access(CACHE_FILE)
+          .then(() => true)
+          .catch(() => false)
+      ])
 
     const indexLastModified = indexStats.mtime.toISOString()
     const routesLastModified = routesStats.mtime.toISOString()
@@ -97,7 +99,6 @@ export async function getCachedRoutes(
     }
 
     if (cacheState.routes && cacheState.docs) {
-      // logger.info('Recalculating total cache')
       logger.transform(
         statusTemplate('(2) CALC CACHE', '- calculating "docs" + "routes"')
       )
@@ -133,7 +134,14 @@ export async function getCachedRoutes(
 
     return updatedRoutes
   } catch (error) {
-    logger.error('Error in getCachedRoutes:', error)
+    if (error instanceof Error) {
+      logger.error(`Error in getCachedRoutes: ${error.message}`)
+      if (error.stack) {
+        logger.debug(`Stack trace: ${error.stack}`)
+      }
+    } else {
+      logger.error('Unknown error in getCachedRoutes')
+    }
     return formRoutes
   }
 }
@@ -290,6 +298,16 @@ export async function forceRefreshCache() {
 async function recalculateDocs() {
   // Implement logic to recalculate docs/index.json
   // This might involve reimplementing parts of doc_resolver.ts
+}
+
+export async function invalidateCache() {
+  try {
+    await fs.unlink(CACHE_FILE)
+    await setCacheState({ routes: false, docs: false, total_cache: false })
+    logger.info('Cache invalidated successfully')
+  } catch (error) {
+    logger.error('Error invalidating cache:', error)
+  }
 }
 
 export async function forceRefreshDocs() {

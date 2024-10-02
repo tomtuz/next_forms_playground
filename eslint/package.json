@@ -1,0 +1,130 @@
+{
+  "name": "@eslint/cc",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@9.11.0",
+  "description": "ESLint custom-config",
+  "files": [
+    "out"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "eslint-config-inspector --config ./utils/eslint-inspector.config.ts",
+    "build": "pnpm run clean && pnpm run build:types && tsup",
+    "build:types": "tsx ./utils/genTypes.ts",
+    "build:inspector": "eslint-config-inspector build --config ./utils/eslint-inspector.config.ts",
+    "clean": "rimraf dist types",
+    "watch": "tsx watch ./utils/genTypes.ts",
+    "postinstall": "pnpm run build",
+    "lint": "eslint --debug --flag unstable_ts_config .",
+    "lint:fix": "pnpm run lint --fix",
+    "typecheck": "tsc --noEmit",
+    "check": "pnpm run typecheck && pnpm run lint",
+    "release": "pnpm run check && bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependenciesMeta": {
+    "@eslint-react/eslint-plugin": {
+      "optional": true
+    },
+    "@prettier/plugin-xml": {
+      "optional": true
+    },
+    "@unocss/eslint-plugin": {
+      "optional": true
+    },
+    "astro-eslint-parser": {
+      "optional": true
+    },
+    "eslint-plugin-astro": {
+      "optional": true
+    },
+    "eslint-plugin-format": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-react-refresh": {
+      "optional": true
+    },
+    "eslint-plugin-solid": {
+      "optional": true
+    },
+    "eslint-plugin-svelte": {
+      "optional": true
+    },
+    "prettier-plugin-astro": {
+      "optional": true
+    },
+    "prettier-plugin-slidev": {
+      "optional": true
+    },
+    "svelte-eslint-parser": {
+      "optional": true
+    }
+  },
+  "peerDependencies": {
+    "@eslint-react/eslint-plugin": "^1.14.3",
+    "eslint": "^9.5.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.12"
+  },
+  "dependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.4.0",
+    "@eslint/js": "^9.11.1",
+    "@eslint/markdown": "^6.1.1",
+    "@unocss/eslint-plugin": "^0.63.1",
+    "eslint-config-flat-gitignore": "^0.3.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-antfu": "^2.7.0",
+    "eslint-plugin-command": "^0.2.6",
+    "eslint-plugin-import-x": "^4.3.1",
+    "eslint-plugin-jsdoc": "^50.3.0",
+    "eslint-plugin-jsonc": "^2.16.0",
+    "eslint-plugin-n": "^17.10.3",
+    "eslint-plugin-perfectionist": "^3.7.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-regexp": "^2.6.0",
+    "eslint-plugin-unicorn": "^55.0.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "eslint-plugin-vue": "^9.28.0",
+    "eslint-plugin-yml": "^1.14.0",
+    "globals": "^15.9.0",
+    "jsonc-eslint-parser": "^2.4.0",
+    "local-pkg": "^0.5.0",
+    "prettier": "^3.3.3",
+    "typescript-eslint": "^8.7.0",
+    "vue-eslint-parser": "^9.4.3",
+    "yaml-eslint-parser": "^1.2.3"
+  },
+  "devDependencies": {
+    "@eslint-react/eslint-plugin": "^1.14.3",
+    "@eslint/config-inspector": "^0.5.4",
+    "@types/node": "^22.7.4",
+    "bumpp": "^9.6.1",
+    "eslint": "^9.11.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.12",
+    "eslint-typegen": "^0.3.2",
+    "importx": "^0.5.0",
+    "picocolors": "^1.1.0",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  },
+  "engines": {
+    "node": "^18.18.0 || >=20.0.0"
+  }
+}

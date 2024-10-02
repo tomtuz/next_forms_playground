@@ -2,6 +2,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Eslint: debug server-side",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm run --filter @eslint/cc build"
+    },
+    {
+      "name": "Eslint: run inspector",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm run --filter @eslint/cc dev"
+    },
+    {
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
